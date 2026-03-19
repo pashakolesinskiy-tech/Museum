@@ -13,6 +13,7 @@ if (burger && menu) {
     link.addEventListener('click', () => {
       menu.classList.remove('active');
       burger.classList.remove('active');
+      document.body.classList.remove('menu-open');
     });
   });
 
@@ -20,6 +21,7 @@ if (burger && menu) {
     if (!menu.contains(e.target) && !burger.contains(e.target)) {
       menu.classList.remove('active');
       burger.classList.remove('active');
+      document.body.classList.remove('menu-open');
     }
   });
 }
@@ -241,49 +243,50 @@ carousel3d.addEventListener('click', (e) => {
   updateCarousel();
 })();
 
-// ========== ВИДЕО ПО КЛИКУ ==========
+// ========== ВИДЕО ПО КЛИКУ (модальное окно) и УНИВЕРСАЛЬНОЕ ВИДЕО ==========
 document.addEventListener('DOMContentLoaded', function() {
+
+  // --- Модальное окно для слайдера ---
   const modal = document.getElementById('videoModal');
   const modalVideo = document.getElementById('modalVideo');
   const closeBtn = document.querySelector('.close');
-  
-  if (!modal || !modalVideo || !closeBtn) return; 
 
-  const videoImages = document.querySelectorAll('.swipe-slide img[data-video-src]');
-  
-  videoImages.forEach(img => {
-    img.addEventListener('click', function(e) {
-      e.stopPropagation(); 
-      const videoSrc = this.dataset.videoSrc;
-      if (videoSrc) {
-        modalVideo.querySelector('source').src = videoSrc;
-        modalVideo.load(); 
-        modal.style.display = 'block';
-        modalVideo.play().catch(error => {
-          console.log('Автовоспроизведение не удалось:', error);
-        });
-      }
+  if (modal && modalVideo && closeBtn) {
+    const videoImages = document.querySelectorAll('.swipe-slide img[data-video-src]');
+
+    videoImages.forEach(img => {
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        const videoSrc = this.dataset.videoSrc;
+        if (videoSrc) {
+          modalVideo.querySelector('source').src = videoSrc;
+          modalVideo.load();
+          modal.style.display = 'block';
+          modalVideo.play().catch(error => {
+            console.log('Автовоспроизведение не удалось:', error);
+          });
+        }
+      });
     });
-  });
-  
-  closeBtn.addEventListener('click', function() {
-    modal.style.display = 'none';
-    modalVideo.pause();
-    modalVideo.querySelector('source').src = ''; 
-    modalVideo.load();
-  });
-  
-  window.addEventListener('click', function(event) {
-    if (event.target === modal) {
+
+    closeBtn.addEventListener('click', function() {
       modal.style.display = 'none';
       modalVideo.pause();
       modalVideo.querySelector('source').src = '';
       modalVideo.load();
-    }
-  });
-});
-// ========== УНИВЕРСАЛЬНОЕ ВИДЕО ПО КЛИКУ ==========
-document.addEventListener('DOMContentLoaded', function() {
+    });
+
+    window.addEventListener('click', function(event) {
+      if (event.target === modal) {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.querySelector('source').src = '';
+        modalVideo.load();
+      }
+    });
+  }
+
+  // --- Универсальное видео по клику (video-gallery.html) ---
   const videoContainers = document.querySelectorAll('.video-container');
 
   videoContainers.forEach(container => {
@@ -301,4 +304,5 @@ document.addEventListener('DOMContentLoaded', function() {
       video.currentTime = 0;
     });
   });
+
 });
