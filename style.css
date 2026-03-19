@@ -1349,13 +1349,30 @@ body.menu-open {
   }
 }
 
-/* ─── О музее — музейные окна ─────────────────────────── */
-
-/* Visitors section: no horizontal padding — .container inside handles it */
+/* Section */
 .visitors {
-  padding: 80px 0 100px;
+  padding: 80px 40px 100px;
 }
-
+ 
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 400;
+  margin-bottom: 60px;
+  text-align: center;
+  letter-spacing: 1px;
+  color: var(--text);
+  position: relative;
+  display: block;
+}
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 25%; width: 50%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+ 
 .visitors-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1363,20 +1380,15 @@ body.menu-open {
   max-width: 1060px;
   margin: 0 auto;
 }
-
-/* Card — transition handles both animate-up reveal (opacity 0.8s) and hover lift (transform 0.5s) */
+ 
+/* Card */
 .visitor-card {
   position: relative;
   cursor: default;
-  transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: transform 0.5s cubic-bezier(0.2,0.9,0.3,1);
 }
 .visitor-card:hover { transform: translateY(-10px); }
-
-/* Staggered entrance for the three cards */
-.visitors-grid .visitor-card:nth-child(1) { transition-delay: 0s, 0s; }
-.visitors-grid .visitor-card:nth-child(2) { transition-delay: 0.12s, 0.12s; }
-.visitors-grid .visitor-card:nth-child(3) { transition-delay: 0.24s, 0.24s; }
-
+ 
 /* Arch */
 .window-arch {
   position: relative;
@@ -1394,17 +1406,9 @@ body.menu-open {
   border: 1px solid rgba(212,175,55,.55);
   border-bottom: none;
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-  box-shadow:
-    inset 0 3px 10px rgba(255,255,255,.12),
-    0 -6px 20px rgba(212,175,55,.18);
-  transition: box-shadow 0.5s ease;
+  box-shadow: inset 0 3px 10px rgba(255,255,255,.1);
 }
-.visitor-card:hover .window-arch {
-  box-shadow:
-    inset 0 3px 14px rgba(255,255,255,.22),
-    0 -8px 28px rgba(212,175,55,.40);
-}
- 
+
 /* Glass body */
 .window-glass {
   position: relative;
@@ -1421,61 +1425,34 @@ body.menu-open {
   border-top: none;
   border-radius: 0 0 16px 16px;
   overflow: hidden;
-  box-shadow:
-    0 20px 50px rgba(0,0,0,.45),
-    inset 0 1px 0 rgba(255,255,255,.14),
-    0 0 0 1px rgba(212,175,55,.06);
-  transition: box-shadow 0.5s ease, border-color 0.4s ease;
+  box-shadow: 0 20px 50px rgba(0,0,0,.45);
+  transition: border-color 0.3s ease;
 }
 .visitor-card:hover .window-glass {
-  border-color: rgba(212,175,55,.72);
-  box-shadow:
-    0 30px 60px rgba(0,0,0,.55),
-    inset 0 1px 0 rgba(255,255,255,.2),
-    0 0 0 1px rgba(212,175,55,.18),
-    0 0 40px rgba(212,175,55,.12);
+  border-color: rgba(212,175,55,.7);
 }
- 
+
 /* Decorative frame corners */
 .window-frame-corner {
   position: absolute;
   width: 16px; height: 16px;
-  border-color: rgba(212,175,55,.6);
+  border-color: rgba(212,175,55,.5);
   border-style: solid;
   z-index: 3;
-  transition: border-color 0.4s ease;
 }
 .window-frame-corner.tl { top:0; left:0; border-width: 2px 0 0 2px; }
 .window-frame-corner.tr { top:0; right:0; border-width: 2px 2px 0 0; }
-.visitor-card:hover .window-frame-corner { border-color: rgba(212,175,55,.92); }
- 
-/* Shine sweep */
-.window-shine {
-  position: absolute;
-  top:0; left:-40%; width:60%; height:100%;
-  background: linear-gradient(
-    105deg,
-    transparent 35%,
-    rgba(255,255,255,.07) 50%,
-    transparent 65%
-  );
-  pointer-events: none;
-  z-index: 4;
-  transition: transform 0.6s ease, opacity 0.5s ease;
-  opacity: 0.6;
-}
-.visitor-card:hover .window-shine {
-  transform: translateX(160%);
-  opacity: 1;
-}
- 
+
+/* Shine sweep — removed */
+.window-shine { display: none; }
+
 /* Content */
 .window-body {
   padding: 36px 32px 28px;
   position: relative;
   z-index: 2;
 }
- 
+
 /* Icon circle */
 .visitor-icon {
   display: flex;
@@ -1486,18 +1463,13 @@ body.menu-open {
   background: rgba(212,175,55,.09);
   border: 1px solid rgba(212,175,55,.32);
   color: var(--accent);
-  transition: all 0.4s ease;
-  box-shadow: 0 0 0 0 rgba(212,175,55,0);
+  transition: border-color 0.3s ease;
 }
 .visitor-card:hover .visitor-icon {
-  background: rgba(212,175,55,.18);
   border-color: rgba(212,175,55,.65);
-  box-shadow: 0 0 22px rgba(212,175,55,.22);
-  transform: scale(1.08);
 }
-.visitor-icon svg { display:block; transition: transform 0.4s ease; }
-.visitor-card:hover .visitor-icon svg { transform: scale(1.1); }
- 
+.visitor-icon svg { display: block; }
+
 /* Text */
 .visitor-card h4 {
   font-family: var(--font-serif);
@@ -1516,7 +1488,7 @@ body.menu-open {
   line-height: 1.7;
   font-weight: 300;
 }
- 
+
 /* Window sill */
 .window-sill {
   height: 10px;
@@ -1530,40 +1502,24 @@ body.menu-open {
   );
   border-radius: 0 0 6px 6px;
   position: relative; z-index: 2;
-  transition: opacity 0.4s;
-  opacity: .7;
 }
-.visitor-card:hover .window-sill { opacity: 1; }
- 
+
 /* Responsive */
 @media (max-width: 900px) {
   .visitors-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-
   .window-body {
     padding: 28px 20px 22px;
   }
-
   .visitor-card h4 {
     font-size: 1.3rem;
   }
 }
 
 @media (max-width: 680px) {
-  .visitors-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    gap: 40px;
-  }
-
-  .window-arch {
-    margin: 0 20px;
-    height: 70px;
-  }
-
-  .visitors {
-    padding: 60px 0 80px;
-  }
+  .visitors-grid { grid-template-columns: 1fr; max-width: 400px; gap: 40px; }
+  .window-arch { margin: 0 20px; height: 70px; }
+  .visitors { padding: 60px 0 80px; }
 }
