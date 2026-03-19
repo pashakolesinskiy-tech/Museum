@@ -229,13 +229,19 @@ if (animatedElements.length > 0) {
     if (isDragging) handleSwipe(e.clientX);
   });
 
-  // ========== НОВАЯ ЛОГИКА КЛИКА ==========
-// Находим это место в конце блока Floating 3D Carousel
+// ========== ЛОГИКА КЛИКА ПО КАРТОЧКЕ ==========
 carousel3d.addEventListener('click', (e) => {
+  if (didDrag) return;
+
   const cardImage = e.target.closest('.card-image');
-  // Если кликнули по картинке и это не был свайп — переходим в галерею
-  if (cardImage && !didDrag) {
-    window.location.href = 'gallery.html'; // Путь к новой странице
+  if (!cardImage) return;
+
+  // Находим родительский .carousel-item и берём его data-href
+  const item = cardImage.closest('.carousel-item');
+  const href = item?.dataset.href;
+
+  if (href) {
+    window.location.href = href;
   }
 });
 
@@ -288,21 +294,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // --- Универсальное видео по клику (video-gallery.html) ---
   const videoContainers = document.querySelectorAll('.video-container');
-
   videoContainers.forEach(container => {
-    const poster = container.querySelector('.video-poster');
-    const video = container.querySelector('.video-player');
-    if (!poster || !video) return;
+  const poster = container.querySelector('.video-poster');
+  const colorImg = container.querySelector('.color-reveal');
+  const video = container.querySelector('video.video-player');
 
-    container.addEventListener('click', function() {
+  if (!poster) return;
+
+  // Режим «цветная картинка»
+  if (colorImg && poster.dataset.colorSrc) {
+    colorImg.src = poster.dataset.colorSrc;
+
+    container.addEventListener('click', function () {
+      container.classList.toggle('playing');
+    });
+
+  // Режим «видео»
+  } else if (video) {
+    container.addEventListener('click', function () {
       container.classList.add('playing');
       video.play().catch(e => console.log('Ошибка:', e));
     });
 
-    video.addEventListener('ended', function() {
+    video.addEventListener('ended', function () {
       container.classList.remove('playing');
       video.currentTime = 0;
     });
-  });
-
+  }
+});
 });
