@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Виртуальный музей детского сада №24</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="gallery-page">
+    <header class="header">
+      <div class="container nav">
+        <div class="logo">Виртуальный музей</div>
+        <ul class="nav-menu" id="menu">
+          <li><a href="#hero">Главная</a></li>
+          <li><a href="#exhibits">Экспозиции</a></li>
+          <li><a href="#times">Связь времён</a></li>
+          <li><a href="#about">О музее</a></li>
+          <li><a href="#footer">Контакты</a></li>
+        </ul>
+        <div class="burger" id="burger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="hero" id="hero">
+      <div class="container">
+        <div class="hero-text-container">
+          <div class="hero-text">
+            <h1 class="hero-title">
+              Эти стены помнят не только детский смех, на них печать нашего
+              героического прошлого
+            </h1>
+            <p class="hero-subtitle">
+              Интерактивный виртуальный музей<br />Государственного учреждения
+              образования<br />«Детский сад №24 имени П. С. Портновой г.
+              Полоцка»
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="carousel-section" id="exhibits">
+      <h2 class="section-title">Экспозиции</h2>
+      <div class="carousel-wrapper">
+        <div class="carousel-3d" id="carousel-3d">
+          <div class="carousel-item" data-index="0">
+            <div class="carousel-card">
+              <div class="card-image">
+                <img
+                  src="assets/carusel/carusel_1.png"
+                  alt="Всё ради жизни на земле"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" data-index="1">
+            <div class="carousel-card">
+              <div class="card-image">
+                <img
+                  src="assets/carusel/carusel_2.png"
+                  alt="Детство в деталях"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" data-index="2">
+            <div class="carousel-card">
+              <div class="card-image">
+                <img
+                  src="assets/carusel/carusel_3.png"
+                  alt="Через огненные вёрсты войны"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-controls">
+          <button class="carousel-btn prev" id="carousel-prev">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <div class="carousel-dots" id="carousel-dots"></div>
+          <button class="carousel-btn next" id="carousel-next">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="exhibitions" id="times">
+      <div class="container">
+        <h2 class="section-title">Связь времён</h2>
+        <div class="swipe-gallery" id="swipe-gallery">
+          <button
+            class="swipe-btn prev"
+            id="prev-slide"
+            aria-label="Предыдущая выставка"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
+          </button>
+          <div class="swipe-track" id="swipe-track">
+            <article class="swipe-slide">
+              <img
+                src="assets/Women.png"
+                alt="Портрет П.С.Портновой"
+                loading="lazy"
+                data-video-src="assets/video.mp4"
+                class="slide-image"
+              />
+              <div class="slide-caption">Полина Сергеевна Портнова</div>
+            </article>
+            <article class="swipe-slide">
+              <a href="video-gallery.html">
+                <img
+                  src="assets/Women2.png"
+                  alt="Современное искусство"
+                  loading="lazy"
+                  class="slide-image"
+                />
+              </a>
+            </article>
+            <article class="swipe-slide">
+              <img
+                src="assets/Women3.png"
+                alt="Современное искусство"
+                loading="lazy"
+                class="slide-image"
+              />
+            </article>
+          </div>
+          <button
+            class="swipe-btn next"
+            id="next-slide"
+            aria-label="Следующая выставка"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="9 18 15 12 9 6" />
+            </svg>
+          </button>
+        </div>
+        <div class="swipe-dots" id="swipe-dots"></div>
+      </div>
+    </section>
+
+    <section class="visitors" id="about">
+  <div>
+    <h2 class="section-title">О музее</h2>
+    <div class="visitors-grid">
+ 
+      <div class="visitor-card">
+        <div class="window-arch"></div>
+        <div class="window-glass">
+          <div class="window-frame-corner tl"></div>
+          <div class="window-frame-corner tr"></div>
+          <div class="window-shine"></div>
+          <div class="window-body">
+            <div class="visitor-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <h4>Индивидуальные экскурсии</h4>
+            <p>Персональные гиды</p>
+          </div>
+          <div class="window-sill"></div>
+        </div>
+      </div>
+ 
+      <div class="visitor-card">
+        <div class="window-arch"></div>
+        <div class="window-glass">
+          <div class="window-frame-corner tl"></div>
+          <div class="window-frame-corner tr"></div>
+          <div class="window-shine"></div>
+          <div class="window-body">
+            <div class="visitor-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </div>
+            <h4>Образовательные программы</h4>
+            <p>Углублённые лекции</p>
+          </div>
+          <div class="window-sill"></div>
+        </div>
+      </div>
+ 
+      <div class="visitor-card">
+        <div class="window-arch"></div>
+        <div class="window-glass">
+          <div class="window-frame-corner tl"></div>
+          <div class="window-frame-corner tr"></div>
+          <div class="window-shine"></div>
+          <div class="window-body">
+            <div class="visitor-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <h4>Культурные вечера</h4>
+            <p>Поэтические чтения</p>
+          </div>
+          <div class="window-sill"></div>
+        </div>
+      </div>
+ 
+    </div>
+  </div>
+</section>
+
+    <!-- Добавленный подвал с контактной информацией -->
+    <footer class="footer" id="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>Музейная экспозиция</h3>
+            <p>© 2026 Все права защищены</p>
+            <p>Email: info@virtualmuseum.by</p>
+            <p>Телефон: +375 (29) 123-45-67</p>
+          </div>
+          <div class="footer-social">
+            <p>Мы в соцсетях:</p>
+            <a href="#">VK</a> | <a href="#">Telegram</a> |
+            <a href="#">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <div id="videoModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <video id="modalVideo" controls playsinline>
+          <source src="" type="video/mp4" />
+          Ваш браузер не поддерживает видео.
+        </video>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Видео-галерея — Виртуальный музей</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <div class="logo">Виртуальный музей</div>
+      <ul class="nav-menu" id="menu">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="gallery.html">Коллекция</a></li>
+      </ul>
+      <div class="burger" id="burger">
+        <span></span><span></span><span></span>
+      </div>
+    </div>
+  </header>
+
+  <section class="gallery-hero">
+    <div class="container">
+      <h1 class="section-title animate-up">Видео-экспонаты</h1>
+      <p class="section-subtitle animate-up">
+        Каждое видео начинает свой рассказ с чёрно-белого кадра, 
+        а затем раскрывается в цвете. Нажмите на изображение, чтобы начать.
+      </p>
+
+      <!-- Вертикальная галерея видео -->
+      <div class="video-gallery-vertical">
+        <!-- Видео 1 -->
+        <div class="video-vertical-item animate-up">
+          <div class="video-container">
+            <img src="assets/bw/img/photo1.jpg" alt="Постер видео 1" class="video-poster">
+            <video class="video-player" muted playsinline>
+              <source src="assets/bw/video/video1.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Можно добавить подпись -->
+          <div class="video-caption">Название видео 1</div>
+        </div>
+
+        <div class="video-gallery-vertical">
+        <!-- Видео 2 -->
+        <div class="video-vertical-item animate-up">
+          <div class="video-container">
+            <img src="assets/bw/img/photo2.jpg" alt="Постер видео 2" class="video-poster">
+            <video class="video-player" muted playsinline>
+              <source src="assets/bw/video/video2.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Можно добавить подпись -->
+          <div class="video-caption">Название видео 2</div>
+        </div>
+
+        <div class="video-gallery-vertical">
+        <!-- Видео 3 -->
+        <div class="video-vertical-item animate-up">
+          <div class="video-container">
+            <img src="assets/bw/img/photo3.jpg" alt="Постер видео 3" class="video-poster">
+            <video class="video-player" muted playsinline>
+              <source src="assets/bw/video/video3.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Можно добавить подпись -->
+          <div class="video-caption">Название видео 3</div>
+        </div>
+
+        <div class="video-gallery-vertical">
+        <!-- Видео 4 -->
+        <div class="video-vertical-item animate-up">
+          <div class="video-container">
+            <img src="assets/bw/img/photo4.jpg" alt="Постер видео 4" class="video-poster">
+            <video class="video-player" muted playsinline>
+              <source src="assets/bw/video/video4.mp4" type="video/mp4">
+            </video>
+          </div>
+          <!-- Можно добавить подпись -->
+          <div class="video-caption">Название видео 4</div>
+        </div>
+
+        <div class="video-gallery-vertical">
+        <!-- Видео 5 -->
+        <div class="video-vertical-item animate-up">
+          <div class="video-container">
+            <img src="assets/bw/img/photo5.jpg" alt="Постер видео 5" class="video-poster">
+            <video class="video-player" muted playsinline>
+              <source src="assets/bw/video/video5.mov" type="video/mp4">
+            </video>
+          </div>
+          <!-- Можно добавить подпись -->
+          <div class="video-caption">Название видео 5</div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+<!-- Добавленный подвал с контактной информацией -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>Музейная экспозиция</h3>
+            <p>© 2026 Все права защищены</p>
+            <p>Email: info@virtualmuseum.by</p>
+            <p>Телефон: +375 (29) 123-45-67</p>
+          </div>
+          <div class="footer-social">
+            <p>Мы в соцсетях:</p>
+            <a href="#">VK</a> | <a href="#">Telegram</a> | <a href="#">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  <!-- Подключаем тот же скрипт -->
+  <script src="script.js"></script>
+</body>
+</html>
