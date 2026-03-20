@@ -40,10 +40,55 @@
               учреждения образования<br />«Детский сад №24 имени П. С. Портновой
               г. Полоцка»
             </p>
+            <div class="hero-btn-wrap">
+              <button class="btn-museum" id="btnAboutMuseum">О музее</button>
+            </div>
           </div>
         </div>
       </div>
     </section>
+
+    <!-- Модальное окно «О музее» -->
+    <div
+      id="aboutMuseumModal"
+      class="about-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="aboutMuseumTitle"
+    >
+      <div class="about-modal-content">
+        <button
+          class="about-modal-close"
+          id="aboutMuseumClose"
+          aria-label="Закрыть"
+        >
+          &times;
+        </button>
+        <h2 class="about-modal-title" id="aboutMuseumTitle">О музее</h2>
+        <div class="about-modal-body">
+          <p>
+            Музейная экспозиция Государственного учреждения образования «Детский
+            сад №24 имени П. С. Портновой г. Полоцка» — это живая память о людях
+            и событиях, которые стали частью истории нашего учреждения.
+          </p>
+          <p>
+            Экспозиция объединяет три раздела: биографию героини, в честь
+            которой назван детский сад, коллекцию советских игрушек и предметов
+            быта из архива учреждения, а также уникальные исторические
+            фотографии, оживающие в цвете.
+          </p>
+          <p>
+            Виртуальный формат позволяет каждому — детям, родителям, педагогам и
+            гостям города — прикоснуться к этой истории в любое время и из любой
+            точки мира.
+          </p>
+          <p class="about-modal-quote">
+            «Эти стены помнят не только детский смех — на них печать нашего
+            героического прошлого.»
+          </p>
+        </div>
+      </div>
+    </div>
 
     <section class="carousel-section" id="exhibits">
       <h2 class="section-title">Экспозиции</h2>
@@ -183,9 +228,7 @@
 
     <section class="visitors" id="about">
       <div class="container">
-        <!-- <h2 class="section-title">О музее</h2> -->
         <div class="visitors-grid">
-
           <div class="visitor-card animate-up">
             <div class="window-arch"></div>
             <div class="window-glass">
@@ -236,7 +279,15 @@
           <div class="footer-info">
             <h3>Музейная экспозиция</h3>
             <p>© 2026 Все права защищены</p>
-            <p>Email: info@virtualmuseum.by</p>
+            <p>
+              Email:
+              <a
+                href="/cdn-cgi/l/email-protection"
+                class="__cf_email__"
+                data-cfemail="2a43444c456a5c43585e5f4b46475f594f5f47044853"
+                >[email&#160;protected]</a
+              >
+            </p>
             <p>Телефон: +375 (29) 123-45-67</p>
           </div>
           <div class="footer-social">

@@ -110,7 +110,10 @@
               />
               <img src="" alt="" class="video-player color-reveal" />
             </div>
-            <div class="video-caption">Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1943 год)</div>
+            <div class="video-caption">
+              Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1943
+              год)
+            </div>
           </div>
 
           <!-- Картинка 6  -->
@@ -124,7 +127,10 @@
               />
               <img src="" alt="" class="video-player color-reveal" />
             </div>
-            <div class="video-caption">Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944 год)</div>
+            <div class="video-caption">
+              Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944
+              год)
+            </div>
           </div>
 
           <!-- Видео 5 -->
@@ -163,34 +169,12 @@
         </div>
       </div>
     </footer>
-<audio id="bg-music" loop>
+
+    <audio id="bg-music" loop>
       <source src="assets/bw.mp3" type="audio/mpeg" />
       Ваш браузер не поддерживает аудио.
     </audio>
 
-    <script>
-      // Функция для запуска музыки после первого клика
-      function initMusic() {
-        const music = document.getElementById("bg-music");
-        // Устанавливаем небольшую громкость, чтобы не испугать пользователя
-        music.volume = 0.3;
-
-        music
-          .play()
-          .then(() => {
-            // Если запустилось удачно, удаляем слушатели клика
-            document.removeEventListener("click", initMusic);
-            document.removeEventListener("touchstart", initMusic);
-          })
-          .catch((error) => {
-            console.log("Автовоспроизведение заблокировано браузером");
-          });
-      }
-
-      // Ждем любого взаимодействия пользователя со страницей
-      document.addEventListener("click", initMusic);
-      document.addEventListener("touchstart", initMusic);
-    </script>
     <script src="script.js"></script>
   </body>
 </html>

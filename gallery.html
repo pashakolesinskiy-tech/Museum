@@ -26,7 +26,9 @@
 
     <section class="gallery-hero">
       <div class="container">
-        <h1 class="section-title animate-up">Коллекция вещей и игрушек<br>из архива детского сада</h1>
+        <h1 class="section-title animate-up">
+          Коллекция вещей и игрушек<br />из архива детского сада
+        </h1>
         <p class="section-subtitle animate-up">
           Переступая порог этой страницы, вы оставляете за спиной суету
           современного мира. Здесь, в тишине цифровых витрин, время течет иначе
@@ -131,7 +133,9 @@
               <img src="assets/exhibits/exhibit_10.jpg" alt="Экспонат" />
               <div class="gallery-info">
                 <span>Кукла резиновая</span>
-                <h3>Дата выпуска: 1960 год<br>Фабрика “Красный треугольник”</h3>
+                <h3>
+                  Дата выпуска: 1960 год<br />Фабрика “Красный треугольник”
+                </h3>
               </div>
             </div>
           </div>
@@ -232,7 +236,8 @@
           </div>
           <div class="footer-social">
             <p>Мы в соцсетях:</p>
-            <a href="#">VK</a> | <a href="#">Telegram</a> | <a href="#">YouTube</a>
+            <a href="#">VK</a> | <a href="#">Telegram</a> |
+            <a href="#">YouTube</a>
           </div>
         </div>
       </div>
@@ -243,29 +248,6 @@
       Ваш браузер не поддерживает аудио.
     </audio>
 
-    <script>
-      // Функция для запуска музыки после первого клика
-      function initMusic() {
-        const music = document.getElementById("bg-music");
-        // Устанавливаем небольшую громкость, чтобы не испугать пользователя
-        music.volume = 0.3;
-
-        music
-          .play()
-          .then(() => {
-            // Если запустилось удачно, удаляем слушатели клика
-            document.removeEventListener("click", initMusic);
-            document.removeEventListener("touchstart", initMusic);
-          })
-          .catch((error) => {
-            console.log("Автовоспроизведение заблокировано браузером");
-          });
-      }
-
-      // Ждем любого взаимодействия пользователя со страницей
-      document.addEventListener("click", initMusic);
-      document.addEventListener("touchstart", initMusic);
-    </script>
     <script src="script.js"></script>
   </body>
 </html>
