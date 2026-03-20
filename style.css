@@ -25,8 +25,18 @@
   padding: 0;
 }
 
+img,
+video,
+iframe,
+embed,
+object,
+svg {
+  max-width: 100%; /* не даём медиа выйти за ширину контейнера */
+}
+
 html {
   height: 100%;
+  overflow-x: hidden; /* блокируем горизонтальный скролл на уровне корня */
   background-color: var(--bg);
   scroll-padding-top: var(--header-height);
   scroll-behavior: smooth;
@@ -37,6 +47,7 @@ body {
   color: var(--text);
   line-height: 1.6;
   overflow-x: hidden;
+  max-width: 100%; /* не даём body выйти за viewport */
   min-height: 100vh;
   position: relative;
   background:
@@ -695,23 +706,6 @@ body.menu-open {
   opacity: 1;
 }
 
-@media (max-width: 768px) {
-  .gallery-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 15px;
-  }
-
-  /* Touch devices: always show gallery info (no hover) */
-  .gallery-info {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .gallery-card:hover {
-    transform: none;
-  }
-}
-
 .section-subtitle {
   font-family: var(--font-serif);
   font-size: clamp(1.6rem, 3.2vw, 1.9rem);
@@ -798,14 +792,6 @@ body.menu-open {
   display: none;
 }
 
-.video-vertical-item .video-container.playing .video-poster {
-  display: none;
-}
-
-.video-vertical-item .video-container.playing .video-player {
-  display: block;
-}
-
 .video-caption {
   margin-top: 15px;
   font-family: var(--font-serif);
@@ -818,15 +804,6 @@ body.menu-open {
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border-radius: 15px;
-}
-
-@media (max-width: 768px) {
-  .video-gallery-vertical {
-    gap: 30px;
-  }
-  .video-caption {
-    font-size: 1.2rem;
-  }
 }
 
 /* Footer (все страницы) */
@@ -885,514 +862,7 @@ body.menu-open {
   color: var(--accent);
 }
 
-@media (max-width: 768px) {
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .footer-info h3 {
-    font-size: 22px;
-  }
-}
-
-/* ======= Медиа запросы (адаптивность) ======= */
-@media (max-width: 1200px) {
-  .nav-menu {
-    gap: 32px;
-  }
-}
-
-@media (max-width: 992px) {
-  .nav-menu {
-    gap: 24px;
-  }
-}
-
-@media (max-width: 768px) {
-  .burger {
-    display: flex;
-  }
-
-  .nav-menu {
-    position: fixed;
-    top: var(--header-height);
-    left: -100vw;
-    width: 100vw;
-    flex-direction: column;
-    background: rgba(10, 15, 24, 0.98);
-    backdrop-filter: blur(20px);
-    padding: 30px 0;
-    gap: 24px;
-    align-items: center;
-    transition: left 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-    z-index: 1001;
-  }
-
-  .nav-menu.active {
-    left: 0;
-  }
-
-  .carousel-wrapper {
-    height: 420px;
-  }
-  .carousel-item {
-    width: 260px;
-    height: 340px;
-    margin-left: -130px;
-    margin-top: -170px;
-  }
-  .carousel-btn {
-    width: 48px;
-    height: 48px;
-  }
-
-  .swipe-gallery {
-    padding: 0;
-  }
-  .swipe-btn {
-    width: 48px;
-    height: 48px;
-  }
-  .swipe-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-  .swipe-btn.prev {
-    left: 10px;
-  }
-  .swipe-btn.next {
-    right: 10px;
-  }
-  .slide-caption {
-    left: 16px;
-    bottom: 16px;
-    padding: 8px 20px;
-    font-size: 1.2rem;
-  }
-
-  .logo {
-    font-size: 18px;
-    letter-spacing: 0.5px;
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-title {
-    font-size: 22px;
-  }
-  .hero-subtitle {
-    font-size: 16px;
-  }
-
-  .carousel-section {
-    padding: 30px 0 80px;
-  }
-  .carousel-wrapper {
-    height: 360px;
-  }
-  .carousel-item {
-    width: 200px;
-    height: 280px;
-    margin-left: -100px;
-    margin-top: -140px;
-  }
-  .carousel-btn {
-    width: 44px;
-    height: 44px;
-  }
-
-  .swipe-slide img {
-    height: 250px;
-  }
-  .swipe-gallery {
-    padding: 0;
-  }
-  .swipe-btn {
-    width: 40px;
-    height: 40px;
-  }
-  .swipe-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-  .swipe-btn.prev {
-    left: 6px;
-  }
-  .swipe-btn.next {
-    right: 6px;
-  }
-  .slide-caption {
-    font-size: 1rem;
-    padding: 6px 12px;
-  }
-  .section-title {
-    font-size: 2.4rem;
-  }
-  .logo {
-    font-size: 16px;
-    letter-spacing: 0.2px;
-  }
-}
-
-/* Дополнительные улучшения для мобильных устройств */
-
-/* Уменьшаем отступы контейнера на очень маленьких экранах */
-@media (max-width: 480px) {
-  .container {
-    padding: 30px 15px;
-  }
-}
-
-/* Исправление бургер-меню: более плавное и компактное */
-@media (max-width: 768px) {
-  .nav-menu {
-    padding: 20px 0;
-    gap: 16px;
-    background: rgba(10, 15, 24, 0.98);
-    backdrop-filter: blur(20px);
-  }
-
-  .nav-menu a {
-    font-size: 16px;
-    padding: 8px 20px;
-    width: 100%;
-    text-align: center;
-  }
-
-  /* Затемнение фона при открытом меню (опционально) */
-  .nav-menu.active::before {
-    content: "";
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(4px);
-    z-index: -1;
-  }
-}
-
-/* Корректировка 3D-карусели на мобильных */
-@media (max-width: 768px) {
-  .carousel-wrapper {
-    height: 380px; /* чуть меньше */
-  }
-
-  .carousel-item {
-    width: 220px;
-    height: 300px;
-    margin-left: -110px;
-    margin-top: -150px;
-  }
-
-  .carousel-controls {
-    bottom: -40px;
-    gap: 20px;
-  }
-
-  .carousel-btn {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-@media (max-width: 480px) {
-  .carousel-wrapper {
-    height: 320px;
-  }
-
-  .carousel-item {
-    width: 180px;
-    height: 250px;
-    margin-left: -90px;
-    margin-top: -125px;
-  }
-
-  .carousel-controls {
-    bottom: -30px;
-    gap: 15px;
-  }
-
-  .carousel-btn {
-    width: 38px;
-    height: 38px;
-  }
-
-  .carousel-btn svg {
-    width: 18px;
-    height: 18px;
-  }
-}
-
-/* Улучшение слайдера */
-@media (max-width: 768px) {
-  .swipe-gallery {
-    border-radius: 24px;
-  }
-
-  .swipe-slide img {
-    height: 400px; /* уменьшаем высоту на планшетах */
-  }
-
-  .slide-caption {
-    left: 20px;
-    bottom: 20px;
-    padding: 10px 24px;
-    font-size: 1.3rem;
-  }
-
-  .swipe-btn {
-    width: 44px;
-    height: 44px;
-  }
-
-  .swipe-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .swipe-slide img {
-    height: 280px;
-  }
-
-  .slide-caption {
-    left: 12px;
-    bottom: 12px;
-    padding: 6px 16px;
-    font-size: 1rem;
-    border-radius: 40px;
-  }
-
-  .swipe-btn {
-    width: 38px;
-    height: 38px;
-  }
-
-  .swipe-btn svg {
-    width: 16px;
-    height: 16px;
-  }
-
-  .swipe-btn.prev {
-    left: 5px;
-  }
-
-  .swipe-btn.next {
-    right: 5px;
-  }
-
-  .swipe-dots {
-    gap: 12px;
-    margin-top: 20px;
-  }
-}
-
-/* Сетка галереи на очень маленьких экранах */
-@media (max-width: 480px) {
-  .gallery-grid {
-    grid-template-columns: 1fr; /* одна колонка */
-    gap: 20px;
-  }
-
-  .gallery-card {
-    aspect-ratio: 3 / 4; /* чуть более вытянутые */
-  }
-
-  .gallery-info {
-    padding: 20px 15px;
-  }
-
-  .gallery-info span {
-    font-size: 10px;
-  }
-
-  .gallery-info h3 {
-    font-size: 16px;
-  }
-}
-
-/* Вертикальная видео-галерея */
-@media (max-width: 768px) {
-  .video-gallery-vertical {
-    gap: 30px;
-    margin-top: 30px;
-  }
-
-  .video-vertical-item .video-container {
-    aspect-ratio: 16 / 9;
-  }
-
-  .video-caption {
-    font-size: 1.2rem;
-    margin-top: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .video-gallery-vertical {
-    gap: 25px;
-  }
-
-  .video-caption {
-    font-size: 1rem;
-  }
-}
-
-/* Подвал на мобильных */
-@media (max-width: 480px) {
-  .footer {
-    padding: 30px 0 15px;
-    margin-top: 40px;
-  }
-
-  .footer-info h3 {
-    font-size: 20px;
-  }
-
-  .footer-info p {
-    font-size: 12px;
-  }
-
-  .footer-social {
-    font-size: 12px;
-  }
-}
-
-/* Текст секции на мобильных */
-@media (max-width: 480px) {
-  .section-subtitle {
-    font-size: 1.2rem;
-    padding-left: 15px;
-  }
-
-  .hero-title {
-    font-size: 1.8rem;
-  }
-
-  .hero-subtitle {
-    font-size: 1.2rem;
-    padding-left: 15px;
-  }
-}
-
-/* ======= ФИНАЛЬНЫЕ МОБИЛЬНЫЕ ИСПРАВЛЕНИЯ ======= */
-
-/* 1. Карусель: controls должны быть внутри wrapper, не выходить за экран */
-@media (max-width: 768px) {
-  .carousel-section {
-    padding-bottom: 120px; /* место для controls */
-  }
-
-  .carousel-controls {
-    bottom: -55px;
-  }
-}
-
-@media (max-width: 480px) {
-  .carousel-section {
-    padding-bottom: 100px;
-  }
-
-  .carousel-controls {
-    bottom: -45px;
-    gap: 12px;
-  }
-}
-
-/* 2. Hero: убираем избыточный отступ на маленьких экранах */
-@media (max-width: 480px) {
-  .hero-text-container {
-    padding: 20px 0;
-    margin-bottom: 30px;
-  }
-
-  .hero-subtitle {
-    border-left-width: 2px;
-    text-align: left;
-  }
-}
-
-/* 3. section-title: уменьшаем нижний отступ на мобильных */
-@media (max-width: 768px) {
-  .section-title {
-    margin-bottom: 36px;
-    font-size: 2.6rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .section-title {
-    margin-bottom: 24px;
-    font-size: 2rem;
-  }
-}
-
-/* 4. Слайдер: caption не должен выпадать за slide */
-@media (max-width: 480px) {
-  .slide-caption {
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    font-size: 0.95rem;
-    padding: 6px 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border-radius: 30px;
-  }
-}
-
-/* 5. Галерея: одна колонка и всегда видимая info на мобильных */
-@media (max-width: 480px) {
-  .gallery-grid {
-    grid-template-columns: 1fr;
-    gap: 20px;
-  }
-
-  .gallery-card {
-    aspect-ratio: 4 / 3; /* более компактное соотношение */
-  }
-
-  .gallery-info {
-    transform: translateY(0);
-    opacity: 1;
-    padding: 16px 14px;
-  }
-
-  .gallery-info span {
-    font-size: 10px;
-  }
-
-  .gallery-info h3 {
-    font-size: 15px;
-  }
-}
-
-/* 6. Modal видео: корректный размер на мобильных */
-@media (max-width: 480px) {
-  .modal-content {
-    width: 95%;
-    padding: 10px;
-  }
-
-  .close {
-    font-size: 30px;
-    top: -34px;
-  }
-}
-
-/* 7. Исправление фона на мобильных (Android + iOS) */
-@media (max-width: 768px) {
-  body {
-    background-attachment: scroll; /* fixed ломает мобильные браузеры */
-  }
-}
-
-/* 8. Видео-галерея: кнопка воспроизведения поверх постера */
+/* ── Кнопка воспроизведения поверх постера ────────────────────── */
 .video-container::after {
   content: "▶";
   position: absolute;
@@ -1411,19 +881,18 @@ body.menu-open {
   opacity: 0;
 }
 
-/* 9. Общий safe-area для устройств с вырезами (notch) */
+/* ── Safe-area для устройств с вырезами (notch) ───────────────── */
 @supports (padding: max(0px)) {
   .header {
     padding-left: max(0px, env(safe-area-inset-left));
     padding-right: max(0px, env(safe-area-inset-right));
   }
-
   .footer {
     padding-bottom: max(20px, env(safe-area-inset-bottom));
   }
 }
 
-/* Section */
+/* ── Секция «Играй и познавай» (index.html) ───────────────────── */
 .visitors {
   padding: 80px 40px 100px;
 }
@@ -1458,7 +927,6 @@ body.menu-open {
   margin: 0 auto;
 }
 
-/* Card */
 .visitor-card {
   position: relative;
   cursor: default;
@@ -1468,7 +936,7 @@ body.menu-open {
   transform: translateY(-10px);
 }
 
-/* Arch */
+/* Арка */
 .window-arch {
   position: relative;
   z-index: 2;
@@ -1488,7 +956,7 @@ body.menu-open {
   box-shadow: inset 0 3px 10px rgba(255, 255, 255, 0.1);
 }
 
-/* Glass body */
+/* Стеклянное тело */
 .window-glass {
   position: relative;
   z-index: 1;
@@ -1511,7 +979,7 @@ body.menu-open {
   border-color: rgba(212, 175, 55, 0.7);
 }
 
-/* Decorative frame corners */
+/* Декоративные уголки рамки */
 .window-frame-corner {
   position: absolute;
   width: 16px;
@@ -1531,12 +999,12 @@ body.menu-open {
   border-width: 2px 2px 0 0;
 }
 
-/* Shine sweep — removed */
+/* Блеск — скрыт */
 .window-shine {
   display: none;
 }
 
-/* Window sill */
+/* Подоконник */
 .window-sill {
   height: 10px;
   margin: 0 20px;
@@ -1553,7 +1021,7 @@ body.menu-open {
   z-index: 2;
 }
 
-/* Цветная картинка поверх чёрно-белой */
+/* ── Цветная картинка поверх ч/б (video-gallery.html) ─────────── */
 .video-vertical-item .color-reveal {
   position: absolute;
   top: 0;
@@ -1561,34 +1029,656 @@ body.menu-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 1;
+  z-index: 3;
   opacity: 0;
   transition: opacity 0.8s ease;
 }
 
+/* Видео-режим: постер скрывается */
 .video-vertical-item .video-container.playing .video-poster {
-  /* не скрываем, она служит фоном */
+  display: none;
+}
+
+/* Режим color-reveal: постер остаётся как ч/б фон */
+.video-vertical-item .video-container.has-color-reveal.playing .video-poster {
+  display: block;
 }
 
 .video-vertical-item .video-container.playing .color-reveal {
   opacity: 1;
 }
 
-/* Responsive */
+/* ── Кнопка «О музее» ─────────────────────────────────────────── */
+.hero-btn-wrap {
+  margin-top: 36px;
+  display: flex;
+  justify-content: center;
+}
+
+.btn-museum {
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  background: rgba(212, 175, 55, 0.1);
+  border: 2px solid var(--accent);
+  border-radius: 4px;
+  padding: 14px 48px;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.btn-museum:hover {
+  background: rgba(212, 175, 55, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transform: scale(1.05);
+}
+
+.btn-museum:active {
+  transform: scale(0.97);
+}
+
+/* ── Модальное окно «О музее» ─────────────────────────────────── */
+.about-modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+}
+
+.about-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.about-modal-content {
+  position: relative;
+  width: 90%;
+  max-width: 680px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(6, 7, 9, 0.72) 0%,
+      rgba(20, 25, 35, 0.65) 50%,
+      rgba(6, 7, 9, 0.72) 100%
+    ),
+    url("assets/Background.png");
+  background-size: cover;
+  background-position: center;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--radius);
+  padding: 52px 48px 44px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+  transform: translateY(24px);
+  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+.about-modal.active .about-modal-content {
+  transform: translateY(0);
+}
+
+.about-modal-content::before,
+.about-modal-content::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-color: var(--accent);
+  border-style: solid;
+  pointer-events: none;
+}
+.about-modal-content::before {
+  top: 16px;
+  left: 16px;
+  border-width: 2px 0 0 2px;
+}
+.about-modal-content::after {
+  bottom: 16px;
+  right: 16px;
+  border-width: 0 2px 2px 0;
+}
+
+.about-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 4px;
+}
+
+.about-modal-close:hover {
+  color: var(--accent);
+}
+
+.about-modal-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  font-weight: 400;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.about-modal-body p {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 18px;
+}
+
+.about-modal-body p:last-child {
+  margin-bottom: 0;
+}
+
+.about-modal-quote {
+  font-family: var(--font-serif) !important;
+  font-style: italic;
+  font-size: 1.15rem !important;
+  color: var(--text) !important;
+  border-left: 2px solid var(--accent);
+  padding-left: 20px;
+  margin-top: 24px !important;
+}
+
+/* =================================================================
+   АДАПТИВНАЯ ВЁРСТКА — единый организованный блок
+   ================================================================= */
+
+/* ── Планшеты широкие (≤ 1200px) ─────────────────────────────── */
+@media (max-width: 1200px) {
+  .nav-menu {
+    gap: 32px;
+  }
+}
+
+/* ── Планшеты (≤ 992px) ─────────────────────────────────────── */
+@media (max-width: 992px) {
+  .nav-menu {
+    gap: 24px;
+  }
+}
+
+/* ── Планшеты средние — окна в три колонки (≤ 900px) ─────────── */
 @media (max-width: 900px) {
   .visitors-grid {
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
   }
-  .window-body {
-    padding: 28px 20px 22px;
+}
+
+/* ── Планшеты / крупные телефоны (≤ 768px) ───────────────────── */
+@media (max-width: 768px) {
+  /* Фон: fixed ломает мобильные браузеры */
+  body {
+    background-attachment: scroll;
   }
-  .visitor-card h4 {
+
+  /* Навигация */
+  .burger {
+    display: flex;
+  }
+  .logo {
+    font-size: 18px;
+    letter-spacing: 0.5px;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: -100vw;
+    width: 100%; /* 100vw включает скроллбар и вызывает горизонтальный overflow */
+    flex-direction: column;
+    background: rgba(10, 15, 24, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px 0;
+    gap: 16px;
+    align-items: center;
+    transition: left 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+    z-index: 1001;
+  }
+  .nav-menu.active {
+    left: 0;
+  }
+  .nav-menu a {
+    font-size: 16px;
+    padding: 8px 20px;
+    width: 100%;
+    text-align: center;
+  }
+  .nav-menu.active::before {
+    content: "";
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: -1;
+  }
+
+  /* Заголовки секций */
+  .section-title {
+    margin-bottom: 36px;
+    font-size: 2.6rem;
+  }
+
+  /* Hero */
+  .hero-text-container {
+    padding: 24px 0;
+    margin-bottom: 36px;
+  }
+
+  /* Карусель */
+  .carousel-section {
+    padding: 60px 0 120px;
+  }
+  .carousel-wrapper {
+    height: 380px;
+  }
+  .carousel-item {
+    width: 220px;
+    height: 300px;
+    margin-left: -110px;
+    margin-top: -150px;
+  }
+  .carousel-controls {
+    bottom: -55px;
+    gap: 20px;
+  }
+  .carousel-btn {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Слайдер */
+  .swipe-gallery {
+    border-radius: 24px;
+    padding: 0;
+  }
+  .swipe-slide img {
+    height: 400px;
+  }
+  .slide-caption {
+    left: 20px;
+    bottom: 20px;
+    padding: 10px 24px;
     font-size: 1.3rem;
+  }
+  .swipe-btn {
+    width: 44px;
+    height: 44px;
+  }
+  .swipe-btn svg {
+    width: 20px;
+    height: 20px;
+  }
+  .swipe-btn.prev {
+    left: 10px;
+  }
+  .swipe-btn.next {
+    right: 10px;
+  }
+
+  /* Галерея экспонатов */
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 15px;
+  }
+  .gallery-info {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .gallery-card:hover {
+    transform: none;
+  }
+
+  /* Видео-галерея */
+  .video-gallery-vertical {
+    gap: 30px;
+    margin-top: 30px;
+  }
+  .video-vertical-item {
+    width: 100%;
+  } /* сбрасываем 80% — на планшете/телефоне на всю ширину */
+  .video-caption {
+    font-size: 1.2rem;
+    margin-top: 10px;
+  }
+
+  /* Секция «окна» */
+  .visitors {
+    padding: 60px 20px 80px;
+  }
+
+  /* Биография */
+  .bio-portrait-frame {
+    width: 160px;
+    height: 210px;
+  }
+  .bio-photo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  /* Подвал */
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  .footer-info h3 {
+    font-size: 22px;
   }
 }
 
-@media (max-width: 680px) {
+/* ── Средние телефоны / маленькие планшеты (≤ 640px) ─────────── */
+@media (max-width: 640px) {
+  /* Сетка «окон» — одна колонка */
+  .visitors-grid {
+    grid-template-columns: 1fr;
+    max-width: 420px;
+    gap: 32px;
+  }
+  .visitors {
+    padding: 50px 16px 70px;
+  }
+  .window-arch {
+    height: 70px;
+    margin: 0 16px;
+  }
+
+  /* Галерея экспонатов — одна колонка */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .gallery-info {
+    transform: translateY(0);
+    opacity: 1;
+    padding: 16px 14px;
+  }
+  .gallery-info span {
+    font-size: 10px;
+  }
+  .gallery-info h3 {
+    font-size: 15px;
+  }
+
+  /* Карусель */
+  .carousel-wrapper {
+    height: 330px;
+  }
+  .carousel-item {
+    width: 195px;
+    height: 265px;
+    margin-left: -98px;
+    margin-top: -133px;
+  }
+
+  /* Слайдер */
+  .swipe-slide img {
+    height: 310px;
+  }
+  .slide-caption {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    font-size: 1rem;
+    padding: 7px 15px;
+  }
+
+  /* Видео */
+  .video-vertical-item {
+    width: 100%;
+  }
+
+  /* Подвал */
+  .footer-info h3 {
+    font-size: 20px;
+  }
+  .footer-info p,
+  .footer-social {
+    font-size: 12px;
+  }
+
+  /* Биография */
+  .bio-photo-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .bio-poem {
+    padding: 30px 22px;
+  }
+}
+
+/* ── Смартфоны (≤ 480px) ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  /* Контейнер */
+  .container {
+    padding: 30px 15px;
+  }
+
+  /* Навигация */
+  .logo {
+    font-size: 16px;
+    letter-spacing: 0.2px;
+  }
+
+  /* Заголовки и подзаголовки */
+  .section-title {
+    margin-bottom: 24px;
+    font-size: 2rem;
+  }
+  .section-subtitle {
+    font-size: 1.2rem;
+    padding-left: 15px;
+  }
+
+  /* Hero */
+  .hero-text-container {
+    padding: 16px 0;
+    margin-bottom: 24px;
+  }
+  .hero-title {
+    font-size: 1.8rem;
+  }
+  .hero-subtitle {
+    font-size: 1.2rem;
+    padding-left: 15px;
+    border-left-width: 2px;
+    text-align: left;
+  }
+  .hero-btn-wrap {
+    margin-top: 24px;
+  }
+  .btn-museum {
+    padding: 12px 32px;
+    font-size: 1rem;
+  }
+
+  /* Карусель */
+  .carousel-section {
+    padding: 30px 0 100px;
+  }
+  .carousel-wrapper {
+    height: 320px;
+  }
+  .carousel-item {
+    width: 180px;
+    height: 250px;
+    margin-left: -90px;
+    margin-top: -125px;
+  }
+  .carousel-controls {
+    bottom: -45px;
+    gap: 12px;
+  }
+  .carousel-btn {
+    width: 38px;
+    height: 38px;
+  }
+  .carousel-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  /* Слайдер */
+  .swipe-slide img {
+    height: 280px;
+  }
+  .slide-caption {
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.95rem;
+    padding: 6px 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 30px;
+  }
+  .swipe-btn {
+    width: 38px;
+    height: 38px;
+  }
+  .swipe-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .swipe-btn.prev {
+    left: 5px;
+  }
+  .swipe-btn.next {
+    right: 5px;
+  }
+  .swipe-dots {
+    gap: 12px;
+    margin-top: 20px;
+  }
+
+  /* Галерея экспонатов */
+  .gallery-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .gallery-card {
+    aspect-ratio: 4 / 3;
+  }
+  .gallery-info {
+    transform: translateY(0);
+    opacity: 1;
+    padding: 16px 14px;
+  }
+  .gallery-info span {
+    font-size: 10px;
+  }
+  .gallery-info h3 {
+    font-size: 15px;
+  }
+
+  /* Видео-галерея */
+  .video-gallery-vertical {
+    gap: 25px;
+  }
+  .video-caption {
+    font-size: 1rem;
+  }
+
+  /* Модальное видео */
+  .modal-content {
+    width: 95%;
+    padding: 10px;
+  }
+  .close {
+    font-size: 30px;
+    top: -34px;
+  }
+
+  /* Подвал */
+  .footer {
+    padding: 30px 0 15px;
+    margin-top: 40px;
+  }
+  .footer-info h3 {
+    font-size: 20px;
+  }
+  .footer-info p {
+    font-size: 12px;
+  }
+  .footer-social {
+    font-size: 12px;
+  }
+
+  /* Биография */
+  .bio-hero {
+    padding-top: calc(var(--header-height) + 30px);
+    padding-bottom: 40px;
+  }
+  .bio-dates {
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+  }
+  .bio-photo-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .bio-poem {
+    padding: 28px 20px;
+  }
+  .bio-poem-stanza p {
+    font-size: 1.05rem;
+  }
+  .bio-dedication {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    white-space: normal;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bio-dedication-line {
+    width: 60px;
+    flex: none;
+  }
+
+  /* Модальное окно «О музее» */
+  .about-modal-content {
+    padding: 40px 20px 28px;
+  }
+  .about-modal-title {
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+  }
+  .about-modal-body p {
+    font-size: 0.95rem;
+  }
+
+  /* Секция «окна» — одна колонка */
   .visitors-grid {
     grid-template-columns: 1fr;
     max-width: 400px;
@@ -1598,8 +1688,33 @@ body.menu-open {
     margin: 0 20px;
     height: 70px;
   }
-  .visitors {
-    padding: 60px 0 80px;
+
+  /* Биография — сетка в одну колонку */
+  .bio-hero {
+    padding-top: calc(var(--header-height) + 30px);
+    padding-bottom: 40px;
+  }
+  .bio-photo-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .bio-poem {
+    padding: 28px 20px;
+  }
+  .bio-poem-stanza p {
+    font-size: 1.05rem;
+  }
+  .bio-dedication {
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    white-space: normal;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bio-dedication-line {
+    width: 60px;
+    flex: none;
   }
 }
 
@@ -1823,28 +1938,7 @@ body.menu-open {
   margin: 0;
 }
 
-/* ── Адаптив ──────────────────────────────────────── */
-@media (max-width: 768px) {
-  .bio-portrait-frame {
-    width: 160px;
-    height: 210px;
-  }
-  .bio-photo-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .bio-photo-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .bio-quote {
-    font-size: 1.15rem;
-    padding-left: 16px;
-  }
-}
+/* ── Адаптив (см. главный блок медиазапросов ниже) ─── */
 /* ── Стихотворение ────────────────────────────────────── */
 .bio-poem {
   position: relative;
@@ -1926,16 +2020,6 @@ body.menu-open {
   margin-top: 4px !important;
 }
 
-/* Мобильные */
-@media (max-width: 480px) {
-  .bio-poem {
-    padding: 28px 24px;
-  }
-  .bio-poem-stanza p {
-    font-size: 1.05rem;
-  }
-}
-
 /* ── Посвящение ───────────────────────────────────────── */
 .bio-dedication {
   display: flex;
@@ -1963,22 +2047,6 @@ body.menu-open {
   );
 }
 
-@media (max-width: 480px) {
-  .bio-dedication {
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    white-space: normal;
-    text-align: center;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .bio-dedication-line {
-    width: 60px;
-    flex: none;
-  }
-}
-
 /* ── Посвящение внутри блока стихотворения ─────────── */
 .bio-poem .bio-dedication {
   flex-direction: column;
@@ -1992,170 +2060,4 @@ body.menu-open {
 .bio-poem .bio-dedication-line {
   width: 80px;
   flex: none;
-}
-
-/* ── Кнопка «О музее» ─────────────────────────────── */
-.hero-btn-wrap {
-  margin-top: 36px;
-  display: flex;
-  justify-content: center;
-}
-
-.btn-museum {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  background: rgba(212, 175, 55, 0.1);
-  border: 2px solid var(--accent);
-  border-radius: 4px;
-  padding: 14px 48px;
-  cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
-}
-
-.btn-museum:hover {
-  background: rgba(212, 175, 55, 0.3);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transform: scale(1.05);
-}
-
-.btn-museum:active {
-  transform: scale(0.97);
-}
-
-/* ── Модальное окно «О музее» ─────────────────────── */
-.about-modal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  inset: 0;
-  z-index: 2000;
-  background: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.35s ease;
-}
-
-.about-modal.active {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.about-modal-content {
-  position: relative;
-  width: 90%;
-  max-width: 680px;
-  max-height: 85vh;
-  overflow-y: auto;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(6, 7, 9, 0.72) 0%,
-      rgba(20, 25, 35, 0.65) 50%,
-      rgba(6, 7, 9, 0.72) 100%
-    ),
-    url("assets/Background.png");
-  background-size: cover;
-  background-position: center;
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: var(--radius);
-  padding: 52px 48px 44px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-  transform: translateY(24px);
-  transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
-}
-
-.about-modal.active .about-modal-content {
-  transform: translateY(0);
-}
-
-.about-modal-content::before,
-.about-modal-content::after {
-  content: "";
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border-color: var(--accent);
-  border-style: solid;
-  pointer-events: none;
-}
-.about-modal-content::before {
-  top: 16px;
-  left: 16px;
-  border-width: 2px 0 0 2px;
-}
-.about-modal-content::after {
-  bottom: 16px;
-  right: 16px;
-  border-width: 0 2px 2px 0;
-}
-
-.about-modal-close {
-  position: absolute;
-  top: 16px;
-  right: 20px;
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  font-size: 28px;
-  line-height: 1;
-  cursor: pointer;
-  transition: color 0.2s ease;
-  padding: 4px;
-}
-
-.about-modal-close:hover {
-  color: var(--accent);
-}
-
-.about-modal-title {
-  font-family: var(--font-serif);
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 400;
-  color: var(--accent);
-  letter-spacing: 1.5px;
-  margin-bottom: 28px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.about-modal-body p {
-  font-family: var(--font-sans);
-  font-size: 1rem;
-  color: var(--text-muted);
-  line-height: 1.85;
-  font-weight: 300;
-  margin-bottom: 18px;
-}
-
-.about-modal-body p:last-child {
-  margin-bottom: 0;
-}
-
-.about-modal-quote {
-  font-family: var(--font-serif) !important;
-  font-style: italic;
-  font-size: 1.15rem !important;
-  color: var(--text) !important;
-  border-left: 2px solid var(--accent);
-  padding-left: 20px;
-  margin-top: 24px !important;
-}
-
-@media (max-width: 480px) {
-  .about-modal-content {
-    padding: 40px 24px 32px;
-  }
-  .btn-museum {
-    padding: 12px 32px;
-    font-size: 1rem;
-  }
 }
