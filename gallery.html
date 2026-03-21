@@ -3,28 +3,76 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Галерея экспонатов</title>
+    <title>Галерея экспонатов — Музей детского сада №24</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24 им. П.С. Портновой г. Полоцка. 19 уникальных экспонатов с описаниями." />
+    <meta name="keywords" content="советские игрушки, галерея экспонатов, детский сад Полоцк, музей, Портнова, исторические предметы" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Галерея экспонатов — Музей детского сада №24" />
+    <meta property="og:description" content="Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24 им. П.С. Портновой." />
+    <meta property="og:image" content="assets/exhibits/exhibit_1.webp" />
+    <meta property="og:type" content="website" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#d4af37" />
+
+    <!-- Performance: preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Schema.org для страницы коллекции -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "name": "Галерея экспонатов — детский сад №24 имени П.С. Портновой",
+      "description": "Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24",
+      "url": "https://example.com/gallery.html",
+      "isPartOf": {
+        "@type": "Museum",
+        "name": "Виртуальный музей Детский сад №24 имени П.С. Портновой"
+      }
+    }
+    </script>
   </head>
   <body class="gallery-page">
-    <header class="header">
+    <a class="skip-link" href="#main-content">Перейти к основному содержимому</a>
+
+    <header class="header" role="banner">
       <div class="container nav">
         <div class="logo">Музейная экспозиция</div>
-        <ul class="nav-menu" id="menu">
-          <li><a href="index.html">Главная</a></li>
-          <li><a href="video-gallery.html">Видео-галерея</a></li>
-        </ul>
-        <div class="burger" id="burger">
-          <span></span><span></span><span></span>
-        </div>
+        <nav aria-label="Основная навигация">
+          <ul class="nav-menu" id="menu" role="list">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="video-gallery.html">Видео-галерея</a></li>
+          </ul>
+        </nav>
+        <button
+          class="burger"
+          id="burger"
+          aria-label="Открыть меню навигации"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 
-    <section class="gallery-hero">
+    <main id="main-content">
+    <section class="gallery-hero" aria-label="Коллекция экспонатов">
       <div class="container">
         <h1 class="section-title animate-up">
           Коллекция вещей и игрушек<br />из архива детского сада
@@ -44,10 +92,10 @@
           живет их душа».
         </p>
 
-        <div class="gallery-grid">
-          <div class="gallery-item animate-up">
+        <div class="gallery-grid" role="list" aria-label="Экспонаты коллекции">
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_1.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_1.webp" alt="Резиновая игрушка Карлсон, 1970-е годы" loading="lazy" />
               <div class="gallery-info">
                 <span>Резиновая игрушка "Карлсон"</span>
                 <h3>Дата выпуска: 1970-ые годы</h3>
@@ -55,9 +103,9 @@
             </div>
           </div>
 
-          <div class="gallery-item animate-up">
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_2.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_2.webp" alt="Детский утюг, 1970-е годы" loading="lazy" />
               <div class="gallery-info">
                 <span>Детский утюг</span>
                 <h3>Дата выпуска: 1970-ые годы</h3>
@@ -65,155 +113,169 @@
             </div>
           </div>
 
-          <div class="gallery-item animate-up">
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_3.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_3.webp" alt="Заводная механическая игрушка Петушок, 1970–1980-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка заводная механическая “Петушок”</span>
+                <span>Игрушка заводная механическая "Петушок"</span>
                 <h3>Дата выпуска: 1970-ые - 1980-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_4.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_4.webp" alt="Заводная механическая игрушка Курочка, 1970–1980-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка заводная механическая “Курочка”</span>
+                <span>Игрушка заводная механическая "Курочка"</span>
                 <h3>Дата выпуска: 1970-ые - 1980-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_5.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_5.webp" alt="Пластмассовая игрушка Пупсик, 1960-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка пластмассовая “Пупсик”</span>
+                <span>Игрушка пластмассовая "Пупсик"</span>
                 <h3>Дата выпуска: 1960-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_6.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_6.webp" alt="Заводная механическая игрушка Петушок, 1960–1970-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка заводная механическая “Петушок”</span>
+                <span>Игрушка заводная механическая "Петушок"</span>
                 <h3>Дата выпуска: 1960-ые - 1970-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_7.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_7.webp" alt="Кукла Школьница, 1980-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Кукла “Школьница”</span>
+                <span>Кукла "Школьница"</span>
                 <h3>Дата выпуска: 1980-е годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_8.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_8.webp" alt="Игрушка Револьвер, 1980-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка найденная “Револьвер”</span>
+                <span>Игрушка найденная "Револьвер"</span>
                 <h3>Дата выпуска: 1980-е годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_9.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_9.webp" alt="Кукла винтажная, 1970–1980-е годы" loading="lazy" />
               <div class="gallery-info">
                 <span>Кукла винтажная</span>
                 <h3>Дата выпуска: 1970-ые - 1980-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_10.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_10.webp" alt="Резиновая кукла, 1960 год, фабрика Красный треугольник" loading="lazy" />
               <div class="gallery-info">
                 <span>Кукла резиновая</span>
-                <h3>
-                  Дата выпуска: 1960 год<br />Фабрика “Красный треугольник”
-                </h3>
+                <h3>Дата выпуска: 1960 год<br />Фабрика "Красный треугольник"</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_11.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_11.webp" alt="Кукла Пупс целлулоидный с клеймом Черепашка, 1960-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Кукла Пупс целлулоидный с клеймом “Черепашка”</span>
+                <span>Кукла Пупс целлулоидный с клеймом "Черепашка"</span>
                 <h3>Дата выпуска: 1960-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_12.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_12.webp" alt="Кукла пластмассовая Пупс на резинках, конец 1960-х — начало 1970-х" loading="lazy" />
               <div class="gallery-info">
                 <span>Кукла пластмассовая Пупс на резинках</span>
                 <h3>Дата выпуска: конец 1960-ых - начало 1970-ых годов</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_13.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_13.webp" alt="Пластмассовая игрушка Колобок, 1960–1970-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка пластмассовая “Колобок”</span>
+                <span>Игрушка пластмассовая "Колобок"</span>
                 <h3>Дата выпуска: 1960-ые - 1970-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_14.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_14.webp" alt="Игрушка каталка Петушок, 1960–1970-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка каталка “Петушок”</span>
+                <span>Игрушка каталка "Петушок"</span>
                 <h3>Дата выпуска: 1960-ые - 1970-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_15.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_15.webp" alt="Игрушка каталка Лисичка, 1960-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка каталка “Лисичка”</span>
+                <span>Игрушка каталка "Лисичка"</span>
                 <h3>Дата выпуска: 1960-ые годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_16.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_16.webp" alt="Резиновая каталка Лиса, 1970–1980-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка резиновая каталка “Лиса”</span>
+                <span>Игрушка резиновая каталка "Лиса"</span>
                 <h3>Дата выпуска: 1970-е – 1980-е годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_17.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_17.webp" alt="Целлулоидная Неваляшка, 1960–1970-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка целуллоидная “Неваляшка”</span>
+                <span>Игрушка целуллоидная "Неваляшка"</span>
                 <h3>Дата выпуска: 1960-е – 1970-е годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_18.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_18.webp" alt="Резиновая игрушка Птичка, 1960–1970-е годы" loading="lazy" />
               <div class="gallery-info">
-                <span>Игрушка резиновая “Птичка”</span>
+                <span>Игрушка резиновая "Птичка"</span>
                 <h3>Дата выпуска: 1960-е – 1970-е годы</h3>
               </div>
             </div>
           </div>
-          <div class="gallery-item animate-up">
+
+          <div class="gallery-item animate-up" role="listitem">
             <div class="gallery-card">
-              <img src="assets/exhibits/exhibit_19.jpg" alt="Экспонат" />
+              <img src="assets/exhibits/exhibit_19.webp" alt="Детская швейная машинка Промшвеймаш г.Орша, 1960–1980-е годы" loading="lazy" />
               <div class="gallery-info">
                 <span>Детская швейная машинка Промшвеймаш г.Орша</span>
                 <h3>Дата выпуска: 1960-е - 1980-е годы</h3>
@@ -223,21 +285,22 @@
         </div>
       </div>
     </section>
+    </main>
 
-    <!-- Добавленный подвал с контактной информацией -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
       <div class="container">
         <div class="footer-content">
           <div class="footer-info">
             <h3>Музейная экспозиция</h3>
             <p>© 2026 Все права защищены</p>
-            <p>Email: info@virtualmuseum.by</p>
-            <p>Телефон: +375 (29) 123-45-67</p>
+            <p>Email: <a href="mailto:info@virtualmuseum.by">info@virtualmuseum.by</a></p>
+            <p>Телефон: <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
           </div>
           <div class="footer-social">
             <p>Мы в соцсетях:</p>
-            <a href="#">VK</a> | <a href="#">Telegram</a> |
-            <a href="#">YouTube</a>
+            <a href="#" aria-label="VK">VK</a> |
+            <a href="#" aria-label="Telegram">Telegram</a> |
+            <a href="#" aria-label="YouTube">YouTube</a>
           </div>
         </div>
       </div>

@@ -3,47 +3,105 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Полина Портнова</title>
+    <title>Полина Сергеевна Портнова — Виртуальный музей</title>
+
+    <!-- SEO -->
+    <meta name="description" content="Страница памяти Полины Сергеевны Портновой (02.05.1903 — 20.11.1989) — основательницы детского сада №24 г. Полоцка, спасшей 104 ребёнка в годы Великой Отечественной войны." />
+    <meta name="keywords" content="Полина Портнова, детский сад Полоцк, Великая Отечественная война, эвакуация детей, герои ВОВ, Беларусь" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Полина Сергеевна Портнова — Виртуальный музей" />
+    <meta property="og:description" content="Памяти Полины Сергеевны Портновой — педагога, спасшей 104 ребёнка в годы Великой Отечественной войны." />
+    <meta property="og:image" content="assets/portnova.webp" />
+    <meta property="og:type" content="profile" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json" />
+    <meta name="theme-color" content="#d4af37" />
+
+    <!-- Performance: preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
     <link rel="stylesheet" href="style.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Schema.org: Person -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Полина Сергеевна Портнова",
+      "birthDate": "1903-05-02",
+      "deathDate": "1989-11-20",
+      "description": "Заведующая Домом ребёнка им. Самойловой и детскими яслями №1 г. Полоцка. В годы Великой Отечественной войны организовала эвакуацию 104 детей в г. Шумерля Чувашской ССР.",
+      "image": "assets/portnova.webp",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Детский сад №24 г. Полоцка"
+      }
+    }
+    </script>
   </head>
   <body class="gallery-page">
-    <header class="header">
+    <a class="skip-link" href="#main-content">Перейти к основному содержимому</a>
+
+    <header class="header" role="banner">
       <div class="container nav">
         <div class="logo">Музейная экспозиция</div>
-        <ul class="nav-menu" id="menu">
-          <li><a href="index.html">Главная</a></li>
-          <li><a href="gallery.html">Коллекция</a></li>
-          <li><a href="video-gallery.html">Видео-галерея</a></li>
-        </ul>
-        <div class="burger" id="burger">
-          <span></span><span></span><span></span>
-        </div>
+        <nav aria-label="Основная навигация">
+          <ul class="nav-menu" id="menu" role="list">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="gallery.html">Коллекция</a></li>
+            <li><a href="video-gallery.html">Видео-галерея</a></li>
+          </ul>
+        </nav>
+        <button
+          class="burger"
+          id="burger"
+          aria-label="Открыть меню навигации"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
       </div>
     </header>
 
-    <section class="bio-hero">
+    <main id="main-content">
+    <section class="bio-hero" aria-label="Биография Полины Сергеевны Портновой">
       <div class="container">
         <!-- Портрет и имя -->
         <div class="bio-portrait animate-up">
           <div class="bio-portrait-frame">
-            <img src="assets/portnova.jpg" alt="Полина Сергеевна Портнова" />
-            <div class="bio-portrait-corners">
+            <img
+              src="assets/portnova.webp"
+              alt="Портрет Полины Сергеевны Портновой"
+              width="300"
+              height="400"
+            />
+            <div class="bio-portrait-corners" aria-hidden="true">
               <span></span><span></span><span></span><span></span>
             </div>
           </div>
           <h1 class="bio-name">Полина Сергеевна Портнова</h1>
-          <p class="bio-dates">02.05.1903 — 20.11.1989</p>
-          <div class="bio-poem">
+          <p class="bio-dates">
+            <time datetime="1903-05-02">02.05.1903</time> —
+            <time datetime="1989-11-20">20.11.1989</time>
+          </p>
+          <div class="bio-poem" aria-label="Поэтическое посвящение">
             <p class="bio-dedication">
-              <span class="bio-dedication-line"></span>
+              <span class="bio-dedication-line" aria-hidden="true"></span>
               Памяти Полины Сергеевны Портновой посвящается
-              <span class="bio-dedication-line"></span>
+              <span class="bio-dedication-line" aria-hidden="true"></span>
             </p>
-            <div class="bio-poem-ornament">✦</div>
+            <div class="bio-poem-ornament" aria-hidden="true">✦</div>
 
             <div class="bio-poem-stanza">
               <p>Беда пришла войною страшной,</p>
@@ -66,145 +124,137 @@
               <p class="bio-poem-last">Всё ради жизни на земле!</p>
             </div>
 
-            <div class="bio-poem-ornament">✦</div>
+            <div class="bio-poem-ornament" aria-hidden="true">✦</div>
           </div>
         </div>
+
         <!-- Фотогалерея -->
         <h2 class="bio-gallery-title animate-up">Из архива</h2>
 
-        <div class="bio-photo-grid">
-          <div class="bio-photo-item animate-up">
+        <div class="bio-photo-grid" role="list" aria-label="Архивные фотографии">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/1.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/1.webp" alt="Архивное фото 1 — Полина Сергеевна Портнова" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/2.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/2.webp" alt="Архивное фото 2" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/3.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/3.webp" alt="Архивное фото 3" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/4.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/4.webp" alt="Архивное фото 4" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/5.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/5.webp" alt="Архивное фото 5" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/6.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/6.webp" alt="Архивное фото 6" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/7.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/7.webp" alt="Архивное фото 7" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/8.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/8.webp" alt="Архивное фото 8" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/9.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/9.webp" alt="Архивное фото 9" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/10.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/10.webp" alt="Архивное фото 10" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/11.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/11.webp" alt="Архивное фото 11" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/12.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/12.webp" alt="Архивное фото 12" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/13.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/13.webp" alt="Архивное фото 13" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/14.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/14.webp" alt="Архивное фото 14" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
 
-          <div class="bio-photo-item animate-up">
+          <div class="bio-photo-item animate-up" role="listitem">
             <div class="bio-photo-card">
-              <img src="assets/portnova/15.jpg" alt="Архивное фото" />
+              <img src="assets/portnova/15.webp" alt="Архивное фото 15" loading="lazy" />
               <div class="bio-photo-info"></div>
             </div>
           </div>
-          <!-- /bio-photo-grid -->
         </div>
-        <!-- /.bio-photo-grid -->
       </div>
-      <!-- /.container -->
     </section>
+    </main>
 
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
       <div class="container">
         <div class="footer-content">
           <div class="footer-info">
             <h3>Виртуальный музей</h3>
             <p>© 2026 Все права защищены</p>
-            <p>
-              Email:
-              <a
-                href="/cdn-cgi/l/email-protection"
-                class="__cf_email__"
-                data-cfemail="036a6d656c43756a717776626f6e767066766e2d617a"
-                >[email&#160;protected]</a
-              >
-            </p>
-            <p>Телефон: +375 (29) 123-45-67</p>
+            <p>Email: <a href="mailto:info@virtualmuseum.by">info@virtualmuseum.by</a></p>
+            <p>Телефон: <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
           </div>
           <div class="footer-social">
             <p>Мы в соцсетях:</p>
-            <a href="#">VK</a> | <a href="#">Telegram</a> |
-            <a href="#">YouTube</a>
+            <a href="#" aria-label="VK">VK</a> |
+            <a href="#" aria-label="Telegram">Telegram</a> |
+            <a href="#" aria-label="YouTube">YouTube</a>
           </div>
         </div>
       </div>

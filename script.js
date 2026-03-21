@@ -1,9 +1,11 @@
-// Бургер-меню
+// ===== БУРГЕР-МЕНЮ =====
 const burger = document.getElementById("burger");
 const menu = document.getElementById("menu");
 
 if (burger && menu) {
   burger.addEventListener("click", () => {
+    const isExpanded = burger.getAttribute("aria-expanded") === "true";
+    burger.setAttribute("aria-expanded", String(!isExpanded));
     burger.classList.toggle("active");
     menu.classList.toggle("active");
     document.body.classList.toggle("menu-open");
@@ -13,6 +15,7 @@ if (burger && menu) {
     link.addEventListener("click", () => {
       menu.classList.remove("active");
       burger.classList.remove("active");
+      burger.setAttribute("aria-expanded", "false");
       document.body.classList.remove("menu-open");
     });
   });
@@ -21,12 +24,13 @@ if (burger && menu) {
     if (!menu.contains(e.target) && !burger.contains(e.target)) {
       menu.classList.remove("active");
       burger.classList.remove("active");
+      burger.setAttribute("aria-expanded", "false");
       document.body.classList.remove("menu-open");
     }
   });
 }
 
-// Слайдер (Выставки)
+// ===== СЛАЙДЕР «СВЯЗЬ ВРЕМЁН» =====
 const track = document.getElementById("swipe-track");
 const slides = document.querySelectorAll(".swipe-slide");
 const prevBtn = document.getElementById("prev-slide");
@@ -43,6 +47,9 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
       const dot = document.createElement("span");
       dot.classList.add("dot");
       dot.dataset.index = i;
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", `Слайд ${i + 1} из ${slideCount}`);
+      dot.setAttribute("tabindex", i === 0 ? "0" : "-1");
       dot.addEventListener("click", () => goToSlide(i));
       dotsContainer.appendChild(dot);
     }
@@ -51,7 +58,10 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
 
   function updateDots() {
     document.querySelectorAll(".dot").forEach((dot, i) => {
-      dot.classList.toggle("active", i === currentIndex);
+      const isActive = i === currentIndex;
+      dot.classList.toggle("active", isActive);
+      dot.setAttribute("aria-selected", String(isActive));
+      dot.setAttribute("tabindex", isActive ? "0" : "-1");
     });
   }
 
@@ -66,11 +76,32 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
   nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
 
+  // Клавиатурная навигация по слайдеру
+  document.addEventListener("keydown", (e) => {
+    // Только если фокус находится в области слайдера или нажаты стрелки без фокуса на поле ввода
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+    const sliderSection = document.getElementById("times");
+    if (!sliderSection) return;
+    const rect = sliderSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (!inView) return;
+
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      goToSlide(currentIndex - 1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      goToSlide(currentIndex + 1);
+    }
+  });
+
   createDots();
   goToSlide(0);
 }
 
-// Анимация при скролле (Intersection Observer)
+// ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
 
 if (animatedElements.length > 0) {
@@ -89,7 +120,7 @@ if (animatedElements.length > 0) {
   animatedElements.forEach((el) => observer.observe(el));
 }
 
-// Floating 3D Carousel - Optimized
+// ===== ТРЁХМЕРНАЯ КАРУСЕЛЬ =====
 (function () {
   const carousel3d = document.getElementById("carousel-3d");
   const carouselItems = document.querySelectorAll(".carousel-item");
@@ -106,7 +137,7 @@ if (animatedElements.length > 0) {
   const rotateAngle = 50;
   let isAnimating = false;
 
-  // Pre-calculate positions
+  // Предварительный расчёт позиций
   const positions = [];
   for (let i = 0; i < totalItems; i++) {
     let angle, x, y, z, scale, opacity, zIndex;
@@ -140,13 +171,16 @@ if (animatedElements.length > 0) {
     positions.push({ angle, x, y, z, scale, opacity, zIndex });
   }
 
-  // Create dots once
+  // Создание точек навигации
   if (carouselDotsContainer) {
     carouselDotsContainer.innerHTML = "";
     for (let i = 0; i < totalItems; i++) {
       const dot = document.createElement("span");
       dot.className = "carousel-dot";
       dot.dataset.index = i;
+      dot.setAttribute("role", "tab");
+      dot.setAttribute("aria-label", `Экспозиция ${i + 1} из ${totalItems}`);
+      dot.setAttribute("tabindex", i === 0 ? "0" : "-1");
       carouselDotsContainer.appendChild(dot);
     }
   }
@@ -170,7 +204,10 @@ if (animatedElements.length > 0) {
         carouselDotsContainer
           .querySelectorAll(".carousel-dot")
           .forEach((dot, i) => {
-            dot.classList.toggle("active", i === currentIndex);
+            const isActive = i === currentIndex;
+            dot.classList.toggle("active", isActive);
+            dot.setAttribute("aria-selected", String(isActive));
+            dot.setAttribute("tabindex", isActive ? "0" : "-1");
           });
       }
       isAnimating = false;
@@ -194,19 +231,52 @@ if (animatedElements.length > 0) {
     }
   });
 
-  // Swipe support & Drag Detection
+  // Клавиатурная навигация по карусели (стрелки)
+  carousel3d.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      currentIndex = (currentIndex + 1 + totalItems) % totalItems;
+      updateCarousel();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+      updateCarousel();
+    }
+  });
+
+  // Глобальная клавиатурная навигация для карусели
+  document.addEventListener("keydown", (e) => {
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+
+    const carouselSection = document.getElementById("exhibits");
+    if (!carouselSection) return;
+    const rect = carouselSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight / 2 && rect.bottom > 0;
+
+    if (inView && document.getElementById("times") === null) {
+      if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        currentIndex = (currentIndex + 1 + totalItems) % totalItems;
+        updateCarousel();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+        updateCarousel();
+      }
+    }
+  });
+
+  // Поддержка свайпов и перетаскивания
   let startX = 0;
   let isDragging = false;
-  let didDrag = false; // Отслеживаем, был ли это клик или свайп
+  let didDrag = false;
 
   function handleSwipe(endX) {
     const diff = startX - endX;
-
-    // Если сдвиг больше 5px, считаем, что это перетаскивание, а не клик
     if (Math.abs(diff) > 5) {
       didDrag = true;
     }
-
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
         currentIndex = (currentIndex - 1 + totalItems) % totalItems;
@@ -218,15 +288,12 @@ if (animatedElements.length > 0) {
     isDragging = false;
   }
 
-  function handleTouchStart(e) {
+  carousel3d.addEventListener("touchstart", (e) => {
     startX = e.touches[0].clientX;
     isDragging = true;
     didDrag = false;
-  }
+  }, { passive: true });
 
-  carousel3d.addEventListener("touchstart", handleTouchStart, {
-    passive: true,
-  });
   carousel3d.addEventListener("touchend", (e) => {
     if (isDragging) handleSwipe(e.changedTouches[0].clientX);
   });
@@ -241,59 +308,100 @@ if (animatedElements.length > 0) {
     if (isDragging) handleSwipe(e.clientX);
   });
 
-  // ========== ЛОГИКА КЛИКА ПО КАРТОЧКЕ ==========
+  // Клик по карточке
   carousel3d.addEventListener("click", (e) => {
     if (didDrag) return;
 
     const cardImage = e.target.closest(".card-image");
     if (!cardImage) return;
 
-    // Находим родительский .carousel-item и берём его data-href
     const item = cardImage.closest(".carousel-item");
     const href = item?.dataset.href;
 
-    if (href) {
+    if (href && href !== "#") {
       window.location.href = href;
     }
   });
 
-  // Initial render
+  // Начальный рендер
   updateCarousel();
 })();
 
-// ========== ВИДЕО ПО КЛИКУ (модальное окно) и УНИВЕРСАЛЬНОЕ ВИДЕО ==========
+// ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ловушка фокуса для модального окна =====
+function trapFocus(modal) {
+  const focusable = modal.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+  const first = focusable[0];
+  const last = focusable[focusable.length - 1];
+
+  function handler(e) {
+    if (e.key !== "Tab") return;
+    if (e.shiftKey) {
+      if (document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
+  modal.addEventListener("keydown", handler);
+  return () => modal.removeEventListener("keydown", handler);
+}
+
+// ===== МОДАЛЬНЫЕ ОКНА И ВИДЕО =====
 document.addEventListener("DOMContentLoaded", function () {
+
   // --- Модальное окно «О музее» ---
   const btnAbout = document.getElementById("btnAboutMuseum");
   const aboutModal = document.getElementById("aboutMuseumModal");
   const aboutClose = document.getElementById("aboutMuseumClose");
 
   if (btnAbout && aboutModal) {
+    let removeTrap = null;
+
     function openAbout() {
       aboutModal.classList.add("active");
       document.body.classList.add("menu-open");
+      btnAbout.setAttribute("aria-expanded", "true");
+      // Переводим фокус на кнопку закрытия
+      requestAnimationFrame(() => aboutClose?.focus());
+      removeTrap = trapFocus(aboutModal);
     }
+
     function closeAbout() {
       aboutModal.classList.remove("active");
       document.body.classList.remove("menu-open");
+      btnAbout.setAttribute("aria-expanded", "false");
+      if (removeTrap) { removeTrap(); removeTrap = null; }
+      // Возвращаем фокус на кнопку открытия
+      btnAbout.focus();
     }
 
     btnAbout.addEventListener("click", openAbout);
-    aboutClose.addEventListener("click", closeAbout);
+    aboutClose?.addEventListener("click", closeAbout);
     aboutModal.addEventListener("click", (e) => {
       if (e.target === aboutModal) closeAbout();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAbout();
+      if (e.key === "Escape" && aboutModal.classList.contains("active")) closeAbout();
     });
   }
 
-  // --- Модальное окно для слайдера ---
+  // --- Модальное окно для видео (слайдер) ---
   const modal = document.getElementById("videoModal");
   const modalVideo = document.getElementById("modalVideo");
-  const closeBtn = document.querySelector(".close");
+  const closeBtn = modal?.querySelector(".close");
 
   if (modal && modalVideo && closeBtn) {
+    let removeTrap = null;
+    let triggerEl = null;
+
     const videoImages = document.querySelectorAll(
       ".swipe-slide img[data-video-src]",
     );
@@ -303,9 +411,13 @@ document.addEventListener("DOMContentLoaded", function () {
         e.stopPropagation();
         const videoSrc = this.dataset.videoSrc;
         if (videoSrc) {
+          triggerEl = this;
           modalVideo.querySelector("source").src = videoSrc;
           modalVideo.load();
           modal.style.display = "block";
+          modal.setAttribute("aria-hidden", "false");
+          requestAnimationFrame(() => closeBtn.focus());
+          removeTrap = trapFocus(modal);
           modalVideo.play().catch((error) => {
             console.log("Автовоспроизведение не удалось:", error);
           });
@@ -313,24 +425,26 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    closeBtn.addEventListener("click", function () {
+    function closeVideoModal() {
       modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
       modalVideo.pause();
       modalVideo.querySelector("source").src = "";
       modalVideo.load();
-    });
+      if (removeTrap) { removeTrap(); removeTrap = null; }
+      if (triggerEl) { triggerEl.focus(); triggerEl = null; }
+    }
 
-    window.addEventListener("click", function (event) {
-      if (event.target === modal) {
-        modal.style.display = "none";
-        modalVideo.pause();
-        modalVideo.querySelector("source").src = "";
-        modalVideo.load();
-      }
+    closeBtn.addEventListener("click", closeVideoModal);
+    window.addEventListener("click", (event) => {
+      if (event.target === modal) closeVideoModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && modal.style.display === "block") closeVideoModal();
     });
   }
 
-  // --- Универсальное видео по клику (video-gallery.html) ---
+  // --- Видео-галерея (video-gallery.html) ---
   const videoContainers = document.querySelectorAll(".video-container");
   videoContainers.forEach((container) => {
     const poster = container.querySelector(".video-poster");
@@ -343,15 +457,28 @@ document.addEventListener("DOMContentLoaded", function () {
     if (colorImg && poster.dataset.colorSrc) {
       colorImg.src = poster.dataset.colorSrc;
 
-      container.addEventListener("click", function () {
-        container.classList.toggle("playing");
+      function toggle() { container.classList.toggle("playing"); }
+      container.addEventListener("click", toggle);
+      container.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggle();
+        }
       });
 
-      // Режим «видео»
+    // Режим «видео»
     } else if (video) {
-      container.addEventListener("click", function () {
+      function playVideo() {
         container.classList.add("playing");
         video.play().catch((e) => console.log("Ошибка:", e));
+      }
+
+      container.addEventListener("click", playVideo);
+      container.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          playVideo();
+        }
       });
 
       video.addEventListener("ended", function () {
@@ -360,27 +487,139 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
   });
+
+  // --- Форма обратной связи ---
+  const contactForm = document.getElementById("contactForm");
+  if (contactForm) {
+    const submitBtn = document.getElementById("submitBtn");
+    const formStatus = document.getElementById("formStatus");
+
+    function showError(inputId, errorId, message) {
+      const input = document.getElementById(inputId);
+      const errorEl = document.getElementById(errorId);
+      if (input && errorEl) {
+        input.setAttribute("aria-invalid", "true");
+        errorEl.textContent = message;
+      }
+    }
+
+    function clearError(inputId, errorId) {
+      const input = document.getElementById(inputId);
+      const errorEl = document.getElementById(errorId);
+      if (input && errorEl) {
+        input.removeAttribute("aria-invalid");
+        errorEl.textContent = "";
+      }
+    }
+
+    function validateForm() {
+      let valid = true;
+
+      const name = document.getElementById("contactName")?.value.trim();
+      const email = document.getElementById("contactEmail")?.value.trim();
+      const message = document.getElementById("contactMessage")?.value.trim();
+      const consent = document.getElementById("contactConsent")?.checked;
+
+      clearError("contactName", "nameError");
+      clearError("contactEmail", "emailError");
+      clearError("contactMessage", "messageError");
+      clearError("contactConsent", "consentError");
+
+      if (!name) {
+        showError("contactName", "nameError", "Пожалуйста, укажите ваше имя.");
+        valid = false;
+      }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!email) {
+        showError("contactEmail", "emailError", "Пожалуйста, укажите email.");
+        valid = false;
+      } else if (!emailRegex.test(email)) {
+        showError("contactEmail", "emailError", "Введите корректный email-адрес.");
+        valid = false;
+      }
+
+      if (!message) {
+        showError("contactMessage", "messageError", "Пожалуйста, напишите сообщение.");
+        valid = false;
+      }
+
+      if (!consent) {
+        showError("contactConsent", "consentError", "Необходимо согласие на обработку данных.");
+        valid = false;
+      }
+
+      return valid;
+    }
+
+    contactForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      if (!validateForm()) {
+        // Ставим фокус на первое поле с ошибкой
+        const firstInvalid = contactForm.querySelector("[aria-invalid='true']");
+        firstInvalid?.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Отправка...";
+      formStatus.className = "form-status";
+      formStatus.textContent = "";
+
+      try {
+        // Имитация отправки (в реальном проекте — fetch к серверу или Formspree)
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+
+        formStatus.className = "form-status success";
+        formStatus.textContent = "Сообщение успешно отправлено! Мы ответим вам в ближайшее время.";
+        contactForm.reset();
+      } catch (err) {
+        formStatus.className = "form-status error";
+        formStatus.textContent = "Ошибка отправки. Пожалуйста, попробуйте ещё раз или напишите нам на email.";
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Отправить сообщение";
+        formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+    });
+
+    // Снятие ошибки при вводе
+    ["contactName", "contactEmail", "contactMessage"].forEach((id) => {
+      const input = document.getElementById(id);
+      const errorId = id.replace("contact", "").toLowerCase() + "Error";
+      input?.addEventListener("input", () => clearError(id, errorId));
+    });
+  }
+
 });
 
-// Функция для запуска музыки после первого клика
+// ===== ФОНОВАЯ МУЗЫКА =====
 function initMusic() {
   const music = document.getElementById("bg-music");
   if (!music) return;
-  // Устанавливаем небольшую громкость, чтобы не испугать пользователя
   music.volume = 0.3;
 
   music
     .play()
     .then(() => {
-      // Если запустилось удачно, удаляем слушатели клика
       document.removeEventListener("click", initMusic);
       document.removeEventListener("touchstart", initMusic);
     })
-    .catch((error) => {
+    .catch(() => {
       console.log("Автовоспроизведение заблокировано браузером");
     });
 }
 
-// Ждем любого взаимодействия пользователя со страницей
 document.addEventListener("click", initMusic);
 document.addEventListener("touchstart", initMusic);
+
+// ===== РЕГИСТРАЦИЯ SERVICE WORKER (PWA) =====
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then((reg) => console.log("Service Worker зарегистрирован:", reg.scope))
+      .catch((err) => console.log("Ошибка регистрации SW:", err));
+  });
+}

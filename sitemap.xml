@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+>
+  <url>
+    <loc>https://example.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://example.com/assets/portnova.webp</image:loc>
+      <image:title>Полина Сергеевна Портнова</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://example.com/gallery.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://example.com/assets/exhibits/exhibit_1.webp</image:loc>
+      <image:title>Резиновая игрушка Карлсон, 1970-е</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://example.com/assets/exhibits/exhibit_2.webp</image:loc>
+      <image:title>Детский утюг, 1970-е</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://example.com/portnova.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://example.com/assets/portnova.webp</image:loc>
+      <image:title>Портрет Полины Сергеевны Портновой</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://example.com/video-gallery.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <image:image>
+      <image:loc>https://example.com/assets/bw/img/photo1.webp</image:loc>
+      <image:title>Портнова Полина Сергеевна с воспитанниками, 1981 год</image:title>
+    </image:image>
+  </url>
+</urlset>
