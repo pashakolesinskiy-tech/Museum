@@ -444,49 +444,152 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- Видео-галерея (video-gallery.html) ---
-  const videoContainers = document.querySelectorAll(".video-container");
-  videoContainers.forEach((container) => {
-    const poster = container.querySelector(".video-poster");
-    const colorImg = container.querySelector(".color-reveal");
-    const video = container.querySelector("video.video-player");
+  // --- Видео-галерея: загрузка данных из встроенного <script id="gallery-data"> ---
+  const galleryContainer = document.getElementById("video-gallery-container");
 
-    if (!poster) return;
+  if (galleryContainer) {
 
-    // Режим «цветная картинка»
-    if (colorImg && poster.dataset.colorSrc) {
-      colorImg.src = poster.dataset.colorSrc;
+    // ── Строители HTML-карточек ────────────────────────────────────────────
 
-      function toggle() { container.classList.toggle("playing"); }
-      container.addEventListener("click", toggle);
-      container.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          toggle();
+    function buildVideoCard(item) {
+      const ariaLabel = `${item.caption} — нажмите для просмотра`;
+      return `
+        <div class="video-vertical-item animate-up" role="listitem">
+          <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
+            <img
+              src="${item.poster}"
+              alt="${item.alt}"
+              class="video-poster"
+              loading="lazy"
+            />
+            <video class="video-player" muted playsinline preload="metadata">
+              <source src="${item.video}" type="video/mp4" />
+              Ваш браузер не поддерживает видео.
+            </video>
+          </div>
+          <div class="video-caption">${item.caption}</div>
+        </div>`;
+    }
+
+    function buildColorCard(item) {
+      const ariaLabel = `${item.caption} — нажмите для перехода к цветной версии`;
+      return `
+        <div class="video-vertical-item animate-up" role="listitem">
+          <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
+            <img
+              src="${item.poster}"
+              data-color-src="${item.colorSrc}"
+              alt="${item.alt}"
+              class="video-poster"
+              loading="lazy"
+            />
+            <img src="" alt="${item.altColor || "Цветная версия"}" class="video-player color-reveal" />
+          </div>
+          <div class="video-caption">${item.caption}</div>
+        </div>`;
+    }
+
+    function buildImageCard(item) {
+      return `
+        <div class="video-vertical-item animate-up" role="listitem">
+          <div class="video-caption-only">
+            <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+            <div class="video-caption">${item.caption}</div>
+          </div>
+        </div>`;
+    }
+
+    // ── Инициализация интерактивности для одного контейнера ───────────────
+
+    function initVideoContainer(container) {
+      const poster   = container.querySelector(".video-poster");
+      const colorImg = container.querySelector(".color-reveal");
+      const video    = container.querySelector("video.video-player");
+
+      if (!poster) return;
+
+      if (colorImg && poster.dataset.colorSrc) {
+        colorImg.src = poster.dataset.colorSrc;
+        function toggle() { container.classList.toggle("playing"); }
+        container.addEventListener("click", toggle);
+        container.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+        });
+
+      } else if (video) {
+        function playVideo() {
+          container.classList.add("playing");
+          video.play().catch((e) => console.log("Ошибка воспроизведения:", e));
         }
-      });
+        container.addEventListener("click", playVideo);
+        container.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playVideo(); }
+        });
+        video.addEventListener("ended", () => {
+          container.classList.remove("playing");
+          video.currentTime = 0;
+        });
+      }
+    }
 
-    // Режим «видео»
-    } else if (video) {
-      function playVideo() {
-        container.classList.add("playing");
-        video.play().catch((e) => console.log("Ошибка:", e));
+    // ── Наблюдатель прокрутки для animate-up ──────────────────────────────
+
+    function observeNewItems(items) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+      );
+      items.forEach((el) => observer.observe(el));
+    }
+
+    // ── Рендер галереи из встроенного <script id="gallery-data"> ──────────
+
+    function loadGallery() {
+      const dataEl = document.getElementById("gallery-data");
+      if (!dataEl) {
+        console.error("Элемент #gallery-data не найден.");
+        return;
       }
 
-      container.addEventListener("click", playVideo);
-      container.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          playVideo();
-        }
-      });
+      let items;
+      try {
+        items = JSON.parse(dataEl.textContent);
+      } catch (err) {
+        console.error("Ошибка разбора gallery-data JSON:", err);
+        return;
+      }
 
-      video.addEventListener("ended", function () {
-        container.classList.remove("playing");
-        video.currentTime = 0;
-      });
+      if (!Array.isArray(items) || items.length === 0) return;
+
+      const fragment = document.createDocumentFragment();
+      const wrapper  = document.createElement("div");
+
+      for (const item of items) {
+        switch (item.type) {
+          case "video": wrapper.innerHTML = buildVideoCard(item); break;
+          case "color": wrapper.innerHTML = buildColorCard(item); break;
+          case "image": wrapper.innerHTML = buildImageCard(item); break;
+          default: continue;
+        }
+        fragment.appendChild(wrapper.firstElementChild);
+      }
+
+      galleryContainer.innerHTML = "";
+      galleryContainer.appendChild(fragment);
+
+      galleryContainer.querySelectorAll(".video-container").forEach(initVideoContainer);
+      observeNewItems(galleryContainer.querySelectorAll(".animate-up"));
     }
-  });
+
+    loadGallery();
+  }
 
   // --- Форма обратной связи ---
   const contactForm = document.getElementById("contactForm");

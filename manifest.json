@@ -1,63 +1,55 @@
 {
-  "name": "Виртуальный музей Детский сад №24",
-  "short_name": "Музей Портновой",
-  "description": "Виртуальный музей, посвящённый истории дошкольного учреждения «Детский сад №24 имени П.С. Портновой г. Полоцка»",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#060709",
-  "theme_color": "#d4af37",
-  "lang": "ru",
-  "orientation": "portrait-primary",
-  "icons": [
+  "items": [
     {
-      "src": "/assets/icons/icon-72.webp",
-      "sizes": "72x72",
-      "type": "image/png"
+      "type": "video",
+      "poster": "assets/bw/img/photo1.webp",
+      "video": "assets/bw/video/video1.mp4",
+      "caption": "Портнова Полина Сергеевна с воспитанниками (1981 год)",
+      "alt": "Чёрно-белое фото: Портнова Полина Сергеевна с воспитанниками, 1981 год"
     },
     {
-      "src": "/assets/icons/icon-96.webp",
-      "sizes": "96x96",
-      "type": "image/png"
+      "type": "video",
+      "poster": "assets/bw/img/photo2.webp",
+      "video": "assets/bw/video/video2.mp4",
+      "caption": "Воспитанники ясельной группы",
+      "alt": "Чёрно-белое фото: воспитанники ясельной группы"
     },
     {
-      "src": "/assets/icons/icon-128.webp",
-      "sizes": "128x128",
-      "type": "image/png"
+      "type": "video",
+      "poster": "assets/bw/img/photo3.webp",
+      "video": "assets/bw/video/video3.mp4",
+      "caption": "Воспитанники ясельной группы",
+      "alt": "Чёрно-белое фото: воспитанники ясельной группы"
     },
     {
-      "src": "/assets/icons/icon-144.webp",
-      "sizes": "144x144",
-      "type": "image/png"
+      "type": "video",
+      "poster": "assets/bw/img/photo4.webp",
+      "video": "assets/bw/video/video4.mp4",
+      "caption": "Воспитанники грудной группы Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944 год)",
+      "alt": "Чёрно-белое фото: воспитанники грудной группы Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1944 год"
     },
     {
-      "src": "/assets/icons/icon-152.webp",
-      "sizes": "152x152",
-      "type": "image/png"
+      "type": "color",
+      "poster": "assets/bw/img/photo5.webp",
+      "colorSrc": "assets/bw/img/photo5color.webp",
+      "caption": "Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1943 год)",
+      "alt": "Чёрно-белое фото: воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1943 год",
+      "altColor": "Цветная версия фото 1943 года"
     },
     {
-      "src": "/assets/icons/icon-192.webp",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "color",
+      "poster": "assets/bw/img/photo6.webp",
+      "colorSrc": "assets/bw/img/photo6color.webp",
+      "caption": "Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944 год)",
+      "alt": "Чёрно-белое фото: воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1944 год",
+      "altColor": "Цветная версия фото 1944 года"
     },
     {
-      "src": "/assets/icons/icon-384.webp",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "/assets/icons/icon-512.webp",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/assets/portnova.webp",
-      "sizes": "800x600",
-      "type": "image/jpeg",
-      "label": "Главная страница музея"
+      "type": "video",
+      "poster": "assets/bw/img/photo7.webp",
+      "video": "assets/bw/video/video7.mp4",
+      "caption": "Работники Детских яслей №1",
+      "alt": "Чёрно-белое фото: работники Детских яслей №1"
     }
   ]
 }
