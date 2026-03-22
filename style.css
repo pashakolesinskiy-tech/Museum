@@ -222,6 +222,7 @@ body.menu-open {
   display: flex;
   justify-content: center;
   align-items: center;
+  background: rgba(6, 7, 9, 0.65);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
   border-radius: 15px;
@@ -1187,6 +1188,174 @@ body.menu-open {
   border-left: 2px solid var(--accent);
   padding-left: 20px;
   margin-top: 24px !important;
+}
+
+
+/* ── Три зала в модальном окне ─────────────────────── */
+.modal-halls {
+  display: flex;
+  gap: 14px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+
+.modal-hall-card {
+  position: relative;
+  flex: 1;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 24px 16px 20px;
+  background: linear-gradient(
+    175deg,
+    rgba(255, 255, 255, 0.07) 0%,
+    rgba(212, 175, 55, 0.05) 40%,
+    rgba(10, 15, 24, 0.22) 100%
+  );
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+  transition:
+    border-color 0.35s ease,
+    background 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.modal-hall-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.modal-hall-card:hover {
+  border-color: rgba(212, 175, 55, 0.75);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45),
+    0 0 20px rgba(212, 175, 55, 0.1);
+}
+
+.modal-hall-card:hover::before {
+  opacity: 1;
+}
+
+/* Декоративные уголки */
+.modal-hall-card__corner {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(212, 175, 55, 0.55);
+  border-style: solid;
+}
+.modal-hall-card__corner.tl {
+  top: 8px;
+  left: 8px;
+  border-width: 1.5px 0 0 1.5px;
+}
+.modal-hall-card__corner.tr {
+  top: 8px;
+  right: 8px;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.modal-hall-card:hover .modal-hall-card__corner {
+  border-color: rgba(212, 175, 55, 0.9);
+}
+
+/* Римская цифра */
+/* Римский номер зала */
+.modal-hall-card__num {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 3.5px;
+  text-transform: uppercase;
+  line-height: 1;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  /* Тонкая черта снизу как разделитель */
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.25);
+  width: 100%;
+  text-align: center;
+}
+
+.modal-hall-card:hover .modal-hall-card__num {
+  opacity: 1;
+  border-bottom-color: rgba(212, 175, 55, 0.55);
+}
+
+/* Название зала */
+.modal-hall-card__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-style: italic;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.4;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+  transition: color 0.3s;
+  margin-top: 2px;
+}
+
+.modal-hall-card:hover .modal-hall-card__title {
+  color: var(--accent);
+}
+
+/* Подпись */
+.modal-hall-card__sub {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+  text-align: center;
+  line-height: 1.5;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+
+@media (max-width: 560px) {
+  .modal-halls {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-hall-card {
+    min-width: unset;
+    flex-direction: row;
+    text-align: left;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 16px;
+  }
+  .modal-hall-card__num {
+    font-size: 0.6rem;
+    border-bottom: none;
+    border-right: 1px solid rgba(212, 175, 55, 0.25);
+    padding-bottom: 0;
+    padding-right: 14px;
+    width: auto;
+    text-align: center;
+    min-width: 32px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-hall-card__title,
+  .modal-hall-card__sub {
+    text-align: left;
+  }
 }
 
 /* =================================================================
@@ -2256,4 +2425,168 @@ body.menu-open {
   background: rgba(224, 92, 92, 0.1);
   border: 1px solid rgba(224, 92, 92, 0.3);
   color: #fc8181;
+}
+/* ── Параллельный блок: портрет + стихотворение ───── */
+.bio-hero-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 60px;
+  margin-bottom: 60px;
+  justify-content: center;
+}
+
+.bio-portrait-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  flex-shrink: 0;
+  width: 280px;
+}
+
+.bio-poem-col {
+  flex: 1;
+  max-width: 480px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bio-poem--compact {
+  margin: 0;
+  padding: 28px 32px;
+  max-width: 100%;
+}
+
+.bio-poem--compact .bio-poem-stanza p {
+  font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+  line-height: 1.7;
+}
+
+.bio-poem--compact .bio-dedication {
+  font-size: clamp(0.7rem, 1.3vw, 0.85rem);
+  margin-bottom: 12px;
+}
+
+.bio-poem--compact .bio-poem-ornament {
+  margin: 0 0 12px;
+}
+.bio-poem--compact .bio-poem-ornament:last-child {
+  margin: 12px 0 0;
+}
+
+.bio-poem--compact .bio-poem-stanza {
+  margin-bottom: 14px;
+}
+
+/* ── Кнопки разделов ───────────────────────────────── */
+.bio-section-nav {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 72px;
+}
+
+.bio-section-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  padding: 30px 28px;
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
+  background: rgba(10, 15, 24, 0.55);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 24px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, background 0.35s ease,
+    transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.bio-section-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+}
+
+.bio-section-btn:hover {
+  border-color: rgba(212, 175, 55, 0.85);
+  background: rgba(10, 15, 24, 0.8);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5),
+    0 0 24px rgba(212, 175, 55, 0.12);
+}
+
+.bio-section-btn:hover::before {
+  opacity: 1;
+}
+
+.bio-section-btn__icon {
+  font-size: 1.3rem;
+  color: var(--accent);
+  opacity: 0.65;
+  transition: opacity 0.3s, transform 0.3s;
+  display: block;
+}
+
+.bio-section-btn:hover .bio-section-btn__icon {
+  opacity: 1;
+  transform: scale(1.15) rotate(12deg);
+}
+
+.bio-section-btn__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1rem, 1.8vw, 1.2rem);
+  color: var(--text);
+  text-align: center;
+  line-height: 1.3;
+  font-weight: 400;
+  letter-spacing: 0.3px;
+  transition: color 0.3s;
+}
+
+.bio-section-btn:hover .bio-section-btn__title {
+  color: var(--accent);
+}
+
+.bio-section-btn__sub {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .bio-hero-row {
+    flex-direction: column;
+    gap: 32px;
+  }
+  .bio-portrait-col {
+    width: auto;
+  }
+  .bio-poem-col {
+    max-width: 100%;
+    width: 100%;
+  }
+  .bio-section-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+  }
+  .bio-section-btn {
+    max-width: 100%;
+    min-width: unset;
+  }
 }
