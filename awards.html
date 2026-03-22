@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Награды и благодарности — Полина Сергеевна Портнова</title>
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="Награды и благодарности Полины Сергеевны Портновой — документы и свидетельства признания подвига основательницы детского сада №24 г. Полоцка."
+    />
+    <meta
+      name="keywords"
+      content="Полина Портнова, награды, благодарности, детский сад Полоцк, Великая Отечественная война"
+    />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="Награды и благодарности — Полина Сергеевна Портнова"
+    />
+    <meta
+      property="og:description"
+      content="Награды и благодарности Полины Сергеевны Портновой из фондов виртуального музея детского сада №24 г. Полоцка."
+    />
+    <meta property="og:image" content="assets/portnova.webp" />
+    <meta property="og:type" content="website" />
+
+    <!-- Performance: preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="gallery-page">
+    <a class="skip-link" href="#main-content"
+      >Перейти к основному содержимому</a
+    >
+
+    <header class="header" role="banner">
+      <div class="container nav">
+        <div class="logo">Музейная экспозиция</div>
+        <nav aria-label="Основная навигация">
+          <ul class="nav-menu" id="menu" role="list">
+            <li><a href="index.html">Главная</a></li>
+            <li><a href="gallery.html">Коллекция</a></li>
+            <li><a href="video-gallery.html">Видео-галерея</a></li>
+          </ul>
+        </nav>
+        <button
+          class="burger"
+          id="burger"
+          aria-label="Открыть меню навигации"
+          aria-expanded="false"
+          aria-controls="menu"
+        >
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main-content">
+      <section
+        class="bio-hero"
+        aria-label="Награды и благодарности Полины Сергеевны Портновой"
+      >
+        <div class="container">
+          <!-- Заголовок с кнопкой назад -->
+          <div class="archive-header animate-up">
+            <a
+              href="portnova.html"
+              class="archive-back-btn"
+              aria-label="Вернуться к странице Портновой"
+            >
+              <span aria-hidden="true">←</span> Полина Сергеевна Портнова
+            </a>
+            <h1 class="bio-gallery-title" style="margin-bottom: 0">
+              Награды и благодарности
+            </h1>
+            <p class="bio-gallery-sub">Полины Сергеевны Портновой</p>
+          </div>
+
+          <!--
+            Чтобы добавить/изменить фото — отредактируйте массив ниже.
+            Поля: src, alt (обязательные), caption (необязательное — подпись под фото)
+          -->
+          <!--
+            Поля: src, alt (обязательные)
+                  name — название награды
+                  date — дата (необязательно)
+                  note — вторая строка (необязательно)
+          -->
+          <script id="awards-data" type="application/json">
+            [
+              {
+                "src": "assets/awards/award-01.webp",
+                "alt": "Награда 1 — Полина Сергеевна Портнова",
+                "name": "Название награды",
+                "date": ""
+              }
+            ]
+          </script>
+
+          <div
+            class="gallery-grid"
+            id="awards-grid"
+            role="list"
+            aria-label="Награды и благодарности"
+          ></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>Виртуальный музей</h3>
+            <p>© 2026 Все права защищены</p>
+            <p>
+              Email:
+              <a
+                href="/cdn-cgi/l/email-protection#177e79717857617e656362767b7a626472627a39756e"
+                ><span
+                  class="__cf_email__"
+                  data-cfemail="bcd5d2dad3fccad5cec8c9ddd0d1c9cfd9c9d192dec5"
+                  >[email&#160;protected]</span
+                ></a
+              >
+            </p>
+            <p>Телефон: <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
+          </div>
+          <div class="footer-social">
+            <p>Мы в соцсетях:</p>
+            <a href="#" aria-label="VK">VK</a> |
+            <a href="#" aria-label="Telegram">Telegram</a> |
+            <a href="#" aria-label="YouTube">YouTube</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <audio id="bg-music" loop>
+      <source src="assets/audio/music-main.mp3" type="audio/mpeg" />
+      Ваш браузер не поддерживает аудио.
+    </audio>
+
+    <button
+      id="music-toggle"
+      class="music-toggle"
+      aria-label="Включить музыку"
+      aria-pressed="false"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <path class="note-icon" d="M9 18V5l12-2v13" />
+        <circle class="note-icon" cx="6" cy="18" r="3" />
+        <circle class="note-icon" cx="18" cy="16" r="3" />
+      </svg>
+      <svg
+        class="pause-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <rect x="6" y="4" width="4" height="16" rx="1" />
+        <rect x="14" y="4" width="4" height="16" rx="1" />
+      </svg>
+    </button>
+    <script src="script.js"></script>
+  </body>
+</html>

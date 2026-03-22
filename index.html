@@ -552,11 +552,13 @@
                 <div class="window-frame-corner tr" aria-hidden="true"></div>
                 <div class="window-shine" aria-hidden="true"></div>
                 <div class="card-image">
+                  <a href="https://polotsk-children.museum.by/">
                   <img
                     src="assets/about/about-03.webp"
                     alt="Познавательные игры для детей"
                     loading="lazy"
                   />
+                  </a>
                 </div>
                 <div class="window-sill" aria-hidden="true"></div>
               </div>
@@ -564,90 +566,7 @@
           </div>
         </div>
       </section>
-
-      <!-- Форма обратной связи
-    <section class="contact-section" id="contact" aria-label="Обратная связь">
-      <div class="container">
-        <h2 class="section-title">Контакты</h2>
-        <div class="contact-grid">
-          <div class="contact-info">
-            <h3>Музейная экспозиция</h3>
-            <p>Государственное учреждение образования<br />«Детский сад №24 имени П.С. Портновой г. Полоцка»</p>
-            <p>Email: <a href="mailto:info@virtualmuseum.by">info@virtualmuseum.by</a></p>
-            <p>Телефон: <a href="tel:+375291234567">+375 (29) 123-45-67</a></p>
-            <div class="contact-social">
-              <p>Мы в соцсетях:</p>
-              <a href="#" aria-label="VK — социальная сеть">VK</a> |
-              <a href="#" aria-label="Telegram-канал">Telegram</a> |
-              <a href="#" aria-label="YouTube-канал">YouTube</a>
-            </div>
-          </div>
-          <div class="contact-form-wrap">
-            <form class="contact-form" id="contactForm" novalidate aria-label="Форма обратной связи">
-              <div class="form-group">
-                <label for="contactName">Ваше имя <span aria-hidden="true">*</span></label>
-                <input
-                  type="text"
-                  id="contactName"
-                  name="name"
-                  required
-                  autocomplete="name"
-                  placeholder="Иван Иванов"
-                  aria-required="true"
-                />
-                <span class="field-error" id="nameError" role="alert" aria-live="polite"></span>
-              </div>
-              <div class="form-group">
-                <label for="contactEmail">Email <span aria-hidden="true">*</span></label>
-                <input
-                  type="email"
-                  id="contactEmail"
-                  name="email"
-                  required
-                  autocomplete="email"
-                  placeholder="example@mail.com"
-                  aria-required="true"
-                />
-                <span class="field-error" id="emailError" role="alert" aria-live="polite"></span>
-              </div>
-              <div class="form-group">
-                <label for="contactSubject">Тема</label>
-                <select id="contactSubject" name="subject" autocomplete="off">
-                  <option value="">— Выберите тему —</option>
-                  <option value="visit">Организация посещения</option>
-                  <option value="info">Информация об экспозиции</option>
-                  <option value="partnership">Сотрудничество</option>
-                  <option value="other">Другое</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label for="contactMessage">Сообщение <span aria-hidden="true">*</span></label>
-                <textarea
-                  id="contactMessage"
-                  name="message"
-                  required
-                  rows="5"
-                  placeholder="Напишите ваше сообщение..."
-                  aria-required="true"
-                ></textarea>
-                <span class="field-error" id="messageError" role="alert" aria-live="polite"></span>
-              </div>
-              <div class="form-group form-consent">
-                <label class="checkbox-label">
-                  <input type="checkbox" id="contactConsent" name="consent" required aria-required="true" />
-                  <span>Я согласен(на) на обработку персональных данных</span>
-                </label>
-                <span class="field-error" id="consentError" role="alert" aria-live="polite"></span>
-              </div>
-              <button type="submit" class="btn-museum btn-submit" id="submitBtn">
-                Отправить сообщение
-              </button>
-              <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section> -->
+      
     </main>
     <!-- /#main-content -->
 
@@ -696,6 +615,17 @@
       </div>
     </div>
 
+    <button id="music-toggle" class="music-toggle" aria-label="Включить музыку" aria-pressed="false">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path class="note-icon" d="M9 18V5l12-2v13"/>
+        <circle class="note-icon" cx="6" cy="18" r="3"/>
+        <circle class="note-icon" cx="18" cy="16" r="3"/>
+      </svg>
+      <svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="6" y="4" width="4" height="16" rx="1"/>
+        <rect x="14" y="4" width="4" height="16" rx="1"/>
+      </svg>
+    </button>
     <script src="script.js"></script>
   </body>
 </html>

@@ -135,6 +135,72 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   grid.appendChild(fragment);
 })();
 
+// ===== НАГРАДЫ И БЛАГОДАРНОСТИ: загрузка из встроенного JSON =====
+(function () {
+  const grid   = document.getElementById("awards-grid");
+  const dataEl = document.getElementById("awards-data");
+  if (!grid || !dataEl) return;
+
+  let items;
+  try { items = JSON.parse(dataEl.textContent); }
+  catch (e) { console.error("Ошибка awards-data JSON:", e); return; }
+
+  const fragment = document.createDocumentFragment();
+  const tmp      = document.createElement("div");
+
+  items.forEach((item) => {
+    const infoHtml = item.note
+      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
+      : item.date
+        ? `<span>${item.name}</span><h3>${item.date}</h3>`
+        : `<span>${item.name}</span>`;
+
+    tmp.innerHTML = `
+      <div class="gallery-item animate-up" role="listitem">
+        <div class="gallery-card">
+          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+          <div class="gallery-info">${infoHtml}</div>
+        </div>
+      </div>`;
+    fragment.appendChild(tmp.firstElementChild);
+  });
+
+  grid.appendChild(fragment);
+})();
+
+// ===== ЛИЧНЫЙ АРХИВ: загрузка из встроенного JSON =====
+(function () {
+  const grid   = document.getElementById("archive-grid");
+  const dataEl = document.getElementById("archive-data");
+  if (!grid || !dataEl) return;
+
+  let items;
+  try { items = JSON.parse(dataEl.textContent); }
+  catch (e) { console.error("Ошибка archive-data JSON:", e); return; }
+
+  const fragment = document.createDocumentFragment();
+  const tmp      = document.createElement("div");
+
+  items.forEach((item) => {
+    const infoHtml = item.note
+      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
+      : item.date
+        ? `<span>${item.name}</span><h3>${item.date}</h3>`
+        : `<span>${item.name}</span>`;
+
+    tmp.innerHTML = `
+      <div class="gallery-item animate-up" role="listitem">
+        <div class="gallery-card">
+          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+          <div class="gallery-info">${infoHtml}</div>
+        </div>
+      </div>`;
+    fragment.appendChild(tmp.firstElementChild);
+  });
+
+  grid.appendChild(fragment);
+})();
+
 // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
 
