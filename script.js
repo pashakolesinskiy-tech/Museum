@@ -797,25 +797,56 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-// ===== ФОНОВАЯ МУЗЫКА =====
-function initMusic() {
+// ===== ФОНОВАЯ МУЗЫКА С КНОПКОЙ-НОТОЙ =====
+(function () {
   const music = document.getElementById("bg-music");
+  const btn   = document.getElementById("music-toggle");
   if (!music) return;
+
   music.volume = 0.3;
+  let started = false;
 
-  music
-    .play()
-    .then(() => {
-      document.removeEventListener("click", initMusic);
-      document.removeEventListener("touchstart", initMusic);
-    })
-    .catch(() => {
-      console.log("Автовоспроизведение заблокировано браузером");
+  function setPlaying(on) {
+    if (!btn) return;
+    btn.classList.toggle("is-playing", on);
+    btn.setAttribute("aria-label",  on ? "Выключить музыку" : "Включить музыку");
+    btn.setAttribute("aria-pressed", String(on));
+  }
+
+  // Запуск при первом клике где угодно (кроме самой кнопки)
+  function tryStart() {
+    if (started) return;
+    started = true;
+    document.removeEventListener("click",      tryStart, true);
+    document.removeEventListener("touchstart", tryStart, true);
+    music.play().then(() => setPlaying(true)).catch(() => { started = false; });
+  }
+
+  // capture:true — перехватываем до любого stopPropagation
+  document.addEventListener("click",      tryStart, true);
+  document.addEventListener("touchstart", tryStart, true);
+
+  // Кнопка: toggle play / pause
+  if (btn) {
+    btn.addEventListener("click", () => {
+      if (!started) {
+        // Первый клик пришёл именно на кнопку
+        started = true;
+        document.removeEventListener("click",      tryStart, true);
+        document.removeEventListener("touchstart", tryStart, true);
+        music.play().then(() => setPlaying(true)).catch(() => { started = false; });
+      } else if (music.paused) {
+        music.play().then(() => setPlaying(true)).catch(() => {});
+      } else {
+        music.pause();
+        setPlaying(false);
+      }
     });
-}
+  }
 
-document.addEventListener("click", initMusic);
-document.addEventListener("touchstart", initMusic);
+  music.addEventListener("pause", () => setPlaying(false));
+  music.addEventListener("play",  () => setPlaying(true));
+})();
 
 // ===== РЕГИСТРАЦИЯ SERVICE WORKER (PWA) =====
 if ("serviceWorker" in navigator) {
