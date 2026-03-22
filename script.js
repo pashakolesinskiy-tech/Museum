@@ -201,6 +201,39 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   grid.appendChild(fragment);
 })();
 
+// ===== КНИГИ И СМИ: загрузка из встроенного JSON =====
+(function () {
+  const grid   = document.getElementById("books-grid");
+  const dataEl = document.getElementById("books-data");
+  if (!grid || !dataEl) return;
+
+  let items;
+  try { items = JSON.parse(dataEl.textContent); }
+  catch (e) { console.error("Ошибка books-data JSON:", e); return; }
+
+  const fragment = document.createDocumentFragment();
+  const tmp      = document.createElement("div");
+
+  items.forEach((item) => {
+    const infoHtml = item.note
+      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
+      : item.date
+        ? `<span>${item.name}</span><h3>${item.date}</h3>`
+        : `<span>${item.name}</span>`;
+
+    tmp.innerHTML = `
+      <div class="gallery-item animate-up" role="listitem">
+        <div class="gallery-card">
+          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+          <div class="gallery-info">${infoHtml}</div>
+        </div>
+      </div>`;
+    fragment.appendChild(tmp.firstElementChild);
+  });
+
+  grid.appendChild(fragment);
+})();
+
 // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
 
@@ -809,11 +842,11 @@ document.addEventListener("DOMContentLoaded", function () {
   function setPlaying(on) {
     if (!btn) return;
     btn.classList.toggle("is-playing", on);
-    btn.setAttribute("aria-label",  on ? "Выключить музыку" : "Включить музыку");
-    btn.setAttribute("aria-pressed", String(on));
+    btn.setAttribute("aria-label",   on ? "Выключить музыку" : "Включить музыку");
+    btn.setAttribute("aria-pressed",  String(on));
   }
 
-  // Запуск при первом клике где угодно (кроме самой кнопки)
+  // Первый клик где угодно (capture — раньше всех остальных обработчиков)
   function tryStart() {
     if (started) return;
     started = true;
@@ -822,15 +855,13 @@ document.addEventListener("DOMContentLoaded", function () {
     music.play().then(() => setPlaying(true)).catch(() => { started = false; });
   }
 
-  // capture:true — перехватываем до любого stopPropagation
   document.addEventListener("click",      tryStart, true);
   document.addEventListener("touchstart", tryStart, true);
 
-  // Кнопка: toggle play / pause
+  // Кнопка: включить / выключить
   if (btn) {
     btn.addEventListener("click", () => {
       if (!started) {
-        // Первый клик пришёл именно на кнопку
         started = true;
         document.removeEventListener("click",      tryStart, true);
         document.removeEventListener("touchstart", tryStart, true);
