@@ -57,7 +57,7 @@ body {
       rgba(20, 25, 35, 0.4) 50%,
       rgba(6, 7, 9, 0.5) 100%
     ),
-    url("assets/Background.webp");
+    url("assets/background.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -1153,7 +1153,7 @@ body.menu-open {
       rgba(20, 25, 35, 0.65) 50%,
       rgba(6, 7, 9, 0.72) 100%
     ),
-    url("assets/Background.webp");
+    url("assets/background.webp");
   background-size: cover;
   background-position: center;
   backdrop-filter: blur(18px);

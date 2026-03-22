@@ -101,6 +101,40 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   goToSlide(0);
 }
 
+// ===== ГАЛЕРЕЯ ЭКСПОНАТОВ: загрузка из встроенного JSON =====
+(function () {
+  const grid    = document.getElementById("gallery-grid");
+  const dataEl  = document.getElementById("gallery-data");
+  if (!grid || !dataEl) return;
+
+  let items;
+  try { items = JSON.parse(dataEl.textContent); }
+  catch (e) { console.error("Ошибка gallery-data JSON:", e); return; }
+
+  const fragment = document.createDocumentFragment();
+  const tmp      = document.createElement("div");
+
+  items.forEach((item) => {
+    const dateHtml = item.note
+      ? `Дата выпуска: ${item.date}<br />${item.note}`
+      : `Дата выпуска: ${item.date}`;
+
+    tmp.innerHTML = `
+      <div class="gallery-item animate-up" role="listitem">
+        <div class="gallery-card">
+          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+          <div class="gallery-info">
+            <span>${item.name}</span>
+            <h3>${dateHtml}</h3>
+          </div>
+        </div>
+      </div>`;
+    fragment.appendChild(tmp.firstElementChild);
+  });
+
+  grid.appendChild(fragment);
+})();
+
 // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
 
