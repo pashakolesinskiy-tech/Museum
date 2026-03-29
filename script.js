@@ -12,14 +12,14 @@ function renderHeader() {
   const page = location.pathname.split("/").pop() || "index.html";
 
   const allLinks = [
-    { href: "index.html",       text: "Главная" },
-    { href: "gallery.html",     text: "Коллекция" },
+    { href: "index.html", text: "Главная" },
+    { href: "gallery.html", text: "Коллекция" },
     { href: "video-gallery.html", text: "Видео-галерея" },
   ];
 
   const navItems = allLinks
-    .filter(l => l.href !== page)
-    .map(l => `<li><a href="${l.href}">${l.text}</a></li>`)
+    .filter((l) => l.href !== page)
+    .map((l) => `<li><a href="${l.href}">${l.text}</a></li>`)
     .join("\n            ");
 
   el.className = "header";
@@ -52,9 +52,10 @@ function renderFooter() {
   if (!el) return;
 
   const page = location.pathname.split("/").pop() || "index.html";
-  const title = (page === "gallery.html" || page === "video-gallery.html")
-    ? "Музейная экспозиция"
-    : "Виртуальный музей";
+  const title =
+    page === "gallery.html" || page === "video-gallery.html"
+      ? "Музейная экспозиция"
+      : "Виртуальный музей";
 
   el.className = "footer";
   el.setAttribute("role", "contentinfo");
@@ -188,7 +189,8 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
  * Формат: название + опциональная дата + опциональная заметка.
  */
 function buildStandardInfo(item) {
-  if (item.note) return `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`;
+  if (item.note)
+    return `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`;
   if (item.date) return `<span>${item.name}</span><h3>${item.date}</h3>`;
   return `<span>${item.name}</span>`;
 }
@@ -211,16 +213,20 @@ function buildExhibitInfo(item) {
  * @param {Function} buildInfo — функция (item) => строка HTML для .gallery-info
  */
 function renderGrid(gridId, dataId, buildInfo) {
-  const grid   = document.getElementById(gridId);
+  const grid = document.getElementById(gridId);
   const dataEl = document.getElementById(dataId);
   if (!grid || !dataEl) return;
 
   let items;
-  try { items = JSON.parse(dataEl.textContent); }
-  catch (e) { console.error(`Ошибка ${dataId} JSON:`, e); return; }
+  try {
+    items = JSON.parse(dataEl.textContent);
+  } catch (e) {
+    console.error(`Ошибка ${dataId} JSON:`, e);
+    return;
+  }
 
   const fragment = document.createDocumentFragment();
-  const tmp      = document.createElement("div");
+  const tmp = document.createElement("div");
 
   items.forEach((item) => {
     tmp.innerHTML = `
@@ -237,12 +243,12 @@ function renderGrid(gridId, dataId, buildInfo) {
 }
 
 // Страница gallery.html — экспонаты (особый формат даты)
-renderGrid("gallery-grid",  "gallery-data",  buildExhibitInfo);
+renderGrid("gallery-grid", "gallery-data", buildExhibitInfo);
 
 // Страницы awards / personal-archive / media — единый формат
-renderGrid("awards-grid",   "awards-data",   buildStandardInfo);
-renderGrid("archive-grid",  "archive-data",  buildStandardInfo);
-renderGrid("books-grid",    "books-data",    buildStandardInfo);
+renderGrid("awards-grid", "awards-data", buildStandardInfo);
+renderGrid("archive-grid", "archive-data", buildStandardInfo);
+renderGrid("books-grid", "books-data", buildStandardInfo);
 
 // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
@@ -431,11 +437,15 @@ if (animatedElements.length > 0) {
     isDragging = false;
   }
 
-  carousel3d.addEventListener("touchstart", (e) => {
-    startX = e.touches[0].clientX;
-    isDragging = true;
-    didDrag = false;
-  }, { passive: true });
+  carousel3d.addEventListener(
+    "touchstart",
+    (e) => {
+      startX = e.touches[0].clientX;
+      isDragging = true;
+      didDrag = false;
+    },
+    { passive: true },
+  );
 
   carousel3d.addEventListener("touchend", (e) => {
     if (isDragging) handleSwipe(e.changedTouches[0].clientX);
@@ -473,7 +483,7 @@ if (animatedElements.length > 0) {
 // ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ловушка фокуса для модального окна =====
 function trapFocus(modal) {
   const focusable = modal.querySelectorAll(
-    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
   );
   const first = focusable[0];
   const last = focusable[focusable.length - 1];
@@ -499,7 +509,6 @@ function trapFocus(modal) {
 
 // ===== МОДАЛЬНЫЕ ОКНА И ВИДЕО =====
 document.addEventListener("DOMContentLoaded", function () {
-
   // --- Модальное окно «О музее» ---
   const btnAbout = document.getElementById("btnAboutMuseum");
   const aboutModal = document.getElementById("aboutMuseumModal");
@@ -521,7 +530,10 @@ document.addEventListener("DOMContentLoaded", function () {
       aboutModal.classList.remove("active");
       document.body.classList.remove("menu-open");
       btnAbout.setAttribute("aria-expanded", "false");
-      if (removeTrap) { removeTrap(); removeTrap = null; }
+      if (removeTrap) {
+        removeTrap();
+        removeTrap = null;
+      }
       // Возвращаем фокус на кнопку открытия
       btnAbout.focus();
     }
@@ -532,7 +544,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (e.target === aboutModal) closeAbout();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && aboutModal.classList.contains("active")) closeAbout();
+      if (e.key === "Escape" && aboutModal.classList.contains("active"))
+        closeAbout();
     });
   }
 
@@ -574,8 +587,14 @@ document.addEventListener("DOMContentLoaded", function () {
       modalVideo.pause();
       modalVideo.querySelector("source").src = "";
       modalVideo.load();
-      if (removeTrap) { removeTrap(); removeTrap = null; }
-      if (triggerEl) { triggerEl.focus(); triggerEl = null; }
+      if (removeTrap) {
+        removeTrap();
+        removeTrap = null;
+      }
+      if (triggerEl) {
+        triggerEl.focus();
+        triggerEl = null;
+      }
     }
 
     closeBtn.addEventListener("click", closeVideoModal);
@@ -583,7 +602,8 @@ document.addEventListener("DOMContentLoaded", function () {
       if (event.target === modal) closeVideoModal();
     });
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && modal.style.display === "block") closeVideoModal();
+      if (e.key === "Escape" && modal.style.display === "block")
+        closeVideoModal();
     });
   }
 
@@ -591,7 +611,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const galleryContainer = document.getElementById("video-gallery-container");
 
   if (galleryContainer) {
-
     // ── Строители HTML-карточек ────────────────────────────────────────────
 
     function buildVideoCard(item) {
@@ -645,20 +664,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // ── Инициализация интерактивности для одного контейнера ───────────────
 
     function initVideoContainer(container) {
-      const poster   = container.querySelector(".video-poster");
+      const poster = container.querySelector(".video-poster");
       const colorImg = container.querySelector(".color-reveal");
-      const video    = container.querySelector("video.video-player");
+      const video = container.querySelector("video.video-player");
 
       if (!poster) return;
 
       if (colorImg && poster.dataset.colorSrc) {
         colorImg.src = poster.dataset.colorSrc;
-        function toggle() { container.classList.toggle("playing"); }
+        function toggle() {
+          container.classList.toggle("playing");
+        }
         container.addEventListener("click", toggle);
         container.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); }
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            toggle();
+          }
         });
-
       } else if (video) {
         function playVideo() {
           container.classList.add("playing");
@@ -666,7 +689,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
         container.addEventListener("click", playVideo);
         container.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); playVideo(); }
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            playVideo();
+          }
         });
         video.addEventListener("ended", () => {
           container.classList.remove("playing");
@@ -687,7 +713,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
           });
         },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
       );
       items.forEach((el) => observer.observe(el));
     }
@@ -712,14 +738,21 @@ document.addEventListener("DOMContentLoaded", function () {
       if (!Array.isArray(items) || items.length === 0) return;
 
       const fragment = document.createDocumentFragment();
-      const wrapper  = document.createElement("div");
+      const wrapper = document.createElement("div");
 
       for (const item of items) {
         switch (item.type) {
-          case "video": wrapper.innerHTML = buildVideoCard(item); break;
-          case "color": wrapper.innerHTML = buildColorCard(item); break;
-          case "image": wrapper.innerHTML = buildImageCard(item); break;
-          default: continue;
+          case "video":
+            wrapper.innerHTML = buildVideoCard(item);
+            break;
+          case "color":
+            wrapper.innerHTML = buildColorCard(item);
+            break;
+          case "image":
+            wrapper.innerHTML = buildImageCard(item);
+            break;
+          default:
+            continue;
         }
         fragment.appendChild(wrapper.firstElementChild);
       }
@@ -727,7 +760,9 @@ document.addEventListener("DOMContentLoaded", function () {
       galleryContainer.innerHTML = "";
       galleryContainer.appendChild(fragment);
 
-      galleryContainer.querySelectorAll(".video-container").forEach(initVideoContainer);
+      galleryContainer
+        .querySelectorAll(".video-container")
+        .forEach(initVideoContainer);
       observeNewItems(galleryContainer.querySelectorAll(".animate-up"));
     }
 
@@ -781,17 +816,29 @@ document.addEventListener("DOMContentLoaded", function () {
         showError("contactEmail", "emailError", "Пожалуйста, укажите email.");
         valid = false;
       } else if (!emailRegex.test(email)) {
-        showError("contactEmail", "emailError", "Введите корректный email-адрес.");
+        showError(
+          "contactEmail",
+          "emailError",
+          "Введите корректный email-адрес.",
+        );
         valid = false;
       }
 
       if (!message) {
-        showError("contactMessage", "messageError", "Пожалуйста, напишите сообщение.");
+        showError(
+          "contactMessage",
+          "messageError",
+          "Пожалуйста, напишите сообщение.",
+        );
         valid = false;
       }
 
       if (!consent) {
-        showError("contactConsent", "consentError", "Необходимо согласие на обработку данных.");
+        showError(
+          "contactConsent",
+          "consentError",
+          "Необходимо согласие на обработку данных.",
+        );
         valid = false;
       }
 
@@ -818,11 +865,13 @@ document.addEventListener("DOMContentLoaded", function () {
         await new Promise((resolve) => setTimeout(resolve, 1200));
 
         formStatus.className = "form-status success";
-        formStatus.textContent = "Сообщение успешно отправлено! Мы ответим вам в ближайшее время.";
+        formStatus.textContent =
+          "Сообщение успешно отправлено! Мы ответим вам в ближайшее время.";
         contactForm.reset();
       } catch (err) {
         formStatus.className = "form-status error";
-        formStatus.textContent = "Ошибка отправки. Пожалуйста, попробуйте ещё раз или напишите нам на email.";
+        formStatus.textContent =
+          "Ошибка отправки. Пожалуйста, попробуйте ещё раз или напишите нам на email.";
       } finally {
         submitBtn.disabled = false;
         submitBtn.textContent = "Отправить сообщение";
@@ -837,13 +886,12 @@ document.addEventListener("DOMContentLoaded", function () {
       input?.addEventListener("input", () => clearError(id, errorId));
     });
   }
-
 });
 
 // ===== ФОНОВАЯ МУЗЫКА С КНОПКОЙ-НОТОЙ =====
 (function () {
   const music = document.getElementById("bg-music");
-  const btn   = document.getElementById("music-toggle");
+  const btn = document.getElementById("music-toggle");
   if (!music) return;
 
   music.volume = 0.3;
@@ -852,8 +900,8 @@ document.addEventListener("DOMContentLoaded", function () {
   function setPlaying(on) {
     if (!btn) return;
     btn.classList.toggle("is-playing", on);
-    btn.setAttribute("aria-label",   on ? "Выключить музыку" : "Включить музыку");
-    btn.setAttribute("aria-pressed",  String(on));
+    btn.setAttribute("aria-label", on ? "Выключить музыку" : "Включить музыку");
+    btn.setAttribute("aria-pressed", String(on));
   }
 
   // Музыка запускается только по нажатию на кнопку-ноту
@@ -861,9 +909,17 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.addEventListener("click", () => {
       if (!started) {
         started = true;
-        music.play().then(() => setPlaying(true)).catch(() => { started = false; });
+        music
+          .play()
+          .then(() => setPlaying(true))
+          .catch(() => {
+            started = false;
+          });
       } else if (music.paused) {
-        music.play().then(() => setPlaying(true)).catch(() => {});
+        music
+          .play()
+          .then(() => setPlaying(true))
+          .catch(() => {});
       } else {
         music.pause();
         setPlaying(false);
@@ -872,7 +928,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   music.addEventListener("pause", () => setPlaying(false));
-  music.addEventListener("play",  () => setPlaying(true));
+  music.addEventListener("play", () => setPlaying(true));
 })();
 
 // ===== РЕГИСТРАЦИЯ SERVICE WORKER (PWA) =====

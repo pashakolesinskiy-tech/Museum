@@ -182,7 +182,10 @@ body {
   border-radius: 10px;
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  transition: border-color 0.35s ease, background 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    border-color 0.35s ease,
+    background 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .burger:hover {
@@ -200,9 +203,17 @@ body {
 }
 
 /* Три черты разной длины — элегантный асимметричный штрих */
-.burger span:nth-child(1) { width: 18px; }
-.burger span:nth-child(2) { width: 12px; align-self: flex-start; margin-left: 11px; }
-.burger span:nth-child(3) { width: 18px; }
+.burger span:nth-child(1) {
+  width: 18px;
+}
+.burger span:nth-child(2) {
+  width: 12px;
+  align-self: flex-start;
+  margin-left: 11px;
+}
+.burger span:nth-child(3) {
+  width: 18px;
+}
 
 .burger:hover span {
   background-color: var(--accent);
@@ -368,9 +379,11 @@ body.menu-open {
   border-radius: 50%;
   cursor: pointer;
   z-index: 10;
-  transition: background 0.3s ease, border-color 0.3s ease,
-              transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1),
-              box-shadow 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1),
+    box-shadow 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -387,7 +400,9 @@ body.menu-open {
 .swipe-btn:hover {
   background: rgba(6, 7, 9, 0.92);
   border-color: rgba(212, 175, 55, 1);
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.25), 0 4px 20px rgba(0, 0, 0, 0.6);
+  box-shadow:
+    0 0 20px rgba(212, 175, 55, 0.25),
+    0 4px 20px rgba(0, 0, 0, 0.6);
   transform: translateY(-50%) scale(1.08);
 }
 
@@ -644,8 +659,11 @@ body.menu-open {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   color: rgba(245, 247, 250, 0.65);
-  font-size: 0;          /* скрываем символ × */
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  font-size: 0; /* скрываем символ × */
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 /* Рисуем крест через псевдоэлементы */
@@ -659,8 +677,12 @@ body.menu-open {
   border-radius: 2px;
   transition: background 0.3s ease;
 }
-.close::before { transform: rotate(45deg); }
-.close::after  { transform: rotate(-45deg); }
+.close::before {
+  transform: rotate(45deg);
+}
+.close::after {
+  transform: rotate(-45deg);
+}
 
 .close:hover {
   border-color: rgba(212, 175, 55, 0.75);
@@ -1019,11 +1041,15 @@ body.menu-open {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
-  transition: border-color 0.3s ease, box-shadow 0.5s ease;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.5s ease;
 }
 .visitor-card:hover .window-glass {
   border-color: rgba(212, 175, 55, 0.7);
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.55), 0 0 30px rgba(212, 175, 55, 0.1);
+  box-shadow:
+    0 28px 60px rgba(0, 0, 0, 0.55),
+    0 0 30px rgba(212, 175, 55, 0.1);
 }
 
 /* Декоративные уголки рамки */
@@ -1223,7 +1249,10 @@ body.menu-open {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   font-size: 0;
-  transition: border-color 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    border-color 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .about-modal-close::before,
@@ -1236,8 +1265,12 @@ body.menu-open {
   border-radius: 2px;
   transition: background 0.3s ease;
 }
-.about-modal-close::before { transform: rotate(45deg); }
-.about-modal-close::after  { transform: rotate(-45deg); }
+.about-modal-close::before {
+  transform: rotate(45deg);
+}
+.about-modal-close::after {
+  transform: rotate(-45deg);
+}
 
 .about-modal-close:hover {
   border-color: rgba(212, 175, 55, 0.7);
@@ -1283,7 +1316,6 @@ body.menu-open {
   margin-top: 24px !important;
 }
 
-
 /* ── Три зала в модальном окне ─────────────────────── */
 .modal-halls {
   display: flex;
@@ -1324,7 +1356,11 @@ body.menu-open {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.08) 0%,
+    transparent 60%
+  );
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -1332,7 +1368,8 @@ body.menu-open {
 .modal-hall-card:hover {
   border-color: rgba(212, 175, 55, 0.75);
   transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45),
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.45),
     0 0 20px rgba(212, 175, 55, 0.1);
 }
 
@@ -2363,7 +2400,9 @@ body.menu-open {
   font-weight: 500;
   transition: opacity 0.2s;
 }
-.contact-social a:hover { opacity: 0.75; }
+.contact-social a:hover {
+  opacity: 0.75;
+}
 
 /* Форма */
 .contact-form {
@@ -2403,7 +2442,9 @@ body.menu-open {
   color: var(--text);
   font-family: var(--font-sans);
   font-size: 0.95rem;
-  transition: border-color 0.25s, box-shadow 0.25s;
+  transition:
+    border-color 0.25s,
+    box-shadow 0.25s;
   width: 100%;
 }
 
@@ -2472,7 +2513,9 @@ body.menu-open {
 .btn-submit {
   align-self: flex-start;
   cursor: pointer;
-  transition: opacity 0.2s, transform 0.2s;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
 }
 .btn-submit:disabled {
   opacity: 0.6;
@@ -2579,15 +2622,22 @@ body.menu-open {
   -webkit-backdrop-filter: blur(12px);
   position: relative;
   overflow: hidden;
-  transition: border-color 0.35s ease, background 0.35s ease,
-    transform 0.35s ease, box-shadow 0.35s ease;
+  transition:
+    border-color 0.35s ease,
+    background 0.35s ease,
+    transform 0.35s ease,
+    box-shadow 0.35s ease;
 }
 
 .bio-section-btn::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, transparent 65%);
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.08) 0%,
+    transparent 65%
+  );
   opacity: 0;
   transition: opacity 0.35s ease;
 }
@@ -2596,7 +2646,8 @@ body.menu-open {
   border-color: rgba(212, 175, 55, 0.85);
   background: rgba(10, 15, 24, 0.8);
   transform: translateY(-5px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.5),
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.5),
     0 0 24px rgba(212, 175, 55, 0.12);
 }
 
@@ -2608,7 +2659,9 @@ body.menu-open {
   font-size: 1.3rem;
   color: var(--accent);
   opacity: 0.65;
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
   display: block;
 }
 
@@ -2676,7 +2729,12 @@ body.menu-open {
   display: block;
   width: 50%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.45), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(212, 175, 55, 0.45),
+    transparent
+  );
   align-self: stretch;
 }
 
@@ -2749,12 +2807,23 @@ body.menu-open {
   animation: gallery-pulse 1.2s ease-in-out infinite;
 }
 
-.gallery-loading__dot:nth-child(2) { animation-delay: 0.2s; }
-.gallery-loading__dot:nth-child(3) { animation-delay: 0.4s; }
+.gallery-loading__dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.gallery-loading__dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
 
 @keyframes gallery-pulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50%       { opacity: 1;   transform: scale(1.4); }
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
 }
 
 .gallery-error {
@@ -2811,7 +2880,9 @@ body.menu-open {
   border: 1px solid rgba(212, 175, 55, 0.25);
   border-radius: 40px;
   padding: 8px 20px;
-  transition: color 0.3s, border-color 0.3s;
+  transition:
+    color 0.3s,
+    border-color 0.3s;
 }
 
 .archive-back-btn:hover {
@@ -2843,7 +2914,11 @@ body.menu-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: border-color 0.3s, background 0.3s, transform 0.3s, box-shadow 0.3s;
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    transform 0.3s,
+    box-shadow 0.3s;
   padding: 0;
 }
 
@@ -2872,17 +2947,32 @@ body.menu-open {
 }
 
 /* Нота видна по умолчанию, пауза скрыта */
-.music-toggle svg:first-child  { opacity: 1; position: absolute; }
-.music-toggle svg.pause-icon   { opacity: 0; position: absolute; }
+.music-toggle svg:first-child {
+  opacity: 1;
+  position: absolute;
+}
+.music-toggle svg.pause-icon {
+  opacity: 0;
+  position: absolute;
+}
 
 /* Когда играет — показываем паузу, прячем ноту */
-.music-toggle.is-playing svg:first-child { opacity: 0; }
-.music-toggle.is-playing svg.pause-icon  { opacity: 1; }
+.music-toggle.is-playing svg:first-child {
+  opacity: 0;
+}
+.music-toggle.is-playing svg.pause-icon {
+  opacity: 1;
+}
 
 /* Пульсация когда музыка играет */
 @keyframes music-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
-  50%       { box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.15); }
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(212, 175, 55, 0.15);
+  }
 }
 
 .music-toggle.is-playing {
