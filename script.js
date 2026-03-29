@@ -1,3 +1,83 @@
+// ===== ШАПКА И ПОДВАЛ =====
+
+/**
+ * Рисует шапку в <header id="site-header">.
+ * Из трёх стандартных ссылок автоматически убирает ту,
+ * на странице которой мы находимся.
+ */
+function renderHeader() {
+  const el = document.getElementById("site-header");
+  if (!el) return;
+
+  const page = location.pathname.split("/").pop() || "index.html";
+
+  const allLinks = [
+    { href: "index.html",       text: "Главная" },
+    { href: "gallery.html",     text: "Коллекция" },
+    { href: "video-gallery.html", text: "Видео-галерея" },
+  ];
+
+  const navItems = allLinks
+    .filter(l => l.href !== page)
+    .map(l => `<li><a href="${l.href}">${l.text}</a></li>`)
+    .join("\n            ");
+
+  el.className = "header";
+  el.setAttribute("role", "banner");
+  el.innerHTML = `
+    <div class="container nav">
+      <div class="logo">Музейная экспозиция</div>
+      <nav aria-label="Основная навигация">
+        <ul class="nav-menu" id="menu" role="list">
+            ${navItems}
+        </ul>
+      </nav>
+      <button class="burger" id="burger"
+        aria-label="Открыть меню навигации"
+        aria-expanded="false" aria-controls="menu">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
+    </div>`;
+}
+
+/**
+ * Рисует подвал в <footer id="site-footer">.
+ * Заголовок зависит от страницы: галерейные → «Музейная экспозиция»,
+ * остальные → «Виртуальный музей».
+ */
+function renderFooter() {
+  const el = document.getElementById("site-footer");
+  if (!el) return;
+
+  const page = location.pathname.split("/").pop() || "index.html";
+  const title = (page === "gallery.html" || page === "video-gallery.html")
+    ? "Музейная экспозиция"
+    : "Виртуальный музей";
+
+  el.className = "footer";
+  el.setAttribute("role", "contentinfo");
+  el.innerHTML = `
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <h3>${title}</h3>
+          <p>© 2026 Все права защищены</p>
+        </div>
+        <div class="footer-social">
+          <p>Мы в соцсетях:</p>
+          <a href="https://vk.ru/club183409209" aria-label="VK">VK</a> |
+          <a href="https://t.me/Detskiisad24" aria-label="Telegram">Telegram</a> |
+          <a href="https://www.instagram.com/sad_24_polotsk?igsh=MTd6ZWc3cmJobXB2Nw%3D%3D&utm_source=qr" aria-label="Instagram">Instagram</a>
+        </div>
+      </div>
+    </div>`;
+}
+
+renderHeader();
+renderFooter();
+
 // ===== БУРГЕР-МЕНЮ =====
 const burger = document.getElementById("burger");
 const menu = document.getElementById("menu");
@@ -101,138 +181,68 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   goToSlide(0);
 }
 
-// ===== ГАЛЕРЕЯ ЭКСПОНАТОВ: загрузка из встроенного JSON =====
-(function () {
-  const grid    = document.getElementById("gallery-grid");
-  const dataEl  = document.getElementById("gallery-data");
+// ===== УНИВЕРСАЛЬНЫЙ РЕНДЕР ГАЛЕРЕЙ =====
+
+/**
+ * Строит HTML блока .gallery-info для страниц наград, архива и книг.
+ * Формат: название + опциональная дата + опциональная заметка.
+ */
+function buildStandardInfo(item) {
+  if (item.note) return `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`;
+  if (item.date) return `<span>${item.name}</span><h3>${item.date}</h3>`;
+  return `<span>${item.name}</span>`;
+}
+
+/**
+ * Строит HTML блока .gallery-info для страницы экспонатов (gallery.html).
+ * Дата выводится с подписью «Дата выпуска:».
+ */
+function buildExhibitInfo(item) {
+  const dateHtml = item.note
+    ? `Дата выпуска: ${item.date}<br />${item.note}`
+    : `Дата выпуска: ${item.date}`;
+  return `<span>${item.name}</span><h3>${dateHtml}</h3>`;
+}
+
+/**
+ * Загружает JSON из <script id="dataId">, рисует карточки в <div id="gridId">.
+ * @param {string}   gridId   — id контейнера-сетки
+ * @param {string}   dataId   — id <script type="application/json"> с данными
+ * @param {Function} buildInfo — функция (item) => строка HTML для .gallery-info
+ */
+function renderGrid(gridId, dataId, buildInfo) {
+  const grid   = document.getElementById(gridId);
+  const dataEl = document.getElementById(dataId);
   if (!grid || !dataEl) return;
 
   let items;
   try { items = JSON.parse(dataEl.textContent); }
-  catch (e) { console.error("Ошибка gallery-data JSON:", e); return; }
+  catch (e) { console.error(`Ошибка ${dataId} JSON:`, e); return; }
 
   const fragment = document.createDocumentFragment();
   const tmp      = document.createElement("div");
 
   items.forEach((item) => {
-    const dateHtml = item.note
-      ? `Дата выпуска: ${item.date}<br />${item.note}`
-      : `Дата выпуска: ${item.date}`;
-
     tmp.innerHTML = `
       <div class="gallery-item animate-up" role="listitem">
         <div class="gallery-card">
           <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-          <div class="gallery-info">
-            <span>${item.name}</span>
-            <h3>${dateHtml}</h3>
-          </div>
+          <div class="gallery-info">${buildInfo(item)}</div>
         </div>
       </div>`;
     fragment.appendChild(tmp.firstElementChild);
   });
 
   grid.appendChild(fragment);
-})();
+}
 
-// ===== НАГРАДЫ И БЛАГОДАРНОСТИ: загрузка из встроенного JSON =====
-(function () {
-  const grid   = document.getElementById("awards-grid");
-  const dataEl = document.getElementById("awards-data");
-  if (!grid || !dataEl) return;
+// Страница gallery.html — экспонаты (особый формат даты)
+renderGrid("gallery-grid",  "gallery-data",  buildExhibitInfo);
 
-  let items;
-  try { items = JSON.parse(dataEl.textContent); }
-  catch (e) { console.error("Ошибка awards-data JSON:", e); return; }
-
-  const fragment = document.createDocumentFragment();
-  const tmp      = document.createElement("div");
-
-  items.forEach((item) => {
-    const infoHtml = item.note
-      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
-      : item.date
-        ? `<span>${item.name}</span><h3>${item.date}</h3>`
-        : `<span>${item.name}</span>`;
-
-    tmp.innerHTML = `
-      <div class="gallery-item animate-up" role="listitem">
-        <div class="gallery-card">
-          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-          <div class="gallery-info">${infoHtml}</div>
-        </div>
-      </div>`;
-    fragment.appendChild(tmp.firstElementChild);
-  });
-
-  grid.appendChild(fragment);
-})();
-
-// ===== ЛИЧНЫЙ АРХИВ: загрузка из встроенного JSON =====
-(function () {
-  const grid   = document.getElementById("archive-grid");
-  const dataEl = document.getElementById("archive-data");
-  if (!grid || !dataEl) return;
-
-  let items;
-  try { items = JSON.parse(dataEl.textContent); }
-  catch (e) { console.error("Ошибка archive-data JSON:", e); return; }
-
-  const fragment = document.createDocumentFragment();
-  const tmp      = document.createElement("div");
-
-  items.forEach((item) => {
-    const infoHtml = item.note
-      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
-      : item.date
-        ? `<span>${item.name}</span><h3>${item.date}</h3>`
-        : `<span>${item.name}</span>`;
-
-    tmp.innerHTML = `
-      <div class="gallery-item animate-up" role="listitem">
-        <div class="gallery-card">
-          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-          <div class="gallery-info">${infoHtml}</div>
-        </div>
-      </div>`;
-    fragment.appendChild(tmp.firstElementChild);
-  });
-
-  grid.appendChild(fragment);
-})();
-
-// ===== КНИГИ И СМИ: загрузка из встроенного JSON =====
-(function () {
-  const grid   = document.getElementById("books-grid");
-  const dataEl = document.getElementById("books-data");
-  if (!grid || !dataEl) return;
-
-  let items;
-  try { items = JSON.parse(dataEl.textContent); }
-  catch (e) { console.error("Ошибка books-data JSON:", e); return; }
-
-  const fragment = document.createDocumentFragment();
-  const tmp      = document.createElement("div");
-
-  items.forEach((item) => {
-    const infoHtml = item.note
-      ? `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`
-      : item.date
-        ? `<span>${item.name}</span><h3>${item.date}</h3>`
-        : `<span>${item.name}</span>`;
-
-    tmp.innerHTML = `
-      <div class="gallery-item animate-up" role="listitem">
-        <div class="gallery-card">
-          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-          <div class="gallery-info">${infoHtml}</div>
-        </div>
-      </div>`;
-    fragment.appendChild(tmp.firstElementChild);
-  });
-
-  grid.appendChild(fragment);
-})();
+// Страницы awards / personal-archive / media — единый формат
+renderGrid("awards-grid",   "awards-data",   buildStandardInfo);
+renderGrid("archive-grid",  "archive-data",  buildStandardInfo);
+renderGrid("books-grid",    "books-data",    buildStandardInfo);
 
 // ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
 const animatedElements = document.querySelectorAll(".animate-up");
