@@ -1153,7 +1153,9 @@ body.menu-open {
   width: 90%;
   max-width: 680px;
   max-height: 85vh;
-  overflow-y: auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
   background:
     linear-gradient(
       135deg,
@@ -1168,10 +1170,16 @@ body.menu-open {
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(212, 175, 55, 0.35);
   border-radius: var(--radius);
-  padding: 52px 48px 44px;
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
   transform: translateY(24px);
   transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
+}
+
+/* Скроллируемая область внутри модального окна */
+.about-modal-scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding: 52px 48px 44px;
 }
 
 .about-modal.active .about-modal-content {
@@ -1882,7 +1890,7 @@ body.menu-open {
   }
 
   /* Модальное окно «О музее» */
-  .about-modal-content {
+  .about-modal-scroll {
     padding: 40px 20px 28px;
   }
   .about-modal-title {

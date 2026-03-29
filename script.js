@@ -856,25 +856,11 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.setAttribute("aria-pressed",  String(on));
   }
 
-  // Первый клик где угодно (capture — раньше всех остальных обработчиков)
-  function tryStart() {
-    if (started) return;
-    started = true;
-    document.removeEventListener("click",      tryStart, true);
-    document.removeEventListener("touchstart", tryStart, true);
-    music.play().then(() => setPlaying(true)).catch(() => { started = false; });
-  }
-
-  document.addEventListener("click",      tryStart, true);
-  document.addEventListener("touchstart", tryStart, true);
-
-  // Кнопка: включить / выключить
+  // Музыка запускается только по нажатию на кнопку-ноту
   if (btn) {
     btn.addEventListener("click", () => {
       if (!started) {
         started = true;
-        document.removeEventListener("click",      tryStart, true);
-        document.removeEventListener("touchstart", tryStart, true);
         music.play().then(() => setPlaying(true)).catch(() => { started = false; });
       } else if (music.paused) {
         music.play().then(() => setPlaying(true)).catch(() => {});
