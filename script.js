@@ -508,6 +508,18 @@ if (animatedElements.length > 0) {
     const item = cardImage.closest(".carousel-item");
     const href = item?.dataset.href;
 
+    // Если у карточки флаг warpath-preview — открываем модальное окно
+    if (item?.dataset.warpathPreview === "true") {
+      const modal = document.getElementById("warPathModal");
+      if (modal) {
+        modal.classList.add("active");
+        document.body.classList.add("menu-open");
+        const closeBtn = document.getElementById("warPathModalClose");
+        closeBtn?.focus();
+      }
+      return;
+    }
+
     if (href && href !== "#") {
       window.location.href = href;
     }
