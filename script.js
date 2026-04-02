@@ -230,17 +230,54 @@ function renderGrid(gridId, dataId, buildInfo) {
 
   items.forEach((item) => {
     tmp.innerHTML = `
-      <div class="gallery-item animate-up" role="listitem">
+      <div class="gallery-item has-lightbox animate-up" role="listitem" tabindex="0"
+           aria-label="${item.alt} — нажмите для увеличения">
         <div class="gallery-card">
           <img src="${item.src}" alt="${item.alt}" loading="lazy" />
           <div class="gallery-info">${buildInfo(item)}</div>
         </div>
       </div>`;
-    fragment.appendChild(tmp.firstElementChild);
+    const el = tmp.firstElementChild;
+
+    function openLb() {
+      const lb = document.getElementById("lb-overlay");
+      if (!lb) return;
+      document.getElementById("lb-img").src = item.src;
+      document.getElementById("lb-img").alt = item.alt;
+      document.getElementById("lb-caption").textContent = item.name || item.alt || "";
+      lb.classList.add("active");
+      document.body.classList.add("menu-open");
+      requestAnimationFrame(() => document.getElementById("lb-close").focus());
+    }
+
+    el.addEventListener("click", openLb);
+    el.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
+    });
+
+    fragment.appendChild(el);
   });
 
   grid.appendChild(fragment);
 }
+
+// ── Инициализация универсального лайтбокса ────────────────────
+(function initLightbox() {
+  const lb = document.getElementById("lb-overlay");
+  if (!lb) return;
+  const lbClose = document.getElementById("lb-close");
+
+  function closeLb() {
+    lb.classList.remove("active");
+    document.body.classList.remove("menu-open");
+  }
+
+  lbClose.addEventListener("click", closeLb);
+  lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && lb.classList.contains("active")) closeLb();
+  });
+})();
 
 // Страница gallery.html — экспонаты (особый формат даты)
 renderGrid("gallery-grid", "gallery-data", buildExhibitInfo);
