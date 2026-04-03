@@ -3,29 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>О Полине Сергеевне в книгах и СМИ — Виртуальный музей</title>
+    <title>Галерея экспонатов — Музей детского сада №24</title>
 
     <!-- SEO -->
     <meta
       name="description"
-      content="Книги и публикации о Полине Сергеевне Портновой — материалы из фондов виртуального музея детского сада №24 г. Полоцка."
+      content="Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24 им. П.С. Портновой г. Полоцка. 19 уникальных экспонатов с описаниями."
     />
     <meta
       name="keywords"
-      content="Полина Портнова, книги, СМИ, публикации, детский сад Полоцк, Великая Отечественная война"
+      content="советские игрушки, галерея экспонатов, детский сад Полоцк, музей, Портнова, исторические предметы"
     />
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta
       property="og:title"
-      content="О Полине Сергеевне в книгах и СМИ — Виртуальный музей"
+      content="Галерея экспонатов — Музей детского сада №24"
     />
     <meta
       property="og:description"
-      content="Книги и публикации о Полине Сергеевне Портновой из фондов виртуального музея детского сада №24 г. Полоцка."
+      content="Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24 им. П.С. Портновой."
     />
-    <meta property="og:image" content="assets/portnova.webp" />
+    <meta property="og:image" content="assets/exhibits/exhibit-01.webp" />
     <meta property="og:type" content="website" />
 
     <!-- Performance: preconnect -->
@@ -37,6 +37,21 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Schema.org для страницы коллекции -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Галерея экспонатов — детский сад №24 имени П.С. Портновой",
+        "description": "Коллекция советских игрушек и предметов 1960–1980-х годов из архива детского сада №24",
+        "url": "https://example.com/gallery.html",
+        "isPartOf": {
+          "@type": "Museum",
+          "name": "Виртуальный музей Детский сад №24 имени П.С. Портновой"
+        }
+      }
+    </script>
   </head>
   <body class="gallery-page">
     <a class="skip-link" href="#main-content"
@@ -46,89 +61,368 @@
     <header id="site-header"></header>
 
     <main id="main-content">
-      <section class="bio-hero" aria-label="О Полине Сергеевне в книгах и СМИ">
+      <section class="gallery-hero" aria-label="Коллекция экспонатов">
         <div class="container">
-          <!-- Заголовок с кнопкой назад -->
-          <div class="archive-header animate-up">
-            <a
-              href="portnova.html"
-              class="archive-back-btn"
-              aria-label="Вернуться к странице Портновой"
-            >
-              <span aria-hidden="true">←</span> Полина Сергеевна Портнова
-            </a>
-            <h1 class="bio-gallery-title" style="margin-bottom: 0">
-              О Полине Сергеевне
-            </h1>
-            <p class="bio-gallery-sub">в книгах и СМИ</p>
-          </div>
+          <h1 class="section-title animate-up">
+            Коллекция вещей и игрушек<br />из архива детского сада
+          </h1>
+          <p class="section-subtitle animate-up">
+            Переступая порог этой страницы, вы оставляете за спиной суету
+            современного мира. Здесь, в тишине цифровых витрин, время течет
+            иначе - медленно, бережно, словно боясь разбудить спящие
+            воспоминания.
+            <br />Перед вами не просто экспонаты. Это хранители детского смеха,
+            свидетели первых открытий и верные друзья. Их плюшевые бока помнят
+            тепло маленьких ладоней, а фарфоровые глаза видели самые заветные
+            мечты. <br />Советская игрушка- это особый язык. Язык искренности и
+            простоты. В эпоху, когда мир делился на «важное» и «второстепенное»,
+            детство оставалось территорией чуда. Здесь рождалось воображение
+            целых поколений. <br />«Эти вещи не идеальны. На них есть следы
+            времени: потертости, сколы, шрамы от игр. Но именно в этих
+            несовершенствах живет их душа».
+          </p>
 
           <!--
-            Поля: src, alt (обязательные)
-                  name — название книги / публикации
-                  date — год издания (необязательно)
-                  note — вторая строка, например издательство (необязательно)
-          -->
-          <script id="books-data" type="application/json">
+          Чтобы добавить/изменить экспонат — отредактируйте массив ниже.
+          Поля: src, alt, name, date (необязательно: note — вторая строка даты)
+        -->
+          <script id="gallery-data" type="application/json">
             [
               {
-                "src": "assets/books/book-01.webp",
-                "alt": "Книга 1 о Полине Сергеевне Портновой",
-                "name": "Книга «Она была: 16 женщин, ставших частью истории Беларуси» (2019 г.)",
-                "date": ""
+                "src": "assets/exhibits/exhibit-01.webp",
+                "alt": "Резиновая игрушка Карлсон, 1970-е годы",
+                "name": "Резиновая игрушка «Карлсон»",
+                "date": "1970-ые годы"
               },
               {
-                "src": "assets/books/book-02.webp",
-                "alt": "Книга 3 о Полине Сергеевне Портновой",
-                "name": "Страницы из книги «Она была»(66-67 стр.)",
-                "date": ""
+                "src": "assets/exhibits/exhibit-02.webp",
+                "alt": "Детский утюг, 1970-е годы",
+                "name": "Детский утюг",
+                "date": "1970-ые годы"
               },
               {
-                "src": "assets/books/book-03.webp",
-                "alt": "Книга 2 о Полине Сергеевне Портновой",
-                "name": "Страницы из книги «Она была»(68-69 стр.)",
-                "date": ""
+                "src": "assets/exhibits/exhibit-03.webp",
+                "alt": "Заводная механическая игрушка Петушок, 1970–1980-е годы",
+                "name": "Игрушка заводная механическая «Петушок»",
+                "date": "1970-ые — 1980-ые годы"
               },
               {
-                "src": "assets/books/book-04.webp",
-                "alt": "Книга 1 о Полине Сергеевне Портновой",
-                "name": "Страницы из книги «Она была (70-71 стр)",
-                "date": ""
+                "src": "assets/exhibits/exhibit-04.webp",
+                "alt": "Заводная механическая игрушка Курочка, 1970–1980-е годы",
+                "name": "Игрушка заводная механическая «Курочка»",
+                "date": "1970-ые — 1980-ые годы"
               },
               {
-                "src": "assets/books/book-05.webp",
-                "alt": "Книга 2 о Полине Сергеевне Портновой",
-                "name": "Рассказ из книги Ю.Бондарева «Человек несёт в себе мир», 1980 г.(120-121 стр)",
-                "date": ""
+                "src": "assets/exhibits/exhibit-05.webp",
+                "alt": "Пластмассовая игрушка Пупсик, 1960-е годы",
+                "name": "Игрушка пластмассовая «Пупсик»",
+                "date": "1960-ые годы"
               },
               {
-                "src": "assets/books/book-06.webp",
-                "alt": "Книга 2 о Полине Сергеевне Портновой",
+                "src": "assets/exhibits/exhibit-06.webp",
+                "alt": "Заводная механическая игрушка Петушок, 1960–1970-е годы",
+                "name": "Игрушка заводная механическая «Петушок»",
+                "date": "1960-ые — 1970-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-07.webp",
+                "alt": "Кукла Школьница, 1980-е годы",
+                "name": "Кукла «Школьница»",
+                "date": "1980-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-08.webp",
+                "alt": "Игрушка Револьвер, 1980-е годы",
+                "name": "Игрушка найденная «Револьвер»",
+                "date": "1980-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-09.webp",
+                "alt": "Кукла винтажная, 1970–1980-е годы",
+                "name": "Кукла винтажная",
+                "date": "1970-ые — 1980-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-10.webp",
+                "alt": "Резиновая кукла, 1960 год, фабрика Красный треугольник",
+                "name": "Кукла резиновая",
+                "date": "1960 год",
+                "note": "Фабрика «Красный треугольник»"
+              },
+              {
+                "src": "assets/exhibits/exhibit-11.webp",
+                "alt": "Кукла Пупс целлулоидный с клеймом Черепашка, 1960-е годы",
+                "name": "Кукла Пупс целлулоидный с клеймом «Черепашка»",
+                "date": "1960-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-12.webp",
+                "alt": "Кукла пластмассовая Пупс на резинках, конец 1960-х — начало 1970-х",
+                "name": "Кукла пластмассовая Пупс на резинках",
+                "date": "конец 1960-ых — начало 1970-ых годов"
+              },
+              {
+                "src": "assets/exhibits/exhibit-13.webp",
+                "alt": "Пластмассовая игрушка Колобок, 1960–1970-е годы",
+                "name": "Игрушка пластмассовая «Колобок»",
+                "date": "1960-ые — 1970-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-14.webp",
+                "alt": "Игрушка каталка Петушок, 1960–1970-е годы",
+                "name": "Игрушка каталка «Петушок»",
+                "date": "1960-ые — 1970-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-15.webp",
+                "alt": "Игрушка каталка Лисичка, 1960-е годы",
+                "name": "Игрушка каталка «Лисичка»",
+                "date": "1960-ые годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-16.webp",
+                "alt": "Резиновая каталка Лиса, 1970–1980-е годы",
+                "name": "Игрушка резиновая каталка «Лиса»",
+                "date": "1970-е — 1980-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-17.webp",
+                "alt": "Целлулоидная Неваляшка, 1960–1970-е годы",
+                "name": "Игрушка целлулоидная «Неваляшка»",
+                "date": "1960-е — 1970-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-18.webp",
+                "alt": "Резиновая игрушка Птичка, 1960–1970-е годы",
+                "name": "Игрушка резиновая «Птичка»",
+                "date": "1960-е — 1970-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-19.webp",
+                "alt": "Детская швейная машинка Промшвеймаш г.Орша, 1960–1980-е годы",
+                "name": "Детская швейная машинка Промшвеймаш г.Орша",
+                "date": "1960-е — 1980-е годы"
+              },
+              {
+                "src": "assets/exhibits/exhibit-20.webp",
+                "alt": "",
                 "name": "",
                 "date": ""
               },
               {
-                "src": "assets/books/book-07.webp",
-                "alt": "Книга 2 о Полине Сергеевне Портновой",
+                "src": "assets/exhibits/exhibit-22.webp",
+                "alt": "",
                 "name": "",
                 "date": ""
               },
               {
-                "src": "assets/books/book-08.webp",
-                "alt": "Книга 3 о Полине Сергеевне Портновой",
-                "name": "Строки из поэмы, посвящённой П.С.Портновой Валентина Чупыркина, члена Союза журналистов СССР, бывшего воспитанника Дома ребёнка им. Самойловой «Опалённые войной» 22.10.1981г. г. Шумерля",
+                "src": "assets/exhibits/exhibit-23.webp",
+                "alt": "",
+                "name": "",
                 "date": ""
               },
               {
-                "src": "assets/books/book-09.webp",
-                "alt": "Книга 3 о Полине Сергеевне Портновой",
-                "name": "Книга «Память»",
+                "src": "assets/exhibits/exhibit-24.webp",
+                "alt": "",
+                "name": "",
                 "date": ""
               },
               {
-                "src": "assets/books/book-10.webp",
-                "alt": "Книга 1 о Полине Сергеевне Портновой",
-                "name": "Письмо бывшего воспитанника ",
+                "src": "assets/exhibits/exhibit-25.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-26.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-27.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-28.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-29.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-30.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-31.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-32.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-33.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-34.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-36.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-37.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-38.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-39.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-40.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-41.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-42.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-43.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-44.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-45.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-46.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-47.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-48.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-49.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-50.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-51.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-52.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-53.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-54.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-55.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-56.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-57.webp",
+                "alt": "",
+                "name": "",
+                "date": ""
+              },
+              {
+                "src": "assets/exhibits/exhibit-58.webp",
+                "alt": "",
+                "name": "",
                 "date": ""
               }
             ]
@@ -136,9 +430,9 @@
 
           <div
             class="gallery-grid"
-            id="books-grid"
+            id="gallery-grid"
             role="list"
-            aria-label="Книги и публикации о Полине Сергеевне"
+            aria-label="Экспонаты коллекции"
           ></div>
         </div>
       </section>
@@ -147,7 +441,7 @@
     <footer id="site-footer"></footer>
 
     <audio id="bg-music" loop>
-      <source src="assets/audio/music-main.mp3" type="audio/mpeg" />
+      <source src="assets/audio/music-gallery.mp3" type="audio/mpeg" />
       Ваш браузер не поддерживает аудио.
     </audio>
 
@@ -178,14 +472,6 @@
         <rect x="14" y="4" width="4" height="16" rx="1" />
       </svg>
     </button>
-    <!-- Универсальный лайтбокс -->
-    <div id="lb-overlay" class="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
-      <div class="lb-inner">
-        <button class="lb-close" id="lb-close" aria-label="Закрыть">&times;</button>
-        <img class="lb-img" id="lb-img" src="" alt="" />
-        <p class="lb-caption" id="lb-caption"></p>
-      </div>
-    </div>
     <script src="script.js"></script>
   </body>
 </html>
