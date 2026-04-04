@@ -491,12 +491,7 @@ body.menu-open {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.25) 0%,
-    rgba(212, 175, 55, 0.15) 40%,
-    rgba(180, 140, 40, 0.1) 100%
-  );
+  background: rgba(6, 7, 9, 0.65);
   backdrop-filter: blur(20px);
   border: 1px solid rgba(212, 175, 55, 0.4);
   box-shadow:
@@ -1021,21 +1016,11 @@ body.menu-open {
   transform: scale(1.05);
 }
 
-/* Арка — скрыта */
-.window-arch {
-  display: none;
-}
-
 /* Стеклянное тело */
 .window-glass {
   position: relative;
   z-index: 1;
-  background: linear-gradient(
-    175deg,
-    rgba(255, 255, 255, 0.11) 0%,
-    rgba(212, 175, 55, 0.08) 40%,
-    rgba(10, 15, 24, 0.28) 100%
-  );
+  background: rgba(6, 7, 9, 0.65);
   backdrop-filter: blur(22px);
   -webkit-backdrop-filter: blur(22px);
   border: 1px solid rgba(212, 175, 55, 0.38);
@@ -1071,11 +1056,6 @@ body.menu-open {
   top: 0;
   right: 0;
   border-width: 2px 2px 0 0;
-}
-
-/* Блеск — скрыт */
-.window-shine {
-  display: none;
 }
 
 /* Подоконник */
@@ -1335,12 +1315,7 @@ body.menu-open {
   gap: 8px;
   text-decoration: none;
   padding: 24px 16px 20px;
-  background: linear-gradient(
-    175deg,
-    rgba(255, 255, 255, 0.07) 0%,
-    rgba(212, 175, 55, 0.05) 40%,
-    rgba(10, 15, 24, 0.22) 100%
-  );
+  background: rgba(6, 7, 9, 0.65);
   border: 1px solid rgba(212, 175, 55, 0.3);
   border-radius: 16px;
   backdrop-filter: blur(12px);
@@ -1946,32 +1921,11 @@ body.menu-open {
     gap: 40px;
   }
 
-  /* Биография — сетка в одну колонку */
-  .bio-hero {
-    padding-top: calc(var(--header-height) + 30px);
-    padding-bottom: 40px;
-  }
-  .bio-photo-grid {
+  /* Секция «окна» — одна колонка */
+  .visitors-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  .bio-poem {
-    padding: 28px 20px;
-  }
-  .bio-poem-stanza p {
-    font-size: 1.05rem;
-  }
-  .bio-dedication {
-    font-size: 0.8rem;
-    letter-spacing: 1px;
-    white-space: normal;
-    text-align: center;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .bio-dedication-line {
-    width: 60px;
-    flex: none;
+    max-width: 400px;
+    gap: 40px;
   }
 }
 
@@ -3099,4 +3053,150 @@ body.menu-open {
 
 .gallery-item.has-lightbox .gallery-card:hover::after {
   opacity: 1;
+}
+
+/* ── Модальное окно «Через огненные вёрсты войны» ── */
+.war-preview-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1800;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.war-preview-modal.active { display: flex; }
+
+.war-preview-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(6, 7, 9, 0.93);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.war-preview-modal__box {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: rgba(12, 16, 26, 0.85);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 24px;
+  padding: 48px 40px 40px;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.7);
+  text-align: center;
+}
+
+.war-preview-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,175,55,0.4);
+  background: rgba(10,15,24,0.9);
+  color: var(--accent);
+  font-size: 1.3rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.3s, transform 0.3s;
+  padding: 0;
+  line-height: 1;
+}
+.war-preview-modal__close:hover {
+  border-color: var(--accent);
+  transform: rotate(90deg);
+}
+
+.war-preview-modal__label {
+  font-family: var(--font-sans);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  color: var(--accent);
+  opacity: 0.8;
+  margin-bottom: 10px;
+}
+
+.war-preview-modal__title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.2;
+  margin-bottom: 10px;
+}
+
+.war-preview-modal__sub {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.war-preview-modal__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 600px) {
+  .war-preview-modal__grid { grid-template-columns: repeat(2, 1fr); }
+  .war-preview-modal__box { padding: 40px 20px 28px; }
+}
+
+.war-preview-modal__card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid rgba(212,175,55,0.18);
+  transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  aspect-ratio: 4/3;
+  display: block;
+}
+.war-preview-modal__card:hover {
+  border-color: rgba(212,175,55,0.7);
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 16px rgba(212,175,55,0.12);
+}
+
+.war-preview-modal__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, filter 0.4s ease;
+  filter: brightness(0.82) sepia(0.12);
+}
+.war-preview-modal__card:hover img {
+  transform: scale(1.07);
+  filter: brightness(0.95) sepia(0);
+}
+
+.war-preview-modal__card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(6,7,9,0.75) 0%, transparent 55%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 14px;
+}
+.war-preview-modal__card:hover .war-preview-modal__card-overlay { opacity: 1; }
+
+.war-preview-modal__card-overlay span {
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--accent);
 }
