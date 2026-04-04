@@ -666,19 +666,21 @@ document.addEventListener("DOMContentLoaded", function () {
       const ariaLabel = `${item.caption} — нажмите для просмотра`;
       return `
         <div class="video-vertical-item animate-up" role="listitem">
-          <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
-            <img
-              src="${item.poster}"
-              alt="${item.alt}"
-              class="video-poster"
-              loading="lazy"
-            />
-            <video class="video-player" muted playsinline preload="metadata">
-              <source src="${item.video}" type="video/mp4" />
-              Ваш браузер не поддерживает видео.
-            </video>
+          <div class="video-media-block">
+            <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
+              <img
+                src="${item.poster}"
+                alt="${item.alt}"
+                class="video-poster"
+                loading="lazy"
+              />
+              <video class="video-player" muted playsinline preload="metadata">
+                <source src="${item.video}" type="video/mp4" />
+                Ваш браузер не поддерживает видео.
+              </video>
+            </div>
+            <div class="video-caption">${item.caption}</div>
           </div>
-          <div class="video-caption">${item.caption}</div>
         </div>`;
     }
 
@@ -686,26 +688,30 @@ document.addEventListener("DOMContentLoaded", function () {
       const ariaLabel = `${item.caption} — нажмите для перехода к цветной версии`;
       return `
         <div class="video-vertical-item animate-up" role="listitem">
-          <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
-            <img
-              src="${item.poster}"
-              data-color-src="${item.colorSrc}"
-              alt="${item.alt}"
-              class="video-poster"
-              loading="lazy"
-            />
-            <img src="" alt="${item.altColor || "Цветная версия"}" class="video-player color-reveal" />
+          <div class="video-media-block">
+            <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
+              <img
+                src="${item.poster}"
+                data-color-src="${item.colorSrc}"
+                alt="${item.alt}"
+                class="video-poster"
+                loading="lazy"
+              />
+              <img src="" alt="${item.altColor || "Цветная версия"}" class="video-player color-reveal" />
+            </div>
+            <div class="video-caption">${item.caption}</div>
           </div>
-          <div class="video-caption">${item.caption}</div>
         </div>`;
     }
 
     function buildImageCard(item) {
       return `
         <div class="video-vertical-item animate-up" role="listitem">
-          <div class="video-caption-only">
-            <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-            <div class="video-caption">${item.caption}</div>
+          <div class="video-media-block">
+            <div class="video-caption-only">
+              <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+              <div class="video-caption">${item.caption}</div>
+            </div>
           </div>
         </div>`;
     }
