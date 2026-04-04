@@ -838,7 +838,8 @@ body.menu-open {
 }
 
 .video-vertical-item {
-  width: 100%;
+  width: 80%;
+  margin: 0 auto;
 }
 
 .video-vertical-item .video-container {
