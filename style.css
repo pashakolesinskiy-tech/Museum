@@ -1,6 +1,10 @@
 :root {
   --bg: #060709;
   --surface-light: rgba(255, 255, 255, 0.03);
+  --text-bg: rgba(10, 15, 24, 0.5);
+  --text-bg-blur: 12px;
+  --text-bg-border: rgba(212, 175, 55, 0.15);
+  --text-bg-radius: var(--radius);
   --light: #f8f5f2;
   --text: #f5f7fa;
   --text-muted: rgba(245, 247, 250, 0.75);
@@ -17,6 +21,9 @@
   --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
 
   --header-height: 80px;
+  --surface-dark: rgba(10, 15, 24, 0.9);
+  --accent-border: rgba(212, 175, 55, 0.25);
+  --accent-border-hover: rgba(212, 175, 55, 0.75);
 }
 
 * {
@@ -254,14 +261,28 @@ body.menu-open {
   position: relative;
   max-width: 1000px;
   margin: 0 auto 60px;
-  padding: 40px 20px;
+  padding: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(6, 7, 9, 0.65);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  border-radius: 15px;
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  overflow: hidden;
+}
+
+.hero-text-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 .hero-text {
@@ -344,14 +365,15 @@ body.menu-open {
   position: absolute;
   left: 40px;
   bottom: 40px;
-  background: rgba(10, 15, 24, 0.5);
-  backdrop-filter: blur(16px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
+  background: var(--text-bg);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid var(--text-bg-border);
   border-radius: 60px;
   padding: 16px 36px;
   font-family: var(--font-serif);
   font-size: 1.8rem;
-  color: white;
+  color: var(--text);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   transform: translateY(0);
   transition:
@@ -487,19 +509,18 @@ body.menu-open {
 .carousel-card {
   width: 100%;
   height: 100%;
-  border-radius: 24px;
+  border-radius: var(--text-bg-radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  background: rgba(6, 7, 9, 0.65);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: var(--text-bg);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid var(--text-bg-border);
   box-shadow:
     0 15px 35px rgba(0, 0, 0, 0.25),
-    0 0 50px rgba(212, 175, 55, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(212, 175, 55, 0.1);
-  transition: all 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
+    0 0 50px rgba(212, 175, 55, 0.12);
+  transition: border-color 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), box-shadow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.5s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
 .carousel-item:hover .carousel-card {
@@ -564,7 +585,7 @@ body.menu-open {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: background 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
   flex-shrink: 0;
 }
 
@@ -589,7 +610,7 @@ body.menu-open {
   border-radius: 50%;
   background: rgba(212, 175, 55, 0.25);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   border: 1px solid transparent;
 }
 
@@ -608,7 +629,7 @@ body.menu-open {
 .animate-up {
   opacity: 0;
   transform: translateY(40px);
-  transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
 .animate-up.visible {
@@ -791,10 +812,27 @@ body.menu-open {
   color: var(--text-muted);
   line-height: 1.5;
   font-style: italic;
-  padding-left: 24px;
+  padding: 48px;
   text-align: left;
-  backdrop-filter: blur(20px);
-  border-radius: 15px;
+  background: var(--text-bg);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.section-subtitle::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 /* Видео-контейнер для вертикальной галереи (video-gallery.html) */
@@ -876,14 +914,29 @@ body.menu-open {
   margin-top: 15px;
   font-family: var(--font-serif);
   font-size: 1.4rem;
-  color: white;
+  color: var(--text);
   text-align: center;
   letter-spacing: 1px;
-  border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-  padding-bottom: 10px;
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border-radius: 15px;
+  padding: 48px;
+  background: var(--text-bg);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.video-caption::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 /* Footer (все страницы) */
@@ -1020,11 +1073,13 @@ body.menu-open {
 .window-glass {
   position: relative;
   z-index: 1;
-  background: rgba(6, 7, 9, 0.65);
-  backdrop-filter: blur(22px);
-  -webkit-backdrop-filter: blur(22px);
-  border: 1px solid rgba(212, 175, 55, 0.38);
-  border-radius: 16px;
+  background: rgba(10, 15, 24, 0.4);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-top-color: rgba(255, 255, 255, 0.12);
+  border-bottom-color: rgba(212, 175, 55, 0.12);
+  border-radius: var(--text-bg-radius);
   overflow: hidden;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
   transition:
@@ -1032,10 +1087,12 @@ body.menu-open {
     box-shadow 0.5s ease;
 }
 .visitor-card:hover .window-glass {
-  border-color: rgba(212, 175, 55, 0.7);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: rgba(255, 255, 255, 0.16);
+  border-bottom-color: rgba(212, 175, 55, 0.35);
   box-shadow:
     0 28px 60px rgba(0, 0, 0, 0.55),
-    0 0 30px rgba(212, 175, 55, 0.1);
+    0 0 30px rgba(212, 175, 55, 0.08);
 }
 
 /* Декоративные уголки рамки */
@@ -1060,19 +1117,7 @@ body.menu-open {
 
 /* Подоконник */
 .window-sill {
-  height: 10px;
-  margin: 0 20px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(212, 175, 55, 0.35) 30%,
-    rgba(212, 175, 55, 0.52) 50%,
-    rgba(212, 175, 55, 0.35) 70%,
-    transparent
-  );
-  border-radius: 0 0 6px 6px;
-  position: relative;
-  z-index: 2;
+  display: none;
 }
 
 /* ── Цветная картинка поверх ч/б (video-gallery.html) ─────────── */
@@ -1120,7 +1165,7 @@ body.menu-open {
   border-radius: 4px;
   padding: 14px 48px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+  transition: background 0.4s cubic-bezier(0.2, 0.9, 0.3, 1), transform 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
 .btn-museum:hover {
@@ -1315,11 +1360,11 @@ body.menu-open {
   gap: 8px;
   text-decoration: none;
   padding: 24px 16px 20px;
-  background: rgba(6, 7, 9, 0.65);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
   overflow: hidden;
   transition:
     border-color 0.35s ease,
@@ -1920,13 +1965,6 @@ body.menu-open {
     max-width: 400px;
     gap: 40px;
   }
-
-  /* Секция «окна» — одна колонка */
-  .visitors-grid {
-    grid-template-columns: 1fr;
-    max-width: 400px;
-    gap: 40px;
-  }
 }
 
 /* ── Страница биографии ─────────────────────────────── */
@@ -2025,8 +2063,26 @@ body.menu-open {
   letter-spacing: 4px;
   text-transform: uppercase;
   margin-bottom: 24px;
-  backdrop-filter: blur(8px);
-  border-radius: 10px;
+  padding: 48px;
+  background: var(--text-bg);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  position: relative;
+  overflow: hidden;
+}
+
+.bio-dates::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 /* ── Фото-сетка (галерея жизни) ──────────────────── */
@@ -2155,37 +2211,39 @@ body.menu-open {
   position: relative;
   max-width: 520px;
   margin: 28px auto 0;
-  padding: 40px 48px;
+  padding: 48px;
   text-align: center;
 
-  /* Тонкая рамка с золотыми углами */
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  border-radius: 2px;
-
-  /* Стеклянный фон под стихом */
-  background: rgba(10, 15, 24, 0.35);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  overflow: hidden;
 }
 
-/* Угловые акценты */
-.bio-poem::before,
+.bio-poem::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
+  z-index: 1;
+}
+
 .bio-poem::after {
   content: "";
   position: absolute;
+  bottom: -1px;
+  right: -1px;
   width: 20px;
   height: 20px;
   border-color: var(--accent);
   border-style: solid;
-}
-.bio-poem::before {
-  top: -1px;
-  left: -1px;
-  border-width: 2px 0 0 2px;
-}
-.bio-poem::after {
-  bottom: -1px;
-  right: -1px;
   border-width: 0 2px 2px 0;
 }
 
@@ -2364,12 +2422,26 @@ body.menu-open {
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
-  background: var(--surface-light);
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  border-radius: var(--radius);
-  padding: 2rem;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  padding: 48px;
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-form::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 .form-group {
@@ -2566,15 +2638,15 @@ body.menu-open {
   align-items: center;
   gap: 8px;
   text-decoration: none;
-  padding: 30px 28px;
+  padding: 48px;
   flex: 1;
   min-width: 200px;
   max-width: 260px;
-  background: rgba(10, 15, 24, 0.55);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  border-radius: 24px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
   position: relative;
   overflow: hidden;
   transition:
@@ -2587,14 +2659,13 @@ body.menu-open {
 .bio-section-btn::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(212, 175, 55, 0.08) 0%,
-    transparent 65%
-  );
-  opacity: 0;
-  transition: opacity 0.35s ease;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 .bio-section-btn:hover {
@@ -2604,10 +2675,6 @@ body.menu-open {
   box-shadow:
     0 20px 48px rgba(0, 0, 0, 0.5),
     0 0 24px rgba(212, 175, 55, 0.12);
-}
-
-.bio-section-btn:hover::before {
-  opacity: 1;
 }
 
 .bio-section-btn__icon {
@@ -2699,23 +2766,25 @@ body.menu-open {
   align-items: center;
   gap: 2px;
   padding: 10px 14px;
-  background: rgba(212, 175, 55, 0.05);
-  border: 1px solid rgba(212, 175, 55, 0.18);
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+  background: var(--text-bg);
+  border: 1px solid var(--text-bg-border);
+  border-radius: var(--text-bg-radius);
+  backdrop-filter: blur(var(--text-bg-blur));
+  -webkit-backdrop-filter: blur(var(--text-bg-blur));
   position: relative;
+  overflow: hidden;
 }
 
 .bio-poem-author__inner::before {
+  content: "";
   position: absolute;
-  top: -9px;
-  right: 14px;
-  font-size: 0.65rem;
-  color: var(--accent);
-  background: inherit;
-  padding: 0 4px;
-  background: #0c0e13;
+  top: 0;
+  left: 0;
+  width: 2px;
+  height: 100%;
+  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
+  border-radius: 0 0 0 var(--text-bg-radius);
+  filter: blur(0.5px);
 }
 
 .bio-poem-author__label {
