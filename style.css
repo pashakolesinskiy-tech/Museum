@@ -821,7 +821,7 @@ body.menu-open {
   border-radius: var(--text-bg-radius);
   position: relative;
   overflow: hidden;
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -907,9 +907,24 @@ body.menu-open {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4), 0 0 16px rgba(212, 175, 55, 0.08);
 }
 
+.video-vertical-item .video-container:hover {
+  transform: scale(1.01);
+  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.2);
+}
+
+.video-vertical-item .video-poster {
+  z-index: 2;
+}
+
+.video-vertical-item .video-player {
+  z-index: 1;
+  display: none;
+}
+
 .video-vertical-item .video-container {
   position: relative;
   width: 100%;
+  margin: 0 auto;
   aspect-ratio: 16 / 9;
   cursor: pointer;
   overflow: hidden;
@@ -955,10 +970,6 @@ body.menu-open {
   display: block;
 }
 
-.video-vertical-item .video-container.playing .color-reveal {
-  opacity: 1;
-}
-
 .video-caption {
   margin-top: 16px;
   font-family: var(--font-serif);
@@ -993,71 +1004,6 @@ body.menu-open {
   width: 100%;
   height: auto;
   display: block;
-}
-
-.video-vertical-item {
-  width: 80%;
-  margin: 0 auto;
-}
-
-.video-vertical-item .video-container {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  cursor: pointer;
-  overflow: hidden;
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  transition: var(--transition);
-}
-
-.video-vertical-item .video-container:hover {
-  transform: scale(1.01);
-  box-shadow: 0 25px 50px rgba(212, 175, 55, 0.2);
-}
-
-.video-vertical-item .video-poster,
-.video-vertical-item .video-player {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-vertical-item .video-poster {
-  z-index: 2;
-}
-
-.video-vertical-item .video-player {
-  z-index: 1;
-  display: none;
-}
-
-.video-caption {
-  margin-top: 15px;
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  color: var(--text);
-  text-align: center;
-  letter-spacing: 1px;
-  padding: 20px;
-  -webkit-backdrop-filter: blur(var(--text-bg-blur));
-  position: relative;
-  overflow: hidden;
-}
-
-.video-caption::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(180deg, #fff8e0 0%, var(--accent) 30%, rgba(212, 175, 55, 0.2) 80%, transparent 100%);
-  border-radius: 0 0 0 var(--text-bg-radius);
-  filter: blur(0.5px);
 }
 
 /* Footer (все страницы) */
