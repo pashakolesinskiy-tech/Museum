@@ -18,7 +18,7 @@ function renderHeader() {
     { href: isIndex ? "#exhibits" : "index.html#exhibits", text: "Экспозиции" },
     { href: isIndex ? "#times" : "index.html#times", text: "Связь времён" },
     { href: isIndex ? "#about" : "index.html#about", text: "Играй и познавай" },
-    { href: isIndex ? "#contact" : "index.html#contact", text: "Контакты" },
+
   ];
 
   const navItems = links
@@ -788,119 +788,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadGallery();
   }
 
-  const contactForm = document.getElementById("contactForm");
-  if (contactForm) {
-    const submitBtn = document.getElementById("submitBtn");
-    const formStatus = document.getElementById("formStatus");
 
-    function showError(inputId, errorId, message) {
-      const input = document.getElementById(inputId);
-      const errorEl = document.getElementById(errorId);
-      if (input && errorEl) {
-        input.setAttribute("aria-invalid", "true");
-        errorEl.textContent = message;
-      }
-    }
-
-    function clearError(inputId, errorId) {
-      const input = document.getElementById(inputId);
-      const errorEl = document.getElementById(errorId);
-      if (input && errorEl) {
-        input.removeAttribute("aria-invalid");
-        errorEl.textContent = "";
-      }
-    }
-
-    function validateForm() {
-      let valid = true;
-
-      const name = document.getElementById("contactName")?.value.trim();
-      const email = document.getElementById("contactEmail")?.value.trim();
-      const message = document.getElementById("contactMessage")?.value.trim();
-      const consent = document.getElementById("contactConsent")?.checked;
-
-      clearError("contactName", "nameError");
-      clearError("contactEmail", "emailError");
-      clearError("contactMessage", "messageError");
-      clearError("contactConsent", "consentError");
-
-      if (!name) {
-        showError("contactName", "nameError", "Пожалуйста, укажите ваше имя.");
-        valid = false;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!email) {
-        showError("contactEmail", "emailError", "Пожалуйста, укажите email.");
-        valid = false;
-      } else if (!emailRegex.test(email)) {
-        showError(
-          "contactEmail",
-          "emailError",
-          "Введите корректный email-адрес.",
-        );
-        valid = false;
-      }
-
-      if (!message) {
-        showError(
-          "contactMessage",
-          "messageError",
-          "Пожалуйста, напишите сообщение.",
-        );
-        valid = false;
-      }
-
-      if (!consent) {
-        showError(
-          "contactConsent",
-          "consentError",
-          "Необходимо согласие на обработку данных.",
-        );
-        valid = false;
-      }
-
-      return valid;
-    }
-
-    contactForm.addEventListener("submit", async function (e) {
-      e.preventDefault();
-
-      if (!validateForm()) {
-        const firstInvalid = contactForm.querySelector("[aria-invalid='true']");
-        firstInvalid?.focus();
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Отправка...";
-      formStatus.className = "form-status";
-      formStatus.textContent = "";
-
-      try {
-        await new Promise((resolve) => setTimeout(resolve, 1200));
-
-        formStatus.className = "form-status success";
-        formStatus.textContent =
-          "Сообщение успешно отправлено! Мы ответим вам в ближайшее время.";
-        contactForm.reset();
-      } catch (err) {
-        formStatus.className = "form-status error";
-        formStatus.textContent =
-          "Ошибка отправки. Пожалуйста, попробуйте ещё раз или напишите нам на email.";
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Отправить сообщение";
-        formStatus.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }
-    });
-
-    ["contactName", "contactEmail", "contactMessage"].forEach((id) => {
-      const input = document.getElementById(id);
-      const errorId = id.replace("contact", "").toLowerCase() + "Error";
-      input?.addEventListener("input", () => clearError(id, errorId));
-    });
-  }
 });
 
 // ===== ФОНОВАЯ МУЗЫКА С КНОПКОЙ-НОТОЙ =====
