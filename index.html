@@ -66,7 +66,6 @@
         "@type": "Museum",
         "name": "Виртуальный музей Детский сад №24 имени П.С. Портновой",
         "description": "Виртуальный музей, посвящённый истории дошкольного учреждения и его основательнице — Полине Сергеевне Портновой",
-        "url": "https://example.com",
         "address": {
           "@type": "PostalAddress",
           "addressLocality": "Полоцк",
@@ -88,31 +87,7 @@
       >Перейти к основному содержимому</a
     >
 
-    <header class="header" role="banner">
-      <div class="container nav">
-        <div class="logo">Музейная экспозиция</div>
-        <nav aria-label="Основная навигация">
-          <ul class="nav-menu" id="menu" role="list">
-            <li><a href="#hero" aria-current="page">Главная</a></li>
-            <li><a href="#exhibits">Экспозиции</a></li>
-            <li><a href="#times">Связь времён</a></li>
-            <li><a href="#about">Играй и познавай</a></li>
-            <li><a href="#contact">Контакты</a></li>
-          </ul>
-        </nav>
-        <button
-          class="burger"
-          id="burger"
-          aria-label="Открыть меню навигации"
-          aria-expanded="false"
-          aria-controls="menu"
-        >
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </button>
-      </div>
-    </header>
+    <header id="site-header"></header>
 
     <main id="main-content">
       <section class="hero" id="hero" aria-label="Главный баннер">
@@ -333,7 +308,6 @@
               </p>
             </div>
           </div>
-          <!-- /.about-modal-scroll -->
         </div>
       </div>
 
@@ -520,6 +494,7 @@
 
       <section class="visitors" id="about" aria-label="Играй и познавай">
         <div class="container">
+          <h2 class="section-title">Играй и познавай</h2>
           <div class="visitors-grid">
             <div class="visitor-card animate-up">
               <div class="window-arch" aria-hidden="true"></div>
@@ -580,32 +555,11 @@
           </div>
         </div>
       </section>
-    </main>
-    <!-- /#main-content -->
 
-    <footer class="footer" id="footer" role="contentinfo">
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-info">
-            <h3>Музейная экспозиция</h3>
-            <p>© 2026 Все права защищены</p>
-          </div>
-          <div class="footer-social">
-            <p>Мы в соцсетях:</p>
-            <a href="https://vk.ru/club183409209" aria-label="VK">VK</a> |
-            <a href="https://t.me/Detskiisad24" aria-label="Telegram"
-              >Telegram</a
-            >
-            |
-            <a
-              href="https://www.instagram.com/sad_24_polotsk?igsh=MTd6ZWc3cmJobXB2Nw%3D%3D&utm_source=qr"
-              aria-label="Instagram"
-              >Instagram</a
-            >
-          </div>
-        </div>
-      </div>
-    </footer>
+
+    </main>
+
+    <footer id="site-footer"></footer>
 
     <div
       id="videoModal"
@@ -624,7 +578,7 @@
     </div>
 
     <audio id="bg-music" loop>
-      <source src="assets/audio/music-index.mp3" type="audio/mpeg" />
+      <source src="assets/audio/music-main.mp3" type="audio/mpeg" />
       Ваш браузер не поддерживает аудио.
     </audio>
 

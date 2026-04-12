@@ -1,25 +1,31 @@
+function escapeHtml(str) {
+  const d = document.createElement("div");
+  d.textContent = str;
+  return d.innerHTML;
+}
+
 // ===== ШАПКА И ПОДВАЛ =====
 
-/**
- * Рисует шапку в <header id="site-header">.
- * Из трёх стандартных ссылок автоматически убирает ту,
- * на странице которой мы находимся.
- */
 function renderHeader() {
   const el = document.getElementById("site-header");
   if (!el) return;
 
   const page = location.pathname.split("/").pop() || "index.html";
+  const isIndex = page === "index.html" || page === "";
 
-  const allLinks = [
-    { href: "index.html", text: "Главная" },
-    { href: "gallery.html", text: "Коллекция" },
-    { href: "video-gallery.html", text: "Видео-галерея" },
+  const links = [
+    { href: isIndex ? "#hero" : "index.html", text: "Главная", current: isIndex },
+    { href: isIndex ? "#exhibits" : "index.html#exhibits", text: "Экспозиции" },
+    { href: isIndex ? "#times" : "index.html#times", text: "Связь времён" },
+    { href: isIndex ? "#about" : "index.html#about", text: "Играй и познавай" },
+    { href: isIndex ? "#contact" : "index.html#contact", text: "Контакты" },
   ];
 
-  const navItems = allLinks
-    .filter((l) => l.href !== page)
-    .map((l) => `<li><a href="${l.href}">${l.text}</a></li>`)
+  const navItems = links
+    .map((l) => {
+      const attr = l.current ? ' aria-current="page"' : "";
+      return `<li><a href="${l.href}"${attr}>${l.text}</a></li>`;
+    })
     .join("\n            ");
 
   el.className = "header";
@@ -42,20 +48,9 @@ function renderHeader() {
     </div>`;
 }
 
-/**
- * Рисует подвал в <footer id="site-footer">.
- * Заголовок зависит от страницы: галерейные → «Музейная экспозиция»,
- * остальные → «Виртуальный музей».
- */
 function renderFooter() {
   const el = document.getElementById("site-footer");
   if (!el) return;
-
-  const page = location.pathname.split("/").pop() || "index.html";
-  const title =
-    page === "gallery.html" || page === "video-gallery.html"
-      ? "Музейная экспозиция"
-      : "Виртуальный музей";
 
   el.className = "footer";
   el.setAttribute("role", "contentinfo");
@@ -63,7 +58,7 @@ function renderFooter() {
     <div class="container">
       <div class="footer-content">
         <div class="footer-info">
-          <h3>${title}</h3>
+          <h3>Музейная экспозиция</h3>
           <p>© 2026 Все права защищены</p>
         </div>
         <div class="footer-social">
@@ -157,61 +152,56 @@ if (track && slides.length > 0 && prevBtn && nextBtn && dotsContainer) {
   prevBtn.addEventListener("click", () => goToSlide(currentIndex - 1));
   nextBtn.addEventListener("click", () => goToSlide(currentIndex + 1));
 
-  // Клавиатурная навигация по слайдеру
-  document.addEventListener("keydown", (e) => {
-    // Только если фокус находится в области слайдера или нажаты стрелки без фокуса на поле ввода
-    const tag = document.activeElement?.tagName;
-    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
-
-    const sliderSection = document.getElementById("times");
-    if (!sliderSection) return;
-    const rect = sliderSection.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight && rect.bottom > 0;
-    if (!inView) return;
-
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      goToSlide(currentIndex - 1);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      goToSlide(currentIndex + 1);
-    }
-  });
+  track._sliderGoToSlide = goToSlide;
+  track._sliderGetCurrent = () => currentIndex;
+  track._sliderGetCount = () => slideCount;
 
   createDots();
   goToSlide(0);
 }
 
+// ===== УНИВЕРСАЛЬНЫЙ НАБЛЮДАТЕЛЬ АНИМАЦИЙ =====
+function initAnimateObserver(root) {
+  const rootEl = root || document;
+  const elements = rootEl.querySelectorAll(".animate-up:not(.visible)");
+  if (elements.length === 0) return;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
+  );
+
+  elements.forEach((el) => observer.observe(el));
+}
+
 // ===== УНИВЕРСАЛЬНЫЙ РЕНДЕР ГАЛЕРЕЙ =====
 
-/**
- * Строит HTML блока .gallery-info для страниц наград, архива и книг.
- * Формат: название + опциональная дата + опциональная заметка.
- */
 function buildStandardInfo(item) {
-  if (item.note)
-    return `<span>${item.name}</span><h3>${item.date}<br />${item.note}</h3>`;
-  if (item.date) return `<span>${item.name}</span><h3>${item.date}</h3>`;
-  return `<span>${item.name}</span>`;
+  const name = escapeHtml(item.name || "");
+  const date = escapeHtml(item.date || "");
+  const note = escapeHtml(item.note || "");
+  if (note) return `<span>${name}</span><h3>${date}<br />${note}</h3>`;
+  if (date) return `<span>${name}</span><h3>${date}</h3>`;
+  return `<span>${name}</span>`;
 }
 
-/**
- * Строит HTML блока .gallery-info для страницы экспонатов (gallery.html).
- * Дата выводится с подписью «Дата выпуска:».
- */
 function buildExhibitInfo(item) {
-  const dateHtml = item.note
-    ? `Дата выпуска: ${item.date}<br />${item.note}`
-    : `Дата выпуска: ${item.date}`;
-  return `<span>${item.name}</span><h3>${dateHtml}</h3>`;
+  const name = escapeHtml(item.name || "");
+  const date = escapeHtml(item.date || "");
+  const note = escapeHtml(item.note || "");
+  const dateHtml = note
+    ? `Дата выпуска: ${date}<br />${note}`
+    : `Дата выпуска: ${date}`;
+  return `<span>${name}</span><h3>${dateHtml}</h3>`;
 }
 
-/**
- * Загружает JSON из <script id="dataId">, рисует карточки в <div id="gridId">.
- * @param {string}   gridId   — id контейнера-сетки
- * @param {string}   dataId   — id <script type="application/json"> с данными
- * @param {Function} buildInfo — функция (item) => строка HTML для .gallery-info
- */
 function renderGrid(gridId, dataId, buildInfo) {
   const grid = document.getElementById(gridId);
   const dataEl = document.getElementById(dataId);
@@ -225,15 +215,19 @@ function renderGrid(gridId, dataId, buildInfo) {
     return;
   }
 
+  items = items.filter((item) => item.src);
+
   const fragment = document.createDocumentFragment();
   const tmp = document.createElement("div");
 
   items.forEach((item) => {
+    const alt = escapeHtml(item.alt || item.name || "");
+    const src = escapeHtml(item.src);
     tmp.innerHTML = `
       <div class="gallery-item has-lightbox animate-up" role="listitem" tabindex="0"
-           aria-label="${item.alt} — нажмите для увеличения">
+           aria-label="${alt} — нажмите для увеличения">
         <div class="gallery-card">
-          <img src="${item.src}" alt="${item.alt}" loading="lazy" />
+          <img src="${src}" alt="${alt}" loading="lazy" />
           <div class="gallery-info">${buildInfo(item)}</div>
         </div>
       </div>`;
@@ -243,7 +237,7 @@ function renderGrid(gridId, dataId, buildInfo) {
       const lb = document.getElementById("lb-overlay");
       if (!lb) return;
       document.getElementById("lb-img").src = item.src;
-      document.getElementById("lb-img").alt = item.alt;
+      document.getElementById("lb-img").alt = item.alt || item.name || "";
       document.getElementById("lb-caption").textContent = item.name || item.alt || "";
       lb.classList.add("active");
       document.body.classList.add("menu-open");
@@ -261,7 +255,6 @@ function renderGrid(gridId, dataId, buildInfo) {
   grid.appendChild(fragment);
 }
 
-// ── Инициализация универсального лайтбокса ────────────────────
 (function initLightbox() {
   const lb = document.getElementById("lb-overlay");
   if (!lb) return;
@@ -279,32 +272,12 @@ function renderGrid(gridId, dataId, buildInfo) {
   });
 })();
 
-// Страница gallery.html — экспонаты (особый формат даты)
 renderGrid("gallery-grid", "gallery-data", buildExhibitInfo);
-
-// Страницы awards / personal-archive / media — единый формат
 renderGrid("awards-grid", "awards-data", buildStandardInfo);
 renderGrid("archive-grid", "archive-data", buildStandardInfo);
 renderGrid("books-grid", "books-data", buildStandardInfo);
 
-// ===== АНИМАЦИЯ ПРИ СКРОЛЛЕ (Intersection Observer) =====
-const animatedElements = document.querySelectorAll(".animate-up");
-
-if (animatedElements.length > 0) {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
-  );
-
-  animatedElements.forEach((el) => observer.observe(el));
-}
+initAnimateObserver();
 
 // ===== ТРЁХМЕРНАЯ КАРУСЕЛЬ =====
 (function () {
@@ -323,19 +296,12 @@ if (animatedElements.length > 0) {
   const rotateAngle = 50;
   let isAnimating = false;
 
-  // Предварительный расчёт позиций
   const positions = [];
   for (let i = 0; i < totalItems; i++) {
     let angle, x, y, z, scale, opacity, zIndex;
 
     if (i === 0) {
-      angle = 0;
-      x = 0;
-      y = 0;
-      z = 100;
-      scale = 1;
-      opacity = 1;
-      zIndex = 100;
+      angle = 0; x = 0; y = 0; z = 100; scale = 1; opacity = 1; zIndex = 100;
     } else if (i <= totalItems / 2) {
       angle = -rotateAngle + (i - 1) * ((rotateAngle * 2) / (totalItems - 2));
       x = Math.sin((angle * Math.PI) / 180) * radius;
@@ -357,7 +323,6 @@ if (animatedElements.length > 0) {
     positions.push({ angle, x, y, z, scale, opacity, zIndex });
   }
 
-  // Создание точек навигации
   if (carouselDotsContainer) {
     carouselDotsContainer.innerHTML = "";
     for (let i = 0; i < totalItems; i++) {
@@ -417,7 +382,6 @@ if (animatedElements.length > 0) {
     }
   });
 
-  // Клавиатурная навигация по карусели (стрелки)
   carousel3d.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
@@ -430,30 +394,12 @@ if (animatedElements.length > 0) {
     }
   });
 
-  // Глобальная клавиатурная навигация для карусели
-  document.addEventListener("keydown", (e) => {
-    const tag = document.activeElement?.tagName;
-    if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  carousel3d._carouselGo = function (dir) {
+    if (dir === "prev") currentIndex = (currentIndex + 1 + totalItems) % totalItems;
+    else currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+    updateCarousel();
+  };
 
-    const carouselSection = document.getElementById("exhibits");
-    if (!carouselSection) return;
-    const rect = carouselSection.getBoundingClientRect();
-    const inView = rect.top < window.innerHeight / 2 && rect.bottom > 0;
-
-    if (inView && document.getElementById("times") === null) {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        currentIndex = (currentIndex + 1 + totalItems) % totalItems;
-        updateCarousel();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        currentIndex = (currentIndex - 1 + totalItems) % totalItems;
-        updateCarousel();
-      }
-    }
-  });
-
-  // Поддержка свайпов и перетаскивания
   let startX = 0;
   let isDragging = false;
   let didDrag = false;
@@ -498,7 +444,6 @@ if (animatedElements.length > 0) {
     if (isDragging) handleSwipe(e.clientX);
   });
 
-  // Клик по карточке
   carousel3d.addEventListener("click", (e) => {
     if (didDrag) return;
 
@@ -508,7 +453,6 @@ if (animatedElements.length > 0) {
     const item = cardImage.closest(".carousel-item");
     const href = item?.dataset.href;
 
-    // Если у карточки флаг warpath-preview — открываем модальное окно
     if (item?.dataset.warpathPreview === "true") {
       const modal = document.getElementById("warPathModal");
       if (modal) {
@@ -525,11 +469,47 @@ if (animatedElements.length > 0) {
     }
   });
 
-  // Начальный рендер
   updateCarousel();
 })();
 
-// ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ловушка фокуса для модального окна =====
+// ===== ОБЩИЙ КЛАВИАТУРНЫЙ ОБРАБОТЧИК =====
+document.addEventListener("keydown", (e) => {
+  const tag = document.activeElement?.tagName;
+  if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+  if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+
+  const carousel3d = document.getElementById("carousel-3d");
+  const carouselSection = document.getElementById("exhibits");
+  const sliderSection = document.getElementById("times");
+  const sliderTrack = document.getElementById("swipe-track");
+
+  if (carouselSection && carousel3d?._carouselGo) {
+    const rect = carouselSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight / 2 && rect.bottom > 0;
+    if (inView) {
+      e.preventDefault();
+      carousel3d._carouselGo(e.key === "ArrowLeft" ? "prev" : "next");
+      return;
+    }
+  }
+
+  if (sliderSection && sliderTrack?._sliderGoToSlide) {
+    const rect = sliderSection.getBoundingClientRect();
+    const inView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (inView) {
+      e.preventDefault();
+      const cur = sliderTrack._sliderGetCurrent();
+      const cnt = sliderTrack._sliderGetCount();
+      let idx = e.key === "ArrowLeft" ? cur - 1 : cur + 1;
+      if (idx < 0) idx = cnt - 1;
+      if (idx >= cnt) idx = 0;
+      sliderTrack._sliderGoToSlide(idx);
+      return;
+    }
+  }
+});
+
+// ===== ВСПОМОГАТЕЛЬНАЯ ФУНКЦИЯ: ловушка фокуса =====
 function trapFocus(modal) {
   const focusable = modal.querySelectorAll(
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
@@ -558,7 +538,6 @@ function trapFocus(modal) {
 
 // ===== МОДАЛЬНЫЕ ОКНА И ВИДЕО =====
 document.addEventListener("DOMContentLoaded", function () {
-  // --- Модальное окно «О музее» ---
   const btnAbout = document.getElementById("btnAboutMuseum");
   const aboutModal = document.getElementById("aboutMuseumModal");
   const aboutClose = document.getElementById("aboutMuseumClose");
@@ -570,7 +549,6 @@ document.addEventListener("DOMContentLoaded", function () {
       aboutModal.classList.add("active");
       document.body.classList.add("menu-open");
       btnAbout.setAttribute("aria-expanded", "true");
-      // Переводим фокус на кнопку закрытия
       requestAnimationFrame(() => aboutClose?.focus());
       removeTrap = trapFocus(aboutModal);
     }
@@ -583,7 +561,6 @@ document.addEventListener("DOMContentLoaded", function () {
         removeTrap();
         removeTrap = null;
       }
-      // Возвращаем фокус на кнопку открытия
       btnAbout.focus();
     }
 
@@ -598,7 +575,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- Модальное окно для видео (слайдер) ---
   const modal = document.getElementById("videoModal");
   const modalVideo = document.getElementById("modalVideo");
   const closeBtn = modal?.querySelector(".close");
@@ -656,67 +632,74 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  // --- Видео-галерея: загрузка данных из встроенного <script id="gallery-data"> ---
   const galleryContainer = document.getElementById("video-gallery-container");
 
   if (galleryContainer) {
-    // ── Строители HTML-карточек ────────────────────────────────────────────
-
     function buildVideoCard(item) {
-      const ariaLabel = `${item.caption} — нажмите для просмотра`;
+      const ariaLabel = escapeHtml(`${item.caption} — нажмите для просмотра`);
+      const poster = escapeHtml(item.poster);
+      const alt = escapeHtml(item.alt);
+      const video = escapeHtml(item.video);
+      const caption = escapeHtml(item.caption);
       return `
         <div class="video-vertical-item animate-up" role="listitem">
           <div class="video-media-block">
             <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
               <img
-                src="${item.poster}"
-                alt="${item.alt}"
+                src="${poster}"
+                alt="${alt}"
                 class="video-poster"
                 loading="lazy"
               />
               <video class="video-player" muted playsinline preload="metadata">
-                <source src="${item.video}" type="video/mp4" />
+                <source src="${video}" type="video/mp4" />
                 Ваш браузер не поддерживает видео.
               </video>
             </div>
-            <div class="video-caption">${item.caption}</div>
+            <div class="video-caption">${caption}</div>
           </div>
         </div>`;
     }
 
     function buildColorCard(item) {
-      const ariaLabel = `${item.caption} — нажмите для перехода к цветной версии`;
+      const ariaLabel = escapeHtml(`${item.caption} — нажмите для перехода к цветной версии`);
+      const poster = escapeHtml(item.poster);
+      const colorSrc = escapeHtml(item.colorSrc);
+      const alt = escapeHtml(item.alt);
+      const altColor = escapeHtml(item.altColor || "Цветная версия");
+      const caption = escapeHtml(item.caption);
       return `
         <div class="video-vertical-item animate-up" role="listitem">
           <div class="video-media-block">
-            <div class="video-container" role="button" tabindex="0" aria-label="${ariaLabel}">
+            <div class="video-container has-color-reveal" role="button" tabindex="0" aria-label="${ariaLabel}">
               <img
-                src="${item.poster}"
-                data-color-src="${item.colorSrc}"
-                alt="${item.alt}"
+                src="${poster}"
+                data-color-src="${colorSrc}"
+                alt="${alt}"
                 class="video-poster"
                 loading="lazy"
               />
-              <img src="" alt="${item.altColor || "Цветная версия"}" class="video-player color-reveal" />
+              <img src="" alt="${altColor}" class="video-player color-reveal" />
             </div>
-            <div class="video-caption">${item.caption}</div>
+            <div class="video-caption">${caption}</div>
           </div>
         </div>`;
     }
 
     function buildImageCard(item) {
+      const src = escapeHtml(item.src);
+      const alt = escapeHtml(item.alt);
+      const caption = escapeHtml(item.caption);
       return `
         <div class="video-vertical-item animate-up" role="listitem">
           <div class="video-media-block">
             <div class="video-caption-only">
-              <img src="${item.src}" alt="${item.alt}" loading="lazy" />
-              <div class="video-caption">${item.caption}</div>
+              <img src="${src}" alt="${alt}" loading="lazy" />
+              <div class="video-caption">${caption}</div>
             </div>
           </div>
         </div>`;
     }
-
-    // ── Инициализация интерактивности для одного контейнера ───────────────
 
     function initVideoContainer(container) {
       const poster = container.querySelector(".video-poster");
@@ -755,25 +738,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
       }
     }
-
-    // ── Наблюдатель прокрутки для animate-up ──────────────────────────────
-
-    function observeNewItems(items) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
-      );
-      items.forEach((el) => observer.observe(el));
-    }
-
-    // ── Рендер галереи из встроенного <script id="gallery-data"> ──────────
 
     function loadGallery() {
       const dataEl = document.getElementById("gallery-data");
@@ -818,13 +782,12 @@ document.addEventListener("DOMContentLoaded", function () {
       galleryContainer
         .querySelectorAll(".video-container")
         .forEach(initVideoContainer);
-      observeNewItems(galleryContainer.querySelectorAll(".animate-up"));
+      initAnimateObserver(galleryContainer);
     }
 
     loadGallery();
   }
 
-  // --- Форма обратной связи ---
   const contactForm = document.getElementById("contactForm");
   if (contactForm) {
     const submitBtn = document.getElementById("submitBtn");
@@ -904,7 +867,6 @@ document.addEventListener("DOMContentLoaded", function () {
       e.preventDefault();
 
       if (!validateForm()) {
-        // Ставим фокус на первое поле с ошибкой
         const firstInvalid = contactForm.querySelector("[aria-invalid='true']");
         firstInvalid?.focus();
         return;
@@ -916,7 +878,6 @@ document.addEventListener("DOMContentLoaded", function () {
       formStatus.textContent = "";
 
       try {
-        // Имитация отправки (в реальном проекте — fetch к серверу или Formspree)
         await new Promise((resolve) => setTimeout(resolve, 1200));
 
         formStatus.className = "form-status success";
@@ -934,7 +895,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
 
-    // Снятие ошибки при вводе
     ["contactName", "contactEmail", "contactMessage"].forEach((id) => {
       const input = document.getElementById(id);
       const errorId = id.replace("contact", "").toLowerCase() + "Error";
@@ -959,7 +919,6 @@ document.addEventListener("DOMContentLoaded", function () {
     btn.setAttribute("aria-pressed", String(on));
   }
 
-  // Музыка запускается только по нажатию на кнопку-ноту
   if (btn) {
     btn.addEventListener("click", () => {
       if (!started) {
@@ -986,12 +945,4 @@ document.addEventListener("DOMContentLoaded", function () {
   music.addEventListener("play", () => setPlaying(true));
 })();
 
-// ===== РЕГИСТРАЦИЯ SERVICE WORKER (PWA) =====
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((reg) => console.log("Service Worker зарегистрирован:", reg.scope))
-      .catch((err) => console.log("Ошибка регистрации SW:", err));
-  });
-}
+

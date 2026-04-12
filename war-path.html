@@ -36,515 +36,6 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
       rel="stylesheet"
     />
-
-    <style>
-      /* ── Страница «Через огненные вёрсты войны» ─────────── */
-
-      .war-hero {
-        padding-top: calc(var(--header-height) + 60px);
-        padding-bottom: 80px;
-      }
-
-      /* Заголовочный блок */
-      .war-header {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        margin-bottom: 64px;
-        text-align: center;
-      }
-
-      .war-title {
-        font-family: var(--font-serif);
-        font-size: clamp(2rem, 5vw, 3.4rem);
-        color: var(--accent);
-        font-weight: 600;
-        letter-spacing: -0.5px;
-        line-height: 1.15;
-        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-        max-width: 780px;
-        position: relative;
-      }
-
-      .war-title::after {
-        content: "";
-        display: block;
-        width: 80px;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          var(--accent),
-          transparent
-        );
-        margin: 20px auto 0;
-      }
-
-      .war-subtitle {
-        font-family: var(--font-serif);
-        font-size: clamp(1rem, 2vw, 1.2rem);
-        color: var(--text-muted);
-        font-style: italic;
-        max-width: 640px;
-        line-height: 1.7;
-      }
-
-      .war-hall-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-family: var(--font-sans);
-        font-size: 0.72rem;
-        text-transform: uppercase;
-        letter-spacing: 2.5px;
-        color: var(--accent);
-        border: 1px solid rgba(212, 175, 55, 0.35);
-        border-radius: 40px;
-        padding: 8px 22px;
-        background: rgba(212, 175, 55, 0.05);
-      }
-
-      /* ── Основной контент: текст + фото ──────────────────── */
-
-      .war-content {
-        display: grid;
-        gap: 56px;
-        max-width: 1100px;
-        margin: 0 auto;
-      }
-
-      /* Раздел с текстом */
-      .war-text-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 40px;
-        align-items: start;
-        background: rgba(10, 15, 24, 0.5);
-        border: 1px solid rgba(212, 175, 55, 0.15);
-        border-radius: var(--radius);
-        padding: 48px;
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        position: relative;
-        overflow: hidden;
-      }
-
-      .war-text-section::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-        background: linear-gradient(180deg, var(--accent), transparent);
-        border-radius: 4px 0 0 4px;
-      }
-
-      .war-text-section.full-width {
-        grid-template-columns: 1fr;
-      }
-
-      .war-text-col {
-        /* styles inherited from grid layout */
-      }
-
-      .war-section-label {
-        font-family: var(--font-sans);
-        font-size: 0.65rem;
-        text-transform: uppercase;
-        letter-spacing: 3px;
-        color: var(--accent);
-        opacity: 0.8;
-        margin-bottom: 14px;
-        display: block;
-      }
-
-      .war-section-title {
-        font-family: var(--font-serif);
-        font-size: clamp(1.3rem, 2.5vw, 1.7rem);
-        color: var(--text);
-        font-weight: 600;
-        line-height: 1.3;
-        margin-bottom: 20px;
-      }
-
-      .war-text-col p {
-        font-family: var(--font-sans);
-        font-size: 0.95rem;
-        color: var(--text-muted);
-        line-height: 1.8;
-        margin-bottom: 14px;
-      }
-
-      .war-text-col p:last-child {
-        margin-bottom: 0;
-      }
-
-      /* Блок с цитатой */
-      .war-quote {
-        background: rgba(212, 175, 55, 0.06);
-        border-left: 3px solid var(--accent);
-        border-radius: 0 12px 12px 0;
-        padding: 24px 28px;
-        margin: 24px 0;
-      }
-
-      .war-quote p {
-        font-family: var(--font-serif) !important;
-        font-size: clamp(1rem, 1.8vw, 1.15rem) !important;
-        font-style: italic;
-        color: var(--text) !important;
-        line-height: 1.7 !important;
-        margin-bottom: 10px !important;
-      }
-
-      .war-quote cite {
-        font-family: var(--font-sans);
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-        color: var(--accent);
-        opacity: 0.8;
-        font-style: normal;
-      }
-
-      /* Факты-плитки */
-      .war-facts {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 16px;
-        margin-top: 8px;
-      }
-
-      .war-fact {
-        background: rgba(212, 175, 55, 0.07);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        border-radius: 16px;
-        padding: 20px 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        transition:
-          border-color 0.3s,
-          transform 0.3s;
-      }
-
-      .war-fact:hover {
-        border-color: rgba(212, 175, 55, 0.55);
-        transform: translateY(-3px);
-      }
-
-      .war-fact__num {
-        font-family: var(--font-serif);
-        font-size: clamp(1.8rem, 3vw, 2.4rem);
-        color: var(--accent);
-        line-height: 1;
-        font-weight: 600;
-      }
-
-      .war-fact__label {
-        font-family: var(--font-sans);
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        line-height: 1.4;
-      }
-
-      /* ── Галерея фотографий ────────────────────────────── */
-
-      .war-gallery-title {
-        font-family: var(--font-serif);
-        font-size: clamp(1.4rem, 2.5vw, 1.9rem);
-        color: var(--text);
-        text-align: center;
-        margin-bottom: 8px;
-        font-weight: 400;
-        position: relative;
-      }
-
-      .war-gallery-title::after {
-        content: "✦";
-        display: block;
-        font-size: 0.9rem;
-        color: var(--accent);
-        opacity: 0.6;
-        margin-top: 10px;
-      }
-
-      .war-gallery-sub {
-        text-align: center;
-        font-family: var(--font-serif);
-        font-style: italic;
-        color: var(--text-muted);
-        font-size: 0.95rem;
-        margin-bottom: 40px;
-      }
-
-      .war-gallery-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
-      }
-
-      .war-photo-card {
-        background: rgba(10, 15, 24, 0.55);
-        border: 1px solid rgba(212, 175, 55, 0.2);
-        border-radius: var(--radius-sm);
-        overflow: hidden;
-        cursor: pointer;
-        transition:
-          border-color 0.35s ease,
-          transform 0.35s ease,
-          box-shadow 0.35s ease;
-        position: relative;
-      }
-
-      .war-photo-card:hover {
-        border-color: rgba(212, 175, 55, 0.65);
-        transform: translateY(-5px);
-        box-shadow:
-          0 20px 48px rgba(0, 0, 0, 0.5),
-          0 0 20px rgba(212, 175, 55, 0.1);
-      }
-
-      .war-photo-card__img-wrap {
-        position: relative;
-        overflow: hidden;
-        aspect-ratio: 4/3;
-      }
-
-      .war-photo-card__img-wrap img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition:
-          transform 0.5s ease,
-          filter 0.4s ease;
-        filter: brightness(0.88) sepia(0.1);
-      }
-
-      .war-photo-card:hover .war-photo-card__img-wrap img {
-        transform: scale(1.06);
-        filter: brightness(0.98) sepia(0);
-      }
-
-      .war-photo-card__overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          to top,
-          rgba(6, 7, 9, 0.7) 0%,
-          transparent 60%
-        );
-        opacity: 0;
-        transition: opacity 0.35s;
-        display: flex;
-        align-items: flex-end;
-        padding: 16px;
-      }
-
-      .war-photo-card:hover .war-photo-card__overlay {
-        opacity: 1;
-      }
-
-      .war-photo-card__zoom {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--accent);
-        font-family: var(--font-sans);
-      }
-
-      .war-photo-card__caption {
-        padding: 14px 16px;
-        font-family: var(--font-serif);
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        line-height: 1.5;
-        font-style: italic;
-        border-top: 1px solid rgba(212, 175, 55, 0.1);
-      }
-
-      /* ── Лайтбокс ─────────────────────────────────────── */
-      .war-lightbox {
-        display: none;
-        position: fixed;
-        inset: 0;
-        z-index: 2000;
-        background: rgba(6, 7, 9, 0.96);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-      }
-
-      .war-lightbox.active {
-        display: flex;
-      }
-
-      .war-lightbox__inner {
-        position: relative;
-        max-width: 900px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-      }
-
-      .war-lightbox__img {
-        max-height: 75vh;
-        max-width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
-        border: 1px solid rgba(212, 175, 55, 0.25);
-        object-fit: contain;
-      }
-
-      .war-lightbox__caption {
-        font-family: var(--font-serif);
-        font-style: italic;
-        font-size: 1rem;
-        color: var(--text-muted);
-        text-align: center;
-        max-width: 680px;
-        line-height: 1.6;
-      }
-
-      .war-lightbox__close {
-        position: absolute;
-        top: -12px;
-        right: -12px;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        border: 1px solid rgba(212, 175, 55, 0.45);
-        background: rgba(10, 15, 24, 0.9);
-        color: var(--accent);
-        font-size: 1.3rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition:
-          border-color 0.3s,
-          transform 0.3s;
-        z-index: 10;
-        line-height: 1;
-        padding: 0;
-      }
-
-      .war-lightbox__close:hover {
-        border-color: var(--accent);
-        transform: rotate(90deg);
-      }
-
-      /* Timeline */
-      .war-timeline {
-        position: relative;
-        padding-left: 32px;
-      }
-
-      .war-timeline::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 8px;
-        bottom: 8px;
-        width: 2px;
-        background: linear-gradient(
-          180deg,
-          var(--accent),
-          rgba(212, 175, 55, 0.1)
-        );
-        border-radius: 2px;
-      }
-
-      .war-timeline__item {
-        position: relative;
-        margin-bottom: 28px;
-      }
-
-      .war-timeline__item:last-child {
-        margin-bottom: 0;
-      }
-
-      .war-timeline__item::before {
-        content: "";
-        position: absolute;
-        left: -37px;
-        top: 6px;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        background: var(--accent);
-        border: 2px solid rgba(6, 7, 9, 0.8);
-        box-shadow: 0 0 8px rgba(212, 175, 55, 0.4);
-      }
-
-      .war-timeline__year {
-        font-family: var(--font-sans);
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        color: var(--accent);
-        opacity: 0.85;
-        margin-bottom: 4px;
-      }
-
-      .war-timeline__text {
-        font-family: var(--font-sans);
-        font-size: 0.9rem;
-        color: var(--text-muted);
-        line-height: 1.7;
-      }
-
-      /* Декоративный разделитель */
-      .war-divider {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        margin: 8px 0;
-      }
-
-      .war-divider::before,
-      .war-divider::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          rgba(212, 175, 55, 0.3),
-          transparent
-        );
-      }
-
-      .war-divider__sym {
-        color: var(--accent);
-        opacity: 0.5;
-        font-size: 0.8rem;
-      }
-
-      @media (max-width: 768px) {
-        .war-text-section {
-          grid-template-columns: 1fr;
-          padding: 30px 24px;
-          gap: 28px;
-        }
-
-        .war-gallery-grid {
-          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-          gap: 14px;
-        }
-
-        .war-lightbox__close {
-          top: -50px;
-          right: 0;
-        }
-      }
-    </style>
   </head>
   <body class="gallery-page">
     <a class="skip-link" href="#main-content"
@@ -633,7 +124,6 @@
                   ГУО «Детский сад №24 имени П.С. Портновой г.Полоцка»
                 </p>
 
-                <!-- JSON-данные галереи — отредактируйте для добавления фотографий -->
                 <script id="war-gallery-data" type="application/json">
                   [
                     {
@@ -660,7 +150,6 @@
                   role="list"
                   aria-label="Фотохроника военных лет"
                 >
-                  <!-- Рендерится JavaScript-ом ниже -->
                 </div>
               </div>
             </div>
@@ -779,7 +268,6 @@
                   Архивные фотографии из фондов музея. Нажмите для увеличения.
                 </p>
 
-                <!-- JSON-данные галереи — отредактируйте для добавления фотографий -->
                 <script id="war-gallery-data-2" type="application/json">
                   [
                     {
@@ -806,7 +294,6 @@
                   role="list"
                   aria-label="Фотохроника военных лет"
                 >
-                  <!-- Рендерится JavaScript-ом ниже -->
                 </div>
               </div>
             </div>
@@ -844,24 +331,12 @@
 
     <footer id="site-footer"></footer>
 
-    <!-- Лайтбокс -->
-    <div
-      id="war-lightbox"
-      class="war-lightbox"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Просмотр фотографии"
-    >
-      <div class="war-lightbox__inner">
-        <button
-          class="war-lightbox__close"
-          id="war-lightbox-close"
-          aria-label="Закрыть"
-        >
-          &times;
-        </button>
-        <img class="war-lightbox__img" id="war-lightbox-img" src="" alt="" />
-        <p class="war-lightbox__caption" id="war-lightbox-caption"></p>
+    <!-- Универсальный лайтбокс -->
+    <div id="lb-overlay" class="lb-overlay" role="dialog" aria-modal="true" aria-label="Просмотр фотографии">
+      <div class="lb-inner">
+        <button class="lb-close" id="lb-close" aria-label="Закрыть">&times;</button>
+        <img class="lb-img" id="lb-img" src="" alt="" />
+        <p class="lb-caption" id="lb-caption"></p>
       </div>
     </div>
 
@@ -900,31 +375,8 @@
 
     <script src="script.js"></script>
     <script>
-      // ── Галереи «Через огненные вёрсты войны» ──────────────────────────────
-
       (function () {
-        const lightbox = document.getElementById("war-lightbox");
-        const lbImg = document.getElementById("war-lightbox-img");
-        const lbCaption = document.getElementById("war-lightbox-caption");
-        const lbClose = document.getElementById("war-lightbox-close");
-
-        // Лайтбокс: закрытие
-        function closeLightbox() {
-          lightbox.classList.remove("active");
-          document.body.classList.remove("menu-open");
-        }
-
-        lbClose.addEventListener("click", closeLightbox);
-        lightbox.addEventListener("click", (e) => {
-          if (e.target === lightbox) closeLightbox();
-        });
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape" && lightbox.classList.contains("active"))
-            closeLightbox();
-        });
-
-        // Универсальная функция инициализации галереи
-        function initGallery(gridId, dataId) {
+        function initWarGallery(gridId, dataId) {
           const gridEl = document.getElementById(gridId);
           const dataEl = document.getElementById(dataId);
           if (!gridEl || !dataEl) return;
@@ -946,55 +398,47 @@
               "aria-label",
               (photo.caption || photo.alt) + " — нажмите для увеличения",
             );
-            card.innerHTML = `
-              <div class="war-photo-card__img-wrap">
-                <img src="${photo.src}" alt="${photo.alt}" loading="lazy" />
-                <div class="war-photo-card__overlay">
-                  <span class="war-photo-card__zoom">Увеличить</span>
-                </div>
-              </div>
-              ${photo.caption ? `<div class="war-photo-card__caption">${photo.caption}</div>` : ""}
-            `;
+            const safeAlt = document.createElement("span");
+            safeAlt.textContent = photo.alt;
+            const safeCaption = document.createElement("span");
+            safeCaption.textContent = photo.caption || "";
 
-            function openLightbox() {
-              lbImg.src = photo.src;
-              lbImg.alt = photo.alt;
-              lbCaption.textContent = photo.caption || "";
-              lightbox.classList.add("active");
+            card.innerHTML =
+              '<div class="war-photo-card__img-wrap">' +
+              '<img src="' + escapeHtml(photo.src) + '" alt="' + safeAlt.innerHTML + '" loading="lazy" />' +
+              '<div class="war-photo-card__overlay">' +
+              '<span class="war-photo-card__zoom">Увеличить</span>' +
+              '</div>' +
+              '</div>' +
+              (photo.caption ? '<div class="war-photo-card__caption">' + safeCaption.innerHTML + '</div>' : '');
+
+            function openLb() {
+              const lb = document.getElementById("lb-overlay");
+              if (!lb) return;
+              document.getElementById("lb-img").src = photo.src;
+              document.getElementById("lb-img").alt = photo.alt;
+              document.getElementById("lb-caption").textContent = photo.caption || "";
+              lb.classList.add("active");
               document.body.classList.add("menu-open");
-              requestAnimationFrame(() => lbClose.focus());
+              requestAnimationFrame(() => document.getElementById("lb-close").focus());
             }
 
-            card.addEventListener("click", openLightbox);
+            card.addEventListener("click", openLb);
             card.addEventListener("keydown", (e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                openLightbox();
+                openLb();
               }
             });
 
             gridEl.appendChild(card);
           });
 
-          // Intersection Observer для анимаций
-          const observer = new IntersectionObserver(
-            (entries) =>
-              entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                  entry.target.classList.add("visible");
-                  observer.unobserve(entry.target);
-                }
-              }),
-            { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
-          );
-          gridEl
-            .querySelectorAll(".animate-up")
-            .forEach((el) => observer.observe(el));
+          initAnimateObserver(gridEl);
         }
 
-        // Инициализируем обе галереи
-        initGallery("war-gallery-grid", "war-gallery-data");
-        initGallery("war-gallery-grid-2", "war-gallery-data-2");
+        initWarGallery("war-gallery-grid", "war-gallery-data");
+        initWarGallery("war-gallery-grid-2", "war-gallery-data-2");
       })();
     </script>
   </body>
