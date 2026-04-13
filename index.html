@@ -234,7 +234,7 @@
               </p>
               <!-- Три зала -->
               <div class="modal-halls">
-                <a href="#" class="modal-hall-card">
+                <div class="modal-hall-card">
                   <div
                     class="modal-hall-card__corner tl"
                     aria-hidden="true"
@@ -252,9 +252,9 @@
                     рассказываем о жизненном пути и героическом подвиге
                     человека, чье имя мы бережно храним.
                   </span>
-                </a>
+                </div>
 
-                <a href="#" class="modal-hall-card">
+                <div class="modal-hall-card">
                   <div
                     class="modal-hall-card__corner tl"
                     aria-hidden="true"
@@ -272,9 +272,9 @@
                     разделе собраны уникальные кадры, запечатлевшие мгновения.
                     Здесь оживает подлинная история нашего учреждения.
                   </span>
-                </a>
+                </div>
 
-                <a href="#" class="modal-hall-card">
+                <div class="modal-hall-card">
                   <div
                     class="modal-hall-card__corner tl"
                     aria-hidden="true"
@@ -292,7 +292,7 @@
                     сохранения мира и человечности в будущем. Здесь время не
                     властно над подвигом и болью.</span
                   >
-                </a>
+                </div>
               </div>
               <p>
                 На игровой странице «Играй и познавай» родители и дети смогут с
@@ -327,7 +327,8 @@
                   <img
                     src="assets/carousel/slide-01.webp"
                     alt="Всё ради жизни на земле — страница о Полине Портновой"
-                    loading="lazy"
+                    loading="eager"
+                    onerror="this.src='assets/placeholder.svg'"
                   />
                 </div>
               </div>
@@ -338,7 +339,8 @@
                   <img
                     src="assets/carousel/slide-02.webp"
                     alt="Детство в деталях — галерея экспонатов"
-                    loading="lazy"
+                    loading="eager"
+                    onerror="this.src='assets/placeholder.svg'"
                   />
                 </div>
               </div>
@@ -349,7 +351,8 @@
                   <img
                     src="assets/carousel/slide-03.webp"
                     alt="Через огненные вёрсты войны"
-                    loading="lazy"
+                    loading="eager"
+                    onerror="this.src='assets/placeholder.svg'"
                   />
                 </div>
               </div>
@@ -433,13 +436,14 @@
               aria-live="polite"
             >
               <article class="swipe-slide">
-                <img
-                  src="assets/slider/slide-01.webp"
-                  alt="Портрет П.С.Портновой"
-                  loading="lazy"
-                  data-video-src="assets/video-portnova.mp4"
-                  class="slide-image"
-                />
+                  <img
+                    src="assets/slider/slide-01.webp"
+                    alt="Портрет П.С.Портновой"
+                    loading="lazy"
+                    onerror="this.src='assets/placeholder.svg'"
+                    data-video-src="assets/video-portnova.mp4"
+                    class="slide-image"
+                  />
                 <div class="slide-caption">Полина Сергеевна Портнова</div>
               </article>
               <article class="swipe-slide">
@@ -451,18 +455,20 @@
                     src="assets/slider/slide-02.webp"
                     alt="Видео-галерея — прошлое в цвете"
                     loading="lazy"
+                    onerror="this.src='assets/placeholder.svg'"
                     class="slide-image"
                   />
                 </a>
               </article>
               <article class="swipe-slide">
-                <img
-                  src="assets/slider/slide-03.webp"
-                  alt="Архивное изображение"
-                  loading="lazy"
-                  data-video-src="assets/video-slider-3.mp4"
-                  class="slide-image"
-                />
+                  <img
+                    src="assets/slider/slide-03.webp"
+                    alt="Архивное изображение"
+                    loading="lazy"
+                    onerror="this.src='assets/placeholder.svg'"
+                    data-video-src="assets/video-slider-3.mp4"
+                    class="slide-image"
+                  />
               </article>
             </div>
             <button
@@ -508,6 +514,7 @@
                       src="assets/about/about-01.webp"
                       alt="Интерактивный раздел для посетителей"
                       loading="lazy"
+                      onerror="this.src='assets/placeholder.svg'"
                     />
                   </a>
                 </div>
@@ -522,13 +529,12 @@
                 <div class="window-frame-corner tr" aria-hidden="true"></div>
                 <div class="window-shine" aria-hidden="true"></div>
                 <div class="card-image">
-                  <a href="#">
-                    <img
-                      src="assets/about/about-02.webp"
-                      alt="Детские занятия и активности"
-                      loading="lazy"
-                    />
-                  </a>
+                  <img
+                    src="assets/about/about-02.webp"
+                    alt="Детские занятия и активности"
+                    loading="lazy"
+                    onerror="this.src='assets/placeholder.svg'"
+                  />
                 </div>
                 <div class="window-sill" aria-hidden="true"></div>
               </div>
@@ -546,6 +552,7 @@
                       src="assets/about/about-03.webp"
                       alt="Познавательные игры для детей"
                       loading="lazy"
+                      onerror="this.src='assets/placeholder.svg'"
                     />
                   </a>
                 </div>
@@ -619,11 +626,11 @@
         <p class="war-preview-modal__sub">Выберите любое изображение, чтобы войти в зал</p>
         <div class="war-preview-modal__grid">
           <a href="war-path.html" class="war-preview-modal__card" aria-label="Открыть зал «Через огненные вёрсты войны»">
-            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 1" loading="lazy" />
+            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 1" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
             <div class="war-preview-modal__card-overlay"><span>Войти в зал</span></div>
           </a>
           <a href="war-path.html" class="war-preview-modal__card" aria-label="Открыть зал «Через огненные вёрсты войны»">
-            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 2" loading="lazy" />
+            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 2" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
             <div class="war-preview-modal__card-overlay"><span>Войти в зал</span></div>
           </a>
         </div>

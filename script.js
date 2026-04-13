@@ -211,7 +211,6 @@ function renderGrid(gridId, dataId, buildInfo) {
   try {
     items = JSON.parse(dataEl.textContent);
   } catch (e) {
-    console.error(`Ошибка ${dataId} JSON:`, e);
     return;
   }
 
@@ -227,7 +226,7 @@ function renderGrid(gridId, dataId, buildInfo) {
       <div class="gallery-item has-lightbox animate-up" role="listitem" tabindex="0"
            aria-label="${alt} — нажмите для увеличения">
         <div class="gallery-card">
-          <img src="${src}" alt="${alt}" loading="lazy" />
+          <img src="${src}" alt="${alt}" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
           <div class="gallery-info">${buildInfo(item)}</div>
         </div>
       </div>`;
@@ -599,9 +598,7 @@ document.addEventListener("DOMContentLoaded", function () {
           modal.setAttribute("aria-hidden", "false");
           requestAnimationFrame(() => closeBtn.focus());
           removeTrap = trapFocus(modal);
-          modalVideo.play().catch((error) => {
-            console.log("Автовоспроизведение не удалось:", error);
-          });
+          modalVideo.play();
         }
       });
     });
@@ -723,7 +720,7 @@ document.addEventListener("DOMContentLoaded", function () {
       } else if (video) {
         function playVideo() {
           container.classList.add("playing");
-          video.play().catch((e) => console.log("Ошибка воспроизведения:", e));
+          video.play();
         }
         container.addEventListener("click", playVideo);
         container.addEventListener("keydown", (e) => {
@@ -742,7 +739,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function loadGallery() {
       const dataEl = document.getElementById("gallery-data");
       if (!dataEl) {
-        console.error("Элемент #gallery-data не найден.");
         return;
       }
 
@@ -750,7 +746,6 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         items = JSON.parse(dataEl.textContent);
       } catch (err) {
-        console.error("Ошибка разбора gallery-data JSON:", err);
         return;
       }
 

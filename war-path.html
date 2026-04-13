@@ -405,7 +405,7 @@
 
             card.innerHTML =
               '<div class="war-photo-card__img-wrap">' +
-              '<img src="' + escapeHtml(photo.src) + '" alt="' + safeAlt.innerHTML + '" loading="lazy" />' +
+              '<img src="' + escapeHtml(photo.src) + '" alt="' + safeAlt.innerHTML + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
               '<div class="war-photo-card__overlay">' +
               '<span class="war-photo-card__zoom">Увеличить</span>' +
               '</div>' +
