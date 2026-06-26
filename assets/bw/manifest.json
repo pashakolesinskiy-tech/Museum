@@ -1,0 +1,53 @@
+[
+  {
+    "type": "video",
+    "poster": "assets/bw/img/photo-01.webp",
+    "video": "assets/bw/video/video-01.mp4",
+    "caption": "Портнова Полина Сергеевна с воспитанниками (1981 год)",
+    "alt": "Чёрно-белое фото: Портнова Полина Сергеевна с воспитанниками, 1981 год"
+  },
+  {
+    "type": "video",
+    "poster": "assets/bw/img/photo-02.webp",
+    "video": "assets/bw/video/video-02.mp4",
+    "caption": "Воспитанники ясельной группы",
+    "alt": "Чёрно-белое фото: воспитанники ясельной группы"
+  },
+  {
+    "type": "video",
+    "poster": "assets/bw/img/photo-03.webp",
+    "video": "assets/bw/video/video-03.mp4",
+    "caption": "Воспитанники ясельной группы",
+    "alt": "Чёрно-белое фото: воспитанники ясельной группы"
+  },
+  {
+    "type": "video",
+    "poster": "assets/bw/img/photo-04.webp",
+    "video": "assets/bw/video/video-04.mp4",
+    "caption": "Воспитанники грудной группы Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944 год)",
+    "alt": "Чёрно-белое фото: воспитанники грудной группы Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1944 год"
+  },
+  {
+    "type": "color",
+    "poster": "assets/bw/img/photo-05.webp",
+    "colorSrc": "assets/bw/img/photo-05-color.webp",
+    "caption": "Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1943 год)",
+    "alt": "Чёрно-белое фото: воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1943 год",
+    "altColor": "Цветная версия фото 1943 года"
+  },
+  {
+    "type": "color",
+    "poster": "assets/bw/img/photo-06.webp",
+    "colorSrc": "assets/bw/img/photo-06-color.webp",
+    "caption": "Воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР (1944 год)",
+    "alt": "Чёрно-белое фото: воспитанники Дома ребёнка им.Самойловой в г.Шумерля ЧССР, 1944 год",
+    "altColor": "Цветная версия фото 1944 года"
+  },
+  {
+    "type": "video",
+    "poster": "assets/bw/img/photo-07.webp",
+    "video": "assets/bw/video/video-07.mp4",
+    "caption": "Работники Детских яслей №1",
+    "alt": "Чёрно-белое фото: работники Детских яслей №1"
+  }
+]

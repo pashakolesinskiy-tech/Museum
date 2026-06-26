@@ -641,6 +641,7 @@ body.menu-open { overflow: hidden; }
   transition: var(--transition); z-index: 10; line-height: 1; padding: 0;
 }
 .lb-close:hover { border-color: var(--accent); transform: rotate(90deg) scale(1.05); }
+.lb-counter { font-family: var(--font-sans); font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.5px; position: absolute; bottom: -28px; left: 50%; transform: translateX(-50%); }
 
 .gallery-item.has-lightbox .gallery-card { cursor: pointer; position: relative; overflow: hidden; }
 .gallery-item.has-lightbox .gallery-card::after {

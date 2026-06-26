@@ -202,63 +202,11 @@ function buildExhibitInfo(item) {
   return `<span>${name}</span><h3>${dateHtml}</h3>`;
 }
 
-function renderGrid(gridId, dataId, buildInfo) {
-  const grid = document.getElementById(gridId);
-  const dataEl = document.getElementById(dataId);
-  if (!grid || !dataEl) return;
-
-  let items;
-  try {
-    items = JSON.parse(dataEl.textContent);
-  } catch (e) {
-    return;
-  }
-
-  items = items.filter((item) => item.src);
-
-  const fragment = document.createDocumentFragment();
-  const tmp = document.createElement("div");
-
-  items.forEach((item) => {
-    const alt = escapeHtml(item.alt || item.name || "");
-    const src = escapeHtml(item.src);
-    tmp.innerHTML = `
-      <div class="gallery-item has-lightbox animate-up" role="listitem" tabindex="0"
-           aria-label="${alt} — нажмите для увеличения">
-        <div class="gallery-card">
-          <img src="${src}" alt="${alt}" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
-          <div class="gallery-info">${buildInfo(item)}</div>
-        </div>
-      </div>`;
-    const el = tmp.firstElementChild;
-
-    function openLb() {
-      const lb = document.getElementById("lb-overlay");
-      if (!lb) return;
-      document.getElementById("lb-img").src = item.src;
-      document.getElementById("lb-img").alt = item.alt || item.name || "";
-      document.getElementById("lb-caption").textContent = item.name || item.alt || "";
-      lb.classList.add("active");
-      document.body.classList.add("menu-open");
-      requestAnimationFrame(() => document.getElementById("lb-close").focus());
-    }
-
-    el.addEventListener("click", openLb);
-    el.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
-    });
-
-    fragment.appendChild(el);
-  });
-
-  grid.appendChild(fragment);
-}
-
-function loadExhibitManifest() {
-  var grid = document.getElementById("gallery-grid");
+function loadGalleryManifest(gridId, manifestPath, basePath, buildInfo) {
+  var grid = document.getElementById(gridId);
   if (!grid) return;
 
-  fetch("assets/exhibits/manifest.json")
+  fetch(manifestPath)
     .then(function (res) { return res.json(); })
     .then(function (manifest) {
       var describedFiles = new Set();
@@ -267,10 +215,10 @@ function loadExhibitManifest() {
 
       manifest.forEach(function (item) {
         describedFiles.add(item.file);
-        var src = "assets/exhibits/" + item.file;
-        var alt = escapeHtml(item.alt || item.name || "");
-        var info = buildExhibitInfo(item);
-        var hasInfo = item.name || item.date;
+        var src = basePath + item.file;
+        var alt = escapeHtml(item.alt || item.name || item.caption || "");
+        var info = buildInfo ? buildInfo(item) : "";
+        var hasInfo = item.name || item.date || item.caption;
 
         tmp.innerHTML =
           '<div class="gallery-item' + (hasInfo ? '' : ' no-info') + ' has-lightbox animate-up" role="listitem" tabindex="0"' +
@@ -282,37 +230,48 @@ function loadExhibitManifest() {
           '</div>';
         var el = tmp.firstElementChild;
 
-        (function (imgSrc, imgAlt, imgName) {
-          function openLb() {
-            var lb = document.getElementById("lb-overlay");
-            if (!lb) return;
-            document.getElementById("lb-img").src = imgSrc;
-            document.getElementById("lb-img").alt = imgAlt;
-            document.getElementById("lb-caption").textContent = imgName;
-            lb.classList.add("active");
-            document.body.classList.add("menu-open");
-            requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
+        el.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            el.click();
           }
-
-          el.addEventListener("click", openLb);
-          el.addEventListener("keydown", function (e) {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
-          });
-        })(src, alt, item.name || "");
+        });
 
         fragment.appendChild(el);
       });
 
       grid.appendChild(fragment);
       initAnimateObserver(grid);
-      scanForNewExhibits(grid, describedFiles);
+      scanForNewFiles(grid, describedFiles, basePath, manifestPath);
     })
     .catch(function () {});
 }
 
-function scanForNewExhibits(grid, describedFiles) {
+function scanForNewFiles(grid, describedFiles, basePath, manifestPath) {
+  var dirPath = basePath;
+  var prefix = "";
+  var firstFile = describedFiles.values().next().value;
+  if (firstFile) {
+    var m = firstFile.match(/^(.+)-\d+\.\w+$/);
+    if (m) prefix = m[1];
+  }
+  if (!prefix) {
+    var dirParts = basePath.replace(/\/$/, "").split("/");
+    prefix = dirParts[dirParts.length - 1];
+  }
+  var fileRegex = new RegExp("^" + prefix.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "-(\\d+)\\.\\w+$");
+
+  var maxNum = 0;
+  describedFiles.forEach(function (f) {
+    var m = f.match(fileRegex);
+    if (m) {
+      var n = parseInt(m[1], 10);
+      if (n > maxNum) maxNum = n;
+    }
+  });
+
   var misses = 0;
-  var i = 1;
+  var i = maxNum + 1;
 
   function probeNext() {
     if (misses >= 4) {
@@ -322,82 +281,225 @@ function scanForNewExhibits(grid, describedFiles) {
     }
 
     var padded = String(i).padStart(2, "0");
-    var fileName = "exhibit-" + padded + ".webp";
-    var src = "assets/exhibits/" + fileName;
+    var possibleFiles = [prefix + "-" + padded + ".webp", prefix + "-" + padded + ".png"];
+    var found = false;
     i++;
 
-    if (describedFiles.has(fileName)) {
-      misses = 0;
-      probeNext();
-      return;
+    function tryFile(fi) {
+      if (fi >= possibleFiles.length) {
+        if (!found) { misses++; probeNext(); }
+        return;
+      }
+
+      var fileName = possibleFiles[fi];
+      var src = dirPath + fileName;
+
+      if (describedFiles.has(fileName)) {
+        misses = 0;
+        probeNext();
+        return;
+      }
+
+      var img = new Image();
+      var done = false;
+
+      var timer = setTimeout(function () {
+        if (done) return;
+        done = true;
+        tryFile(fi + 1);
+      }, 8000);
+
+      img.onload = function () {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        misses = 0;
+        found = true;
+
+        var tmp = document.createElement("div");
+        tmp.innerHTML =
+          '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
+            '<div class="gallery-card">' +
+              '<img src="' + escapeHtml(src) + '" alt="" loading="lazy" />' +
+            '</div>' +
+          '</div>';
+        var el = tmp.firstElementChild;
+
+        (function (imgSrc) {
+          function openLb() {
+            var lb = document.getElementById("lb-overlay");
+            if (!lb) return;
+            document.getElementById("lb-img").src = imgSrc;
+            document.getElementById("lb-img").alt = "";
+            document.getElementById("lb-caption").textContent = "";
+            lb.classList.add("active");
+            document.body.classList.add("menu-open");
+            requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
+          }
+
+          el.addEventListener("click", openLb);
+          el.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
+          });
+        })(src);
+
+        grid.appendChild(el);
+        initAnimateObserver(grid);
+        probeNext();
+      };
+
+      img.onerror = function () {
+        if (done) return;
+        done = true;
+        clearTimeout(timer);
+        tryFile(fi + 1);
+      };
+
+      img.src = src;
     }
 
-    var img = new Image();
-    var done = false;
-
-    var timer = setTimeout(function () {
-      if (done) return;
-      done = true;
-      misses++;
-      probeNext();
-    }, 8000);
-
-    img.onload = function () {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      misses = 0;
-
-      var tmp = document.createElement("div");
-      tmp.innerHTML =
-        '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
-          '<div class="gallery-card">' +
-            '<img src="' + escapeHtml(src) + '" alt="" loading="lazy" />' +
-          '</div>' +
-        '</div>';
-      var el = tmp.firstElementChild;
-
-      (function (imgSrc) {
-        function openLb() {
-          var lb = document.getElementById("lb-overlay");
-          if (!lb) return;
-          document.getElementById("lb-img").src = imgSrc;
-          document.getElementById("lb-img").alt = "";
-          document.getElementById("lb-caption").textContent = "";
-          lb.classList.add("active");
-          document.body.classList.add("menu-open");
-          requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
-        }
-
-        el.addEventListener("click", openLb);
-        el.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
-        });
-      })(src);
-
-      grid.appendChild(el);
-      initAnimateObserver(grid);
-      probeNext();
-    };
-
-    img.onerror = function () {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      misses++;
-      probeNext();
-    };
-
-    img.src = src;
+    tryFile(0);
   }
 
   probeNext();
 }
 
+function loadExhibitManifest() {
+  loadGalleryManifest("gallery-grid", "assets/exhibits/manifest.json", "assets/exhibits/", buildExhibitInfo);
+}
+
+function loadWarManifest(photos, gridId) {
+  var grid = document.getElementById(gridId);
+  if (!grid) return;
+
+  var fragment = document.createDocumentFragment();
+
+  photos.forEach(function (photo) {
+    var src = "assets/war-path/" + photo.file;
+    var alt = escapeHtml(photo.alt || photo.caption || "");
+
+    var card = document.createElement("div");
+    card.className = "war-photo-card animate-up";
+    card.setAttribute("role", "listitem");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", (photo.caption || photo.alt) + " — нажмите для увеличения");
+
+    card.innerHTML =
+      '<div class="war-photo-card__img-wrap">' +
+      '<img src="' + escapeHtml(src) + '" alt="' + alt + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
+      '<div class="war-photo-card__overlay">' +
+      '<span class="war-photo-card__zoom">Увеличить</span>' +
+      '</div>' +
+      '</div>' +
+      (photo.caption ? '<div class="war-photo-card__caption">' + escapeHtml(photo.caption) + '</div>' : '');
+
+    (function (imgSrc, imgAlt, imgCaption) {
+      function openLb() {
+        var lb = document.getElementById("lb-overlay");
+        if (!lb) return;
+        document.getElementById("lb-img").src = imgSrc;
+        document.getElementById("lb-img").alt = imgAlt;
+        document.getElementById("lb-caption").textContent = imgCaption;
+        lb.classList.add("active");
+        document.body.classList.add("menu-open");
+        requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
+      }
+
+      card.addEventListener("click", openLb);
+      card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
+      });
+    })(src, alt, photo.caption || "");
+
+    fragment.appendChild(card);
+  });
+
+  grid.appendChild(fragment);
+  initAnimateObserver(grid);
+}
+
 (function initLightbox() {
-  const lb = document.getElementById("lb-overlay");
+  var lb = document.getElementById("lb-overlay");
   if (!lb) return;
-  const lbClose = document.getElementById("lb-close");
+  var lbClose = document.getElementById("lb-close");
+  var lbImg = document.getElementById("lb-img");
+  var lbCaption = document.getElementById("lb-caption");
+
+  var currentItems = [];
+  var currentIndex = 0;
+
+  function updateCounter() {
+    var counter = document.getElementById("lb-counter");
+    if (counter && currentItems.length > 1) {
+      counter.textContent = (currentIndex + 1) + " / " + currentItems.length;
+      counter.style.display = "block";
+    } else if (counter) {
+      counter.style.display = "none";
+    }
+  }
+
+  function showItem(index) {
+    if (index < 0 || index >= currentItems.length) return;
+    currentIndex = index;
+    var item = currentItems[index];
+    lbImg.src = item.src;
+    lbImg.alt = item.alt || "";
+    lbCaption.textContent = item.name || item.alt || "";
+    updateCounter();
+  }
+
+  function openFromElement(el) {
+    collectItems();
+    var grid = el.closest(".gallery-grid, .war-gallery-grid, .bio-photo-grid") || el.closest("main") || document;
+    var items = grid.querySelectorAll(".gallery-item.has-lightbox, .has-lightbox");
+    var idx = Array.prototype.indexOf.call(items, el);
+    if (idx >= 0) {
+      currentIndex = idx;
+      showItem(idx);
+    } else {
+      var img = el.querySelector("img");
+      if (img) {
+        currentItems = [{ src: img.src, alt: img.alt, name: el.querySelector(".gallery-info span")?.textContent || "" }];
+        currentIndex = 0;
+        showItem(0);
+      }
+    }
+    lb.classList.add("active");
+    document.body.classList.add("menu-open");
+    requestAnimationFrame(function () { lbClose.focus(); });
+  }
+
+  function collectItems() {
+    currentItems = [];
+    var grids = document.querySelectorAll(".gallery-grid, .war-gallery-grid, .bio-photo-grid");
+    grids.forEach(function (grid) {
+      var items = grid.querySelectorAll(".gallery-item.has-lightbox, .has-lightbox");
+      items.forEach(function (el) {
+        var img = el.querySelector("img");
+        if (img) {
+          currentItems.push({
+            src: img.src,
+            alt: img.alt,
+            name: el.querySelector(".gallery-info span")?.textContent || ""
+          });
+        }
+      });
+    });
+  }
+
+  document.addEventListener("click", function (e) {
+    var card = e.target.closest(".gallery-item.has-lightbox, .war-photo-card");
+    if (!card) return;
+    e.preventDefault();
+    openFromElement(card);
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target.closest(".gallery-item.has-lightbox, .war-photo-card") && (e.key === "Enter" || e.key === " ")) {
+      e.preventDefault();
+      openFromElement(e.target.closest(".gallery-item.has-lightbox, .war-photo-card"));
+    }
+  });
 
   function closeLb() {
     lb.classList.remove("active");
@@ -405,16 +507,34 @@ function scanForNewExhibits(grid, describedFiles) {
   }
 
   lbClose.addEventListener("click", closeLb);
-  lb.addEventListener("click", (e) => { if (e.target === lb) closeLb(); });
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && lb.classList.contains("active")) closeLb();
+  lb.addEventListener("click", function (e) { if (e.target === lb) closeLb(); });
+  document.addEventListener("keydown", function (e) {
+    if (!lb.classList.contains("active")) return;
+    if (e.key === "Escape") closeLb();
+    if (e.key === "ArrowRight") showItem(currentIndex + 1);
+    if (e.key === "ArrowLeft") showItem(currentIndex - 1);
   });
+
+  var touchStartX = 0;
+  lb.addEventListener("touchstart", function (e) { touchStartX = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    var diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) showItem(currentIndex + 1);
+      else showItem(currentIndex - 1);
+    }
+  });
+
+  var counter = document.createElement("div");
+  counter.id = "lb-counter";
+  counter.className = "lb-counter";
+  lb.querySelector(".lb-inner").appendChild(counter);
 })();
 
 loadExhibitManifest();
-renderGrid("awards-grid", "awards-data", buildStandardInfo);
-renderGrid("archive-grid", "archive-data", buildStandardInfo);
-renderGrid("books-grid", "books-data", buildStandardInfo);
+loadGalleryManifest("awards-grid", "assets/awards/manifest.json", "assets/awards/", buildStandardInfo);
+loadGalleryManifest("archive-grid", "assets/portnova/manifest.json", "assets/portnova/", buildStandardInfo);
+loadGalleryManifest("books-grid", "assets/books/manifest.json", "assets/books/", buildStandardInfo);
 
 initAnimateObserver();
 
@@ -877,47 +997,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function loadGallery() {
-      const dataEl = document.getElementById("gallery-data");
-      if (!dataEl) {
-        return;
-      }
+      const galleryContainer = document.getElementById("video-gallery-container");
+      if (!galleryContainer) return;
 
-      let items;
-      try {
-        items = JSON.parse(dataEl.textContent);
-      } catch (err) {
-        return;
-      }
+      fetch("assets/bw/manifest.json")
+        .then(function (res) { return res.json(); })
+        .then(function (items) {
+          if (!Array.isArray(items) || items.length === 0) return;
 
-      if (!Array.isArray(items) || items.length === 0) return;
+          const fragment = document.createDocumentFragment();
+          const wrapper = document.createElement("div");
 
-      const fragment = document.createDocumentFragment();
-      const wrapper = document.createElement("div");
+          for (const item of items) {
+            switch (item.type) {
+              case "video":
+                wrapper.innerHTML = buildVideoCard(item);
+                break;
+              case "color":
+                wrapper.innerHTML = buildColorCard(item);
+                break;
+              case "image":
+                wrapper.innerHTML = buildImageCard(item);
+                break;
+              default:
+                continue;
+            }
+            fragment.appendChild(wrapper.firstElementChild);
+          }
 
-      for (const item of items) {
-        switch (item.type) {
-          case "video":
-            wrapper.innerHTML = buildVideoCard(item);
-            break;
-          case "color":
-            wrapper.innerHTML = buildColorCard(item);
-            break;
-          case "image":
-            wrapper.innerHTML = buildImageCard(item);
-            break;
-          default:
-            continue;
-        }
-        fragment.appendChild(wrapper.firstElementChild);
-      }
+          galleryContainer.innerHTML = "";
+          galleryContainer.appendChild(fragment);
 
-      galleryContainer.innerHTML = "";
-      galleryContainer.appendChild(fragment);
-
-      galleryContainer
-        .querySelectorAll(".video-container")
-        .forEach(initVideoContainer);
-      initAnimateObserver(galleryContainer);
+          galleryContainer
+            .querySelectorAll(".video-container")
+            .forEach(initVideoContainer);
+          initAnimateObserver(galleryContainer);
+        })
+        .catch(function () {});
     }
 
     loadGallery();

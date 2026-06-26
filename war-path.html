@@ -124,26 +124,7 @@
                   ГУО «Детский сад №24 имени П.С. Портновой г.Полоцка»
                 </p>
 
-                <script id="war-gallery-data" type="application/json">
-                  [
-                    {
-                      "src": "assets/war-path/war-path-01.webp",
-                      "alt": "Воспитанники грудной группы Дома ребёнка им. Самойловой в г. Шумерля, 1944 г.",
-                      "caption": "Линкевич (Шалатонина) Елизавета Михайловна"
-                    },
-                    {
-                      "src": "assets/war-path/war-path-02.webp",
-                      "alt": "Воспитанники Дома ребёнка им. Самойловой в г. Шумерля, 1943 г.",
-                      "caption": "Положение о присвоении  ордена Отечественной войны II степени"
-                    },
-                    {
-                      "src": "assets/war-path/war-path-03.webp",
-                      "alt": "Воспитанники Дома ребёнка им. Самойловой в г. Шумерля, 1944 г.",
-                      "caption": "Шалатонины Елизавета Михайловна и Евгений Михайлович"
-                    }
-                  ]
-                </script>
-
+                <!-- Галерея 1 загружается из assets/war-path/manifest.json -->
                 <div
                   class="war-gallery-grid"
                   id="war-gallery-grid"
@@ -268,26 +249,7 @@
                   Архивные фотографии из фондов музея. Нажмите для увеличения.
                 </p>
 
-                <script id="war-gallery-data-2" type="application/json">
-                  [
-                    {
-                      "src": "assets/war-path/war-path-2-01.webp",
-                      "alt": "Воспитанники грудной группы Дома ребёнка им. Самойловой в г. Шумерля, 1944 г.",
-                      "caption": ""
-                    },
-                    {
-                      "src": "assets/war-path/war-path-2-02.webp",
-                      "alt": "Воспитанники Дома ребёнка им. Самойловой в г. Шумерля, 1943 г.",
-                      "caption": ""
-                    },
-                    {
-                      "src": "assets/war-path/war-path-2-03.webp",
-                      "alt": "Воспитанники Дома ребёнка им. Самойловой в г. Шумерля, 1944 г.",
-                      "caption": ""
-                    }
-                  ]
-                </script>
-
+                <!-- Галерея 2 загружается из assets/war-path/manifest.json -->
                 <div
                   class="war-gallery-grid"
                   id="war-gallery-grid-2"
@@ -375,71 +337,12 @@
 
     <script src="script.js"></script>
     <script>
-      (function () {
-        function initWarGallery(gridId, dataId) {
-          const gridEl = document.getElementById(gridId);
-          const dataEl = document.getElementById(dataId);
-          if (!gridEl || !dataEl) return;
-
-          let photos;
-          try {
-            photos = JSON.parse(dataEl.textContent);
-          } catch (e) {
-            console.error("Ошибка разбора " + dataId + ":", e);
-            return;
-          }
-
-          photos.forEach((photo) => {
-            const card = document.createElement("div");
-            card.className = "war-photo-card animate-up";
-            card.setAttribute("role", "listitem");
-            card.setAttribute("tabindex", "0");
-            card.setAttribute(
-              "aria-label",
-              (photo.caption || photo.alt) + " — нажмите для увеличения",
-            );
-            const safeAlt = document.createElement("span");
-            safeAlt.textContent = photo.alt;
-            const safeCaption = document.createElement("span");
-            safeCaption.textContent = photo.caption || "";
-
-            card.innerHTML =
-              '<div class="war-photo-card__img-wrap">' +
-              '<img src="' + escapeHtml(photo.src) + '" alt="' + safeAlt.innerHTML + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
-              '<div class="war-photo-card__overlay">' +
-              '<span class="war-photo-card__zoom">Увеличить</span>' +
-              '</div>' +
-              '</div>' +
-              (photo.caption ? '<div class="war-photo-card__caption">' + safeCaption.innerHTML + '</div>' : '');
-
-            function openLb() {
-              const lb = document.getElementById("lb-overlay");
-              if (!lb) return;
-              document.getElementById("lb-img").src = photo.src;
-              document.getElementById("lb-img").alt = photo.alt;
-              document.getElementById("lb-caption").textContent = photo.caption || "";
-              lb.classList.add("active");
-              document.body.classList.add("menu-open");
-              requestAnimationFrame(() => document.getElementById("lb-close").focus());
-            }
-
-            card.addEventListener("click", openLb);
-            card.addEventListener("keydown", (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                openLb();
-              }
-            });
-
-            gridEl.appendChild(card);
-          });
-
-          initAnimateObserver(gridEl);
-        }
-
-        initWarGallery("war-gallery-grid", "war-gallery-data");
-        initWarGallery("war-gallery-grid-2", "war-gallery-data-2");
-      })();
+      fetch("assets/war-path/manifest.json")
+        .then(function (res) { return res.json(); })
+        .then(function (manifest) {
+          loadWarManifest(manifest.gallery1, "war-gallery-grid");
+          loadWarManifest(manifest.gallery2, "war-gallery-grid-2");
+        });
     </script>
   </body>
 </html>
