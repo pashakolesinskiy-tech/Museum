@@ -277,7 +277,7 @@ function scanAdditionalExhibits(gridId, dataId) {
 
   function probeNext() {
     if (!active) return;
-    if (misses >= 2) {
+    if (misses >= 4) {
       active = false;
       finish();
       return;
@@ -296,7 +296,7 @@ function scanAdditionalExhibits(gridId, dataId) {
       pending--;
       misses++;
       probeNext();
-    }, 3000);
+    }, 8000);
 
     img.onload = function () {
       if (done) return;
