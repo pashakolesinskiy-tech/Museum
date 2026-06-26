@@ -254,58 +254,29 @@ function renderGrid(gridId, dataId, buildInfo) {
   grid.appendChild(fragment);
 }
 
-function scanAdditionalExhibits(gridId, dataId) {
-  const grid = document.getElementById(gridId);
-  const dataEl = document.getElementById(dataId);
+function loadExhibitManifest() {
+  var grid = document.getElementById("gallery-grid");
+  var dataEl = document.getElementById("gallery-data");
   if (!grid || !dataEl) return;
 
-  let items;
-  try { items = JSON.parse(dataEl.textContent); } catch (e) { return; }
-
-  const describedSrcs = new Set(items.filter(function (i) { return i.src; }).map(function (i) { return i.src; }));
-  const indicator = document.getElementById("scan-indicator");
-  let misses = 0;
-  let i = 1;
-  let active = true;
-  let pending = 0;
-
-  function finish() {
-    if (pending > 0) return;
-    if (indicator) indicator.classList.add("hidden");
-    initAnimateObserver(grid);
+  var describedSrcs;
+  try {
+    var items = JSON.parse(dataEl.textContent);
+    describedSrcs = new Set(items.filter(function (i) { return i.src; }).map(function (i) { return i.src; }));
+  } catch (e) {
+    describedSrcs = new Set();
   }
 
-  function probeNext() {
-    if (!active) return;
-    if (misses >= 4) {
-      active = false;
-      finish();
-      return;
-    }
-    var padded = String(i).padStart(2, "0");
-    var src = "assets/exhibits/exhibit-" + padded + ".webp";
-    i++;
+  fetch("assets/exhibits/manifest.json")
+    .then(function (res) { return res.json(); })
+    .then(function (manifest) {
+      var fragment = document.createDocumentFragment();
+      var tmp = document.createElement("div");
 
-    pending++;
-    var img = new Image();
-    var done = false;
+      manifest.forEach(function (entry) {
+        var src = "assets/exhibits/" + entry.file;
+        if (describedSrcs.has(src)) return;
 
-    var timer = setTimeout(function () {
-      if (done) return;
-      done = true;
-      pending--;
-      misses++;
-      probeNext();
-    }, 8000);
-
-    img.onload = function () {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      pending--;
-      if (!describedSrcs.has(src)) {
-        misses = 0;
-        var tmp = document.createElement("div");
         tmp.innerHTML =
           '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
             '<div class="gallery-card">' +
@@ -314,40 +285,31 @@ function scanAdditionalExhibits(gridId, dataId) {
           '</div>';
         var el = tmp.firstElementChild;
 
-        function openLb() {
-          var lb = document.getElementById("lb-overlay");
-          if (!lb) return;
-          document.getElementById("lb-img").src = src;
-          document.getElementById("lb-img").alt = "";
-          document.getElementById("lb-caption").textContent = "";
-          lb.classList.add("active");
-          document.body.classList.add("menu-open");
-          requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
-        }
+        (function (imgSrc) {
+          function openLb() {
+            var lb = document.getElementById("lb-overlay");
+            if (!lb) return;
+            document.getElementById("lb-img").src = imgSrc;
+            document.getElementById("lb-img").alt = "";
+            document.getElementById("lb-caption").textContent = "";
+            lb.classList.add("active");
+            document.body.classList.add("menu-open");
+            requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
+          }
 
-        el.addEventListener("click", openLb);
-        el.addEventListener("keydown", function (e) {
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
-        });
+          el.addEventListener("click", openLb);
+          el.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
+          });
+        })(src);
 
-        grid.appendChild(el);
-      }
-      probeNext();
-    };
+        fragment.appendChild(el);
+      });
 
-    img.onerror = function () {
-      if (done) return;
-      done = true;
-      clearTimeout(timer);
-      pending--;
-      misses++;
-      probeNext();
-    };
-
-    img.src = src;
-  }
-
-  probeNext();
+      grid.appendChild(fragment);
+      initAnimateObserver(grid);
+    })
+    .catch(function () {});
 }
 
 (function initLightbox() {
@@ -368,7 +330,7 @@ function scanAdditionalExhibits(gridId, dataId) {
 })();
 
 renderGrid("gallery-grid", "gallery-data", buildExhibitInfo);
-scanAdditionalExhibits("gallery-grid", "gallery-data");
+loadExhibitManifest();
 renderGrid("awards-grid", "awards-data", buildStandardInfo);
 renderGrid("archive-grid", "archive-data", buildStandardInfo);
 renderGrid("books-grid", "books-data", buildStandardInfo);
