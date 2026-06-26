@@ -256,16 +256,7 @@ function renderGrid(gridId, dataId, buildInfo) {
 
 function loadExhibitManifest() {
   var grid = document.getElementById("gallery-grid");
-  var dataEl = document.getElementById("gallery-data");
-  if (!grid || !dataEl) return;
-
-  var describedSrcs;
-  try {
-    var items = JSON.parse(dataEl.textContent);
-    describedSrcs = new Set(items.filter(function (i) { return i.src; }).map(function (i) { return i.src; }));
-  } catch (e) {
-    describedSrcs = new Set();
-  }
+  if (!grid) return;
 
   fetch("assets/exhibits/manifest.json")
     .then(function (res) { return res.json(); })
@@ -273,25 +264,29 @@ function loadExhibitManifest() {
       var fragment = document.createDocumentFragment();
       var tmp = document.createElement("div");
 
-      manifest.forEach(function (entry) {
-        var src = "assets/exhibits/" + entry.file;
-        if (describedSrcs.has(src)) return;
+      manifest.forEach(function (item) {
+        var src = "assets/exhibits/" + item.file;
+        var alt = escapeHtml(item.alt || item.name || "");
+        var info = buildExhibitInfo(item);
+        var hasInfo = item.name || item.date;
 
         tmp.innerHTML =
-          '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
+          '<div class="gallery-item' + (hasInfo ? '' : ' no-info') + ' has-lightbox animate-up" role="listitem" tabindex="0"' +
+            ' aria-label="' + alt + ' — нажмите для увеличения">' +
             '<div class="gallery-card">' +
-              '<img src="' + escapeHtml(src) + '" alt="" loading="lazy" />' +
+              '<img src="' + escapeHtml(src) + '" alt="' + alt + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
+              (hasInfo ? '<div class="gallery-info">' + info + '</div>' : '') +
             '</div>' +
           '</div>';
         var el = tmp.firstElementChild;
 
-        (function (imgSrc) {
+        (function (imgSrc, imgAlt, imgName) {
           function openLb() {
             var lb = document.getElementById("lb-overlay");
             if (!lb) return;
             document.getElementById("lb-img").src = imgSrc;
-            document.getElementById("lb-img").alt = "";
-            document.getElementById("lb-caption").textContent = "";
+            document.getElementById("lb-img").alt = imgAlt;
+            document.getElementById("lb-caption").textContent = imgName;
             lb.classList.add("active");
             document.body.classList.add("menu-open");
             requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
@@ -301,7 +296,7 @@ function loadExhibitManifest() {
           el.addEventListener("keydown", function (e) {
             if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
           });
-        })(src);
+        })(src, alt, item.name || "");
 
         fragment.appendChild(el);
       });
@@ -329,7 +324,6 @@ function loadExhibitManifest() {
   });
 })();
 
-renderGrid("gallery-grid", "gallery-data", buildExhibitInfo);
 loadExhibitManifest();
 renderGrid("awards-grid", "awards-data", buildStandardInfo);
 renderGrid("archive-grid", "archive-data", buildStandardInfo);
