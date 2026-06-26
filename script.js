@@ -261,10 +261,12 @@ function loadExhibitManifest() {
   fetch("assets/exhibits/manifest.json")
     .then(function (res) { return res.json(); })
     .then(function (manifest) {
+      var describedFiles = new Set();
       var fragment = document.createDocumentFragment();
       var tmp = document.createElement("div");
 
       manifest.forEach(function (item) {
+        describedFiles.add(item.file);
         var src = "assets/exhibits/" + item.file;
         var alt = escapeHtml(item.alt || item.name || "");
         var info = buildExhibitInfo(item);
@@ -303,8 +305,93 @@ function loadExhibitManifest() {
 
       grid.appendChild(fragment);
       initAnimateObserver(grid);
+      scanForNewExhibits(grid, describedFiles);
     })
     .catch(function () {});
+}
+
+function scanForNewExhibits(grid, describedFiles) {
+  var misses = 0;
+  var i = 1;
+
+  function probeNext() {
+    if (misses >= 4) {
+      var indicator = document.getElementById("scan-indicator");
+      if (indicator) indicator.classList.add("hidden");
+      return;
+    }
+
+    var padded = String(i).padStart(2, "0");
+    var fileName = "exhibit-" + padded + ".webp";
+    var src = "assets/exhibits/" + fileName;
+    i++;
+
+    if (describedFiles.has(fileName)) {
+      misses = 0;
+      probeNext();
+      return;
+    }
+
+    var img = new Image();
+    var done = false;
+
+    var timer = setTimeout(function () {
+      if (done) return;
+      done = true;
+      misses++;
+      probeNext();
+    }, 8000);
+
+    img.onload = function () {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      misses = 0;
+
+      var tmp = document.createElement("div");
+      tmp.innerHTML =
+        '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
+          '<div class="gallery-card">' +
+            '<img src="' + escapeHtml(src) + '" alt="" loading="lazy" />' +
+          '</div>' +
+        '</div>';
+      var el = tmp.firstElementChild;
+
+      (function (imgSrc) {
+        function openLb() {
+          var lb = document.getElementById("lb-overlay");
+          if (!lb) return;
+          document.getElementById("lb-img").src = imgSrc;
+          document.getElementById("lb-img").alt = "";
+          document.getElementById("lb-caption").textContent = "";
+          lb.classList.add("active");
+          document.body.classList.add("menu-open");
+          requestAnimationFrame(function () { document.getElementById("lb-close").focus(); });
+        }
+
+        el.addEventListener("click", openLb);
+        el.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openLb(); }
+        });
+      })(src);
+
+      grid.appendChild(el);
+      initAnimateObserver(grid);
+      probeNext();
+    };
+
+    img.onerror = function () {
+      if (done) return;
+      done = true;
+      clearTimeout(timer);
+      misses++;
+      probeNext();
+    };
+
+    img.src = src;
+  }
+
+  probeNext();
 }
 
 (function initLightbox() {
