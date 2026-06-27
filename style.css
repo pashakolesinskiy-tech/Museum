@@ -488,7 +488,7 @@ body.menu-open { overflow: hidden; }
 .about-modal-content {
   position: relative; width: 90%; max-width: 680px; max-height: 85vh; overflow: hidden;
   display: flex; flex-direction: column;
-  background: rgba(10, 15, 24, 0.85);
+  background: rgba(10, 15, 24, 0.88);
   backdrop-filter: blur(20px) saturate(1.3);
   border: 1px solid rgba(212, 175, 55, 0.25);
   border-top-color: rgba(255, 255, 255, 0.06);
@@ -506,7 +506,12 @@ body.menu-open { overflow: hidden; }
 .about-modal-content::before { top: 14px; left: 14px; border-width: 1.5px 0 0 1.5px; }
 .about-modal-content::after { bottom: 14px; right: 14px; border-width: 0 1.5px 1.5px 0; }
 
-.about-modal-scroll { overflow-y: auto; flex: 1; padding: 48px 44px 40px; scrollbar-width: thin; }
+.about-modal-scroll { overflow-y: auto; flex: 1; padding: 48px 44px 40px; scrollbar-width: thin; position: relative; }
+.about-modal-scroll::before {
+  content: ""; position: fixed; inset: 0;
+  background: url("assets/background.webp") center/cover no-repeat;
+  opacity: 0.1; pointer-events: none; z-index: -1;
+}
 
 .about-modal-close {
   position: absolute; top: 14px; right: 18px; width: 34px; height: 34px;
@@ -717,6 +722,11 @@ body.menu-open { overflow: hidden; }
 
 .bio-portrait-frame {
   position: relative; width: 200px; height: 260px; margin-bottom: 32px; flex-shrink: 0;
+  animation: portraitReveal 1.2s ease-out;
+}
+@keyframes portraitReveal {
+  from { opacity: 0; transform: scale(0.95); filter: blur(4px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
 }
 .bio-portrait-frame img { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; display: block; filter: sepia(0.2) brightness(0.9); }
 .bio-portrait-frame::before, .bio-portrait-frame::after { content: ""; position: absolute; border: 1px solid rgba(212,175,55,0.4); border-radius: 4px; pointer-events: none; }
@@ -733,8 +743,24 @@ body.menu-open { overflow: hidden; }
 .bio-portrait-corners span:nth-child(4) { bottom: -18px; right: -18px; border-width: 0 1.5px 1.5px 0; }
 
 .bio-name { font-family: var(--font-serif); font-size: clamp(2.2rem, 4.5vw, 3.4rem); font-weight: 400; color: var(--accent); letter-spacing: 1.5px; line-height: 1.1; margin-bottom: 8px; }
-.bio-dates { font-family: var(--font-serif); font-size: 1.4rem; color: var(--text-muted); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px; padding: 36px; background: var(--glass); backdrop-filter: blur(14px); border: 1px solid var(--glass-border); border-radius: var(--radius); position: relative; overflow: hidden; }
-.bio-dates::before { content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: linear-gradient(180deg, var(--accent), transparent); }
+.bio-dates {
+  display: flex; align-items: center; justify-content: center; gap: 16px;
+  font-family: var(--font-serif); font-size: 1.1rem; color: var(--text-muted);
+  letter-spacing: 2px; margin-bottom: 20px; padding: 0;
+  position: relative;
+}
+.bio-dates time {
+  background: var(--glass); border: 1px solid rgba(212,175,55,0.12);
+  border-radius: var(--radius-xs); padding: 8px 18px;
+  backdrop-filter: blur(14px);
+  transition: border-color 0.3s, color 0.3s;
+}
+.bio-dates time:hover { border-color: rgba(212,175,55,0.4); color: var(--accent); }
+.bio-dates::before, .bio-dates::after {
+  content: ""; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,175,55,0.25), transparent);
+  max-width: 60px;
+}
 
 .bio-gallery-title { text-align: center; font-family: var(--font-serif); font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 400; color: var(--text); letter-spacing: 0.5px; margin-bottom: 36px; position: relative; }
 .bio-gallery-title::after { content: ""; position: absolute; bottom: -8px; left: 30%; width: 40%; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); }
@@ -759,7 +785,8 @@ body.menu-open { overflow: hidden; }
 .bio-poem-stanza { margin-bottom: 18px; }
 .bio-poem-stanza:last-of-type { margin-bottom: 0; }
 .bio-poem-stanza p { font-family: var(--font-serif); font-size: clamp(1rem, 2vw, 1.25rem); font-style: italic; color: var(--text-muted); line-height: 1.8; margin: 0; font-weight: 400; }
-.bio-poem-last { color: var(--accent) !important; font-style: normal !important; font-weight: 600 !important; letter-spacing: 0.3px !important; margin-top: 3px !important; }
+.bio-poem-last { color: var(--accent) !important; font-style: normal !important; font-weight: 600 !important; letter-spacing: 0.3px !important; margin-top: 3px !important; transition: text-shadow 0.4s; }
+.bio-poem:hover .bio-poem-last { text-shadow: 0 0 20px rgba(212,175,55,0.3); }
 
 .bio-dedication { display: flex; align-items: center; gap: 16px; max-width: 520px; margin: 0 auto 24px; font-family: var(--font-serif); font-size: clamp(0.9rem, 1.6vw, 1.05rem); font-style: italic; color: rgba(212,175,55,0.5); letter-spacing: 1.2px; text-transform: uppercase; white-space: nowrap; }
 .bio-dedication-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.3), transparent); }
@@ -784,22 +811,88 @@ body.menu-open { overflow: hidden; }
 .bio-poem--compact .bio-poem-ornament:last-child { margin: 10px 0 0; }
 .bio-poem--compact .bio-poem-stanza { margin-bottom: 12px; }
 
-.bio-section-nav { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+.bio-poem--new {
+  position: relative; margin: 0; padding: 40px 36px; max-width: 100%;
+  background: transparent; border: none;
+}
+.bio-poem--new .bio-poem__corner {
+  position: absolute; width: 24px; height: 24px;
+  border-color: rgba(212,175,55,0.3); border-style: solid;
+}
+.bio-poem--new .bio-poem__corner--tl { top: 0; left: 0; border-width: 1.5px 0 0 1.5px; }
+.bio-poem--new .bio-poem__corner--tr { top: 0; right: 0; border-width: 1.5px 1.5px 0 0; }
+.bio-poem--new .bio-poem__corner--bl { bottom: 0; left: 0; border-width: 0 0 1.5px 1.5px; }
+.bio-poem--new .bio-poem__corner--br { bottom: 0; right: 0; border-width: 0 1.5px 1.5px 0; }
+
+.bio-poem__top-rule {
+  width: 40px; height: 1px; margin: 0 auto 20px;
+  background: var(--accent); opacity: 0.4;
+}
+.bio-poem__bottom-rule {
+  width: 40px; height: 1px; margin: 20px auto 16px;
+  background: var(--accent); opacity: 0.4;
+}
+
+.bio-poem__dedication {
+  font-family: var(--font-sans); font-size: 0.6rem; text-transform: uppercase;
+  letter-spacing: 2.5px; color: var(--accent); opacity: 0.6;
+  text-align: center; margin-bottom: 28px;
+}
+
+.bio-poem__stanza { margin-bottom: 18px; }
+.bio-poem__stanza:last-of-type { margin-bottom: 0; }
+.bio-poem__stanza p {
+  font-family: var(--font-serif); font-size: clamp(0.95rem, 1.6vw, 1.15rem);
+  font-style: italic; color: var(--text-muted); line-height: 1.8;
+  text-align: center; margin: 0; font-weight: 400;
+}
+
+.bio-poem__last {
+  color: var(--accent) !important; font-style: normal !important;
+  font-weight: 600 !important; letter-spacing: 0.3px !important;
+  margin-top: 3px !important;
+}
+
+.bio-poem__author {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; margin-top: 4px;
+}
+.bio-poem__author-label {
+  font-family: var(--font-serif); font-size: 0.85rem;
+  font-style: italic; color: var(--text-muted);
+}
+.bio-poem__author-role {
+  font-family: var(--font-sans); font-size: 0.6rem;
+  color: var(--text-muted); opacity: 0.5; text-align: center;
+  max-width: 220px;
+}
+
+.bio-section-nav { display: flex; gap: 18px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; position: relative; }
+.bio-section-nav::before { content: ""; display: block; width: 120px; height: 1px; background: linear-gradient(90deg, transparent, var(--accent), transparent); margin: 0 auto 30px; position: absolute; top: -30px; left: 50%; transform: translateX(-50%); }
 .bio-section-btn {
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  text-decoration: none; padding: 40px; flex: 1; min-width: 180px; max-width: 240px;
-  background: var(--glass); border: 1px solid var(--glass-border);
-  border-radius: var(--radius); backdrop-filter: blur(14px);
-  position: relative; overflow: hidden;
+  display: flex; flex-direction: row; align-items: center; gap: 16px;
+  text-decoration: none; padding: 18px 24px; flex: 1; min-width: 220px; max-width: 300px;
+  background: linear-gradient(135deg, rgba(212,175,55,0.06) 0%, rgba(10,15,24,0.6) 100%);
+  border: 1px solid rgba(212,175,55,0.12);
+  border-left: 2px solid rgba(212,175,55,0.4);
+  border-radius: var(--radius-sm);
+  backdrop-filter: blur(8px);
   transition: var(--transition);
 }
-.bio-section-btn::before { content: ""; position: absolute; top: 0; left: 0; width: 2px; height: 100%; background: linear-gradient(180deg, var(--accent), transparent); }
-.bio-section-btn:hover { border-color: rgba(212,175,55,0.7); background: rgba(10,15,24,0.8); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.4), 0 0 20px rgba(212,175,55,0.08); }
-.bio-section-btn__icon { font-size: 1.2rem; color: var(--accent); opacity: 0.6; transition: var(--transition); display: block; }
-.bio-section-btn:hover .bio-section-btn__icon { opacity: 1; transform: scale(1.12) rotate(8deg); }
-.bio-section-btn__title { font-family: var(--font-serif); font-size: clamp(0.95rem, 1.6vw, 1.1rem); color: var(--text); text-align: center; line-height: 1.25; font-weight: 400; letter-spacing: 0.2px; transition: color 0.3s; }
+.bio-section-btn::before { display: none; }
+.bio-section-btn:hover {
+  border-color: rgba(212,175,55,0.4);
+  border-left-color: var(--accent);
+  background: linear-gradient(135deg, rgba(212,175,55,0.1) 0%, rgba(10,15,24,0.7) 100%);
+  transform: translateX(4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), inset 0 1px 0 rgba(212,175,55,0.1);
+}
+.bio-section-btn__icon { font-size: 1.6rem; flex-shrink: 0; transition: var(--transition); }
+.bio-section-btn:hover .bio-section-btn__icon { transform: scale(1.1); }
+.bio-section-btn__text { display: flex; flex-direction: column; gap: 2px; }
+.bio-section-btn__title { font-family: var(--font-serif); font-size: clamp(0.95rem, 1.6vw, 1.1rem); color: var(--text); line-height: 1.25; font-weight: 400; transition: color 0.3s; }
 .bio-section-btn:hover .bio-section-btn__title { color: var(--accent); }
-.bio-section-btn__sub { font-family: var(--font-sans); font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; text-align: center; }
+.bio-section-btn__sub { font-family: var(--font-sans); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
 
 .war-hero { padding-top: calc(var(--header-height) + 50px); padding-bottom: 60px; }
 .war-header { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 50px; text-align: center; }
@@ -955,6 +1048,8 @@ body.menu-open { overflow: hidden; }
   .gallery-info h3 { font-size: 14px; }
   .carousel-wrapper { height: 300px; }
   .carousel-item { width: 180px; height: 250px; margin-left: -90px; margin-top: -125px; }
+  .bio-section-nav { flex-direction: column; align-items: center; }
+  .bio-section-btn { width: 100%; max-width: 320px; }
   .swipe-slide img { height: 300px; }
   .slide-caption { left: 10px; right: 10px; bottom: 10px; font-size: 0.9rem; padding: 6px 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .swipe-btn { width: 36px; height: 36px; }
@@ -1003,11 +1098,21 @@ body.menu-open { overflow: hidden; }
   .footer-info p { font-size: 12px; }
   .footer-social { font-size: 11px; }
   .bio-hero { padding-top: calc(var(--header-height) + 24px); padding-bottom: 36px; }
-  .bio-dates { font-size: 1.1rem; letter-spacing: 1.5px; padding: 24px; }
+  .bio-hero-row { flex-direction: column; gap: 32px; }
+  .bio-portrait-col { width: 100%; }
+  .bio-poem-col { max-width: 100%; }
+  .bio-dates { font-size: 0.95rem; gap: 10px; }
+  .bio-dates time { padding: 6px 12px; }
   .bio-photo-grid { grid-template-columns: 1fr; gap: 14px; }
   .bio-poem { padding: 24px 16px; }
   .bio-poem-stanza p { font-size: 0.95rem; }
   .bio-dedication { font-size: 0.8rem; white-space: normal; }
+  .bio-poem--new { padding: 28px 20px; }
+  .bio-poem--new .bio-poem__stanza p { font-size: 1rem; line-height: 1.75; }
+  .bio-poem--new .bio-poem__dedication { font-size: 0.5rem; letter-spacing: 2px; margin-bottom: 20px; }
+  .bio-poem--new .bio-poem__corner { width: 16px; height: 16px; }
+  .bio-poem__author-label { font-size: 0.75rem; }
+  .bio-poem__author-role { font-size: 0.55rem; }
   .music-toggle { bottom: 14px; right: 14px; width: 38px; height: 38px; }
   .about-modal-scroll { padding: 36px 18px 24px; }
   .about-modal-title { font-size: 1.4rem; }

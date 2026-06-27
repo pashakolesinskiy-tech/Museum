@@ -95,51 +95,45 @@
             <!-- Правая колонка: стихотворение -->
             <div class="bio-poem-col">
               <div
-                class="bio-poem bio-poem--compact"
+                class="bio-poem bio-poem--new"
                 aria-label="Поэтическое посвящение"
               >
-                <p class="bio-dedication">
-                  <span class="bio-dedication-line" aria-hidden="true"></span>
-                  Памяти Полины Сергеевны Портновой посвящается
-                  <span class="bio-dedication-line" aria-hidden="true"></span>
-                </p>
-                <div class="bio-poem-ornament" aria-hidden="true">✦</div>
+                <div class="bio-poem__corner bio-poem__corner--tl" aria-hidden="true"></div>
+                <div class="bio-poem__corner bio-poem__corner--tr" aria-hidden="true"></div>
+                <div class="bio-poem__corner bio-poem__corner--bl" aria-hidden="true"></div>
+                <div class="bio-poem__corner bio-poem__corner--br" aria-hidden="true"></div>
 
-                <div class="bio-poem-stanza">
+                <div class="bio-poem__top-rule" aria-hidden="true"></div>
+
+                <p class="bio-poem__dedication">Памяти Полины Сергеевны Портновой</p>
+
+                <div class="bio-poem__stanza">
                   <p>Беда пришла войною страшной,</p>
                   <p>устой нарушив городской,</p>
                   <p>и подвиг женщины отважной</p>
                   <p>остался в памяти людской.</p>
                 </div>
 
-                <div class="bio-poem-stanza">
+                <div class="bio-poem__stanza">
                   <p>Пылал весь город и малюток</p>
                   <p>пришлось в бомбёжку собирать.</p>
                   <p>Спасти! Нельзя оставить!</p>
                   <p>Было легко решение принять.</p>
                 </div>
 
-                <div class="bio-poem-stanza">
+                <div class="bio-poem__stanza">
                   <p>И боль, и страх превозмогая,</p>
                   <p>уберегли детей назло судьбе.</p>
                   <p>А в сердце была цель святая:</p>
-                  <p class="bio-poem-last">Всё ради жизни на земле!</p>
+                  <p class="bio-poem__last">Всё ради жизни на земле!</p>
                 </div>
 
-                <footer
-                  class="bio-poem-author"
-                  aria-label="Автор стихотворения"
-                >
-                  <div class="bio-poem-author__inner">
-                    <span class="bio-poem-author__label">Автор</span>
-                    <strong class="bio-poem-author__name">Нечаева А.Г.</strong>
-                    <span class="bio-poem-author__role"
-                      >заместитель заведующего по основной деятельности</span
-                    >
-                  </div>
-                </footer>
+                <div class="bio-poem__bottom-rule" aria-hidden="true"></div>
 
-                <div class="bio-poem-ornament" aria-hidden="true">✦</div>
+                <div class="bio-poem__author">
+                  <span class="bio-poem__author-label">— Нечаева А.Г.,</span>
+                  <span class="bio-poem__author-role">зам. заведующего по основной деятельности</span>
+                </div>
 
                 <div class="hero-btn-wrap">
                   <button
@@ -233,21 +227,25 @@
             aria-label="Разделы о Полине Сергеевне"
           >
             <a href="awards.html" class="bio-section-btn">
-              <span class="bio-section-btn__icon" aria-hidden="true">✦</span>
-              <span class="bio-section-btn__title"
-                >Награды и благодарности</span
-              >
-              <span class="bio-section-btn__sub">Полины Сергеевны</span>
+              <span class="bio-section-btn__icon" aria-hidden="true">🏅</span>
+              <span class="bio-section-btn__text">
+                <span class="bio-section-btn__title">Награды и благодарности</span>
+                <span class="bio-section-btn__sub">Полины Сергеевны</span>
+              </span>
             </a>
             <a href="personal-archive.html" class="bio-section-btn">
-              <span class="bio-section-btn__icon" aria-hidden="true">✦</span>
-              <span class="bio-section-btn__title">Вещи из личного архива</span>
-              <span class="bio-section-btn__sub">Полины Сергеевны</span>
+              <span class="bio-section-btn__icon" aria-hidden="true">📷</span>
+              <span class="bio-section-btn__text">
+                <span class="bio-section-btn__title">Вещи из личного архива</span>
+                <span class="bio-section-btn__sub">Полины Сергеевны</span>
+              </span>
             </a>
             <a href="media.html" class="bio-section-btn">
-              <span class="bio-section-btn__icon" aria-hidden="true">✦</span>
-              <span class="bio-section-btn__title">О Полине Сергеевне</span>
-              <span class="bio-section-btn__sub">в книгах и СМИ</span>
+              <span class="bio-section-btn__icon" aria-hidden="true">📖</span>
+              <span class="bio-section-btn__text">
+                <span class="bio-section-btn__title">О Полине Сергеевне</span>
+                <span class="bio-section-btn__sub">в книгах и СМИ</span>
+              </span>
             </a>
           </nav>
         </div>
