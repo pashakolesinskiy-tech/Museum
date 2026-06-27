@@ -52,16 +52,9 @@
     <meta name="apple-mobile-web-app-title" content="Музей Портновой" />
 
     <!-- Performance: preconnect -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="assets/carousel/slide-01.webp" />
     <link rel="preload" as="image" href="assets/carousel/slide-02.webp" />
     <link rel="preload" as="image" href="assets/carousel/slide-03.webp" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
-      rel="stylesheet"
-      crossorigin="anonymous"
-    />
     <link rel="stylesheet" href="style.css" />
 
     <!-- Schema.org структурированные данные -->
@@ -76,6 +69,7 @@
           "addressLocality": "Полоцк",
           "addressCountry": "BY"
         },
+        "url": "https://museum-sepia.vercel.app/",
         "image": "assets/portnova.webp",
         "founder": {
           "@type": "Person",
@@ -86,7 +80,7 @@
       }
     </script>
   </head>
-  <body>
+  <body data-audio-src="assets/audio/music-main.mp3">
     <!-- Accessibility: пропуск к основному контенту -->
     <a class="skip-link" href="#main-content"
       >Перейти к основному содержимому</a
@@ -332,6 +326,8 @@
                   <img
                     src="assets/carousel/slide-01.webp"
                     alt="Всё ради жизни на земле — страница о Полине Портновой"
+                    width="300"
+                    height="200"
                     loading="eager"
                     onerror="this.src='assets/placeholder.svg'"
                   />
@@ -344,6 +340,8 @@
                   <img
                     src="assets/carousel/slide-02.webp"
                     alt="Детство в деталях — галерея экспонатов"
+                    width="300"
+                    height="200"
                     loading="eager"
                     onerror="this.src='assets/placeholder.svg'"
                   />
@@ -356,6 +354,8 @@
                   <img
                     src="assets/carousel/slide-03.webp"
                     alt="Через огненные вёрсты войны"
+                    width="300"
+                    height="200"
                     loading="eager"
                     onerror="this.src='assets/placeholder.svg'"
                   />
@@ -444,6 +444,8 @@
                   <img
                     src="assets/slider/slide-01.webp"
                     alt="Портрет П.С.Портновой"
+                    width="400"
+                    height="300"
                     loading="lazy"
                     onerror="this.src='assets/placeholder.svg'"
                     data-video-src="assets/video-portnova.mp4"
@@ -459,6 +461,8 @@
                   <img
                     src="assets/slider/slide-02.webp"
                     alt="Видео-галерея — прошлое в цвете"
+                    width="400"
+                    height="300"
                     loading="lazy"
                     onerror="this.src='assets/placeholder.svg'"
                     class="slide-image"
@@ -469,6 +473,8 @@
                   <img
                     src="assets/slider/slide-03.webp"
                     alt="Архивное изображение"
+                    width="400"
+                    height="300"
                     loading="lazy"
                     onerror="this.src='assets/placeholder.svg'"
                     data-video-src="assets/video-slider-3.mp4"
@@ -518,6 +524,8 @@
                     <img
                       src="assets/about/about-01.webp"
                       alt="Интерактивный раздел для посетителей"
+                      width="200"
+                      height="150"
                       loading="lazy"
                       onerror="this.src='assets/placeholder.svg'"
                     />
@@ -534,12 +542,14 @@
                 <div class="window-frame-corner tr" aria-hidden="true"></div>
                 <div class="window-shine" aria-hidden="true"></div>
                 <div class="card-image">
-                  <img
-                    src="assets/about/about-02.webp"
-                    alt="Детские занятия и активности"
-                    loading="lazy"
-                    onerror="this.src='assets/placeholder.svg'"
-                  />
+                    <img
+                      src="assets/about/about-02.webp"
+                      alt="Детские занятия и активности"
+                      width="200"
+                      height="150"
+                      loading="lazy"
+                      onerror="this.src='assets/placeholder.svg'"
+                    />
                 </div>
                 <div class="window-sill" aria-hidden="true"></div>
               </div>
@@ -556,6 +566,8 @@
                     <img
                       src="assets/about/about-03.webp"
                       alt="Познавательные игры для детей"
+                      width="200"
+                      height="150"
                       loading="lazy"
                       onerror="this.src='assets/placeholder.svg'"
                     />
@@ -589,38 +601,6 @@
       </div>
     </div>
 
-    <audio id="bg-music" loop>
-      <source src="assets/audio/music-main.mp3" type="audio/mpeg" />
-      Ваш браузер не поддерживает аудио.
-    </audio>
-
-    <button
-      id="music-toggle"
-      class="music-toggle"
-      aria-label="Включить музыку"
-      aria-pressed="false"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <path class="note-icon" d="M9 18V5l12-2v13" />
-        <circle class="note-icon" cx="6" cy="18" r="3" />
-        <circle class="note-icon" cx="18" cy="16" r="3" />
-      </svg>
-      <svg
-        class="pause-icon"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        aria-hidden="true"
-        focusable="false"
-      >
-        <rect x="6" y="4" width="4" height="16" rx="1" />
-        <rect x="14" y="4" width="4" height="16" rx="1" />
-      </svg>
-    </button>
     <!-- Модальное окно «Через огненные вёрсты войны» -->
     <div id="warPathModal" class="war-preview-modal" role="dialog" aria-modal="true" aria-labelledby="warPathModalTitle">
       <div class="war-preview-modal__backdrop"></div>
@@ -631,11 +611,11 @@
         <p class="war-preview-modal__sub">Выберите любое изображение, чтобы войти в зал</p>
         <div class="war-preview-modal__grid">
           <a href="war-path.html" class="war-preview-modal__card" aria-label="Открыть зал «Через огненные вёрсты войны»">
-            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 1" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
+            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 1" width="200" height="200" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
             <div class="war-preview-modal__card-overlay"><span>Войти в зал</span></div>
           </a>
           <a href="war-path.html" class="war-preview-modal__card" aria-label="Открыть зал «Через огненные вёрсты войны»">
-            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 2" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
+            <img src="assets/war-path/Star.webp" alt="Военные годы — фото 2" width="200" height="200" loading="lazy" onerror="this.src='assets/placeholder.svg'" />
             <div class="war-preview-modal__card-overlay"><span>Войти в зал</span></div>
           </a>
         </div>
@@ -643,5 +623,12 @@
     </div>
 
     <script src="script.js"></script>
+    <noscript>
+      <style>
+        .music-toggle, .gallery-grid, #lb-overlay, .carousel-3d, .swipe-gallery { display: none !important; }
+        .noscript-msg { display: block; text-align: center; padding: 2rem; color: #ccc; }
+      </style>
+      <p class="noscript-msg">Для полной функциональности сайта включите JavaScript.</p>
+    </noscript>
   </body>
 </html>

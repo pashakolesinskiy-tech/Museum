@@ -18,7 +18,6 @@ function renderHeader() {
     { href: isIndex ? "#exhibits" : "index.html#exhibits", text: "Экспозиции" },
     { href: isIndex ? "#times" : "index.html#times", text: "Связь времён" },
     { href: isIndex ? "#about" : "index.html#about", text: "Играй и познавай" },
-
   ];
 
   const navItems = links
@@ -73,6 +72,59 @@ function renderFooter() {
 
 renderHeader();
 renderFooter();
+
+// ===== РЕНДЕР АУДИО-КОМПОНЕНТА =====
+function renderAudioWidget() {
+  if (document.getElementById("bg-music")) return;
+  var audioSrc = document.body.dataset.audioSrc;
+  if (!audioSrc) return;
+
+  var audio = document.createElement("audio");
+  audio.id = "bg-music";
+  audio.loop = true;
+  audio.innerHTML = '<source src="' + escapeHtml(audioSrc) + '" type="audio/mpeg" />';
+  document.body.appendChild(audio);
+
+  var btn = document.createElement("button");
+  btn.id = "music-toggle";
+  btn.className = "music-toggle";
+  btn.setAttribute("aria-label", "Включить музыку");
+  btn.setAttribute("aria-pressed", "false");
+  btn.innerHTML =
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<path class="note-icon" d="M9 18V5l12-2v13" />' +
+      '<circle class="note-icon" cx="6" cy="18" r="3" />' +
+      '<circle class="note-icon" cx="18" cy="16" r="3" />' +
+    '</svg>' +
+    '<svg class="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false">' +
+      '<rect x="6" y="4" width="4" height="16" rx="1" />' +
+      '<rect x="14" y="4" width="4" height="16" rx="1" />' +
+    '</svg>';
+  document.body.appendChild(btn);
+}
+
+// ===== РЕНДЕР ЛАЙТБОКСА =====
+function renderLightbox() {
+  if (document.getElementById("lb-overlay")) return;
+  if (!document.querySelector(".gallery-grid, .war-gallery-grid")) return;
+
+  var overlay = document.createElement("div");
+  overlay.id = "lb-overlay";
+  overlay.className = "lb-overlay";
+  overlay.setAttribute("role", "dialog");
+  overlay.setAttribute("aria-modal", "true");
+  overlay.setAttribute("aria-label", "Просмотр фотографии");
+  overlay.innerHTML =
+    '<div class="lb-inner">' +
+      '<button class="lb-close" id="lb-close" aria-label="Закрыть">&times;</button>' +
+      '<img class="lb-img" id="lb-img" src="" alt="" />' +
+      '<p class="lb-caption" id="lb-caption"></p>' +
+    '</div>';
+  document.body.appendChild(overlay);
+}
+
+renderAudioWidget();
+renderLightbox();
 
 // ===== БУРГЕР-МЕНЮ =====
 const burger = document.getElementById("burger");
@@ -224,7 +276,7 @@ function loadGalleryManifest(gridId, manifestPath, basePath, buildInfo) {
           '<div class="gallery-item' + (hasInfo ? '' : ' no-info') + ' has-lightbox animate-up" role="listitem" tabindex="0"' +
             ' aria-label="' + alt + ' — нажмите для увеличения">' +
             '<div class="gallery-card">' +
-              '<img src="' + escapeHtml(src) + '" alt="' + alt + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
+              '<img src="' + escapeHtml(src) + '" alt="' + alt + '" width="300" height="200" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
               (hasInfo ? '<div class="gallery-info">' + info + '</div>' : '') +
             '</div>' +
           '</div>';
@@ -320,7 +372,7 @@ function scanForNewFiles(grid, describedFiles, basePath, manifestPath) {
         tmp.innerHTML =
           '<div class="gallery-item no-info has-lightbox animate-up" role="listitem" tabindex="0" aria-label="Экспонат — нажмите для увеличения">' +
             '<div class="gallery-card">' +
-              '<img src="' + escapeHtml(src) + '" alt="" loading="lazy" />' +
+              '<img src="' + escapeHtml(src) + '" alt="" width="300" height="200" loading="lazy" />' +
             '</div>' +
           '</div>';
         var el = tmp.firstElementChild;
@@ -386,7 +438,7 @@ function loadWarManifest(photos, gridId) {
 
     card.innerHTML =
       '<div class="war-photo-card__img-wrap">' +
-      '<img src="' + escapeHtml(src) + '" alt="' + alt + '" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
+      '<img src="' + escapeHtml(src) + '" alt="' + alt + '" width="300" height="200" loading="lazy" onerror="this.src=\'assets/placeholder.svg\'" />' +
       '<div class="war-photo-card__overlay">' +
       '<span class="war-photo-card__zoom">Увеличить</span>' +
       '</div>' +
