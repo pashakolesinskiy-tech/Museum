@@ -886,6 +886,24 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // War Path preview modal
+  const warModal = document.getElementById("warPathModal");
+  const warModalClose = document.getElementById("warPathModalClose");
+  const warBackdrop = warModal?.querySelector(".war-preview-modal__backdrop");
+
+  if (warModal && warModalClose) {
+    function closeWarModal() {
+      warModal.classList.remove("active");
+      document.body.classList.remove("menu-open");
+    }
+    warModalClose.addEventListener("click", closeWarModal);
+    warBackdrop?.addEventListener("click", closeWarModal);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && warModal.classList.contains("active"))
+        closeWarModal();
+    });
+  }
+
   const modal = document.getElementById("videoModal");
   const modalVideo = document.getElementById("modalVideo");
   const closeBtn = modal?.querySelector(".close");

@@ -28,8 +28,6 @@
     <meta property="og:image" content="assets/portnova.webp" />
     <meta property="og:type" content="profile" />
 
-    <!-- Performance: preconnect -->
-
     <link rel="stylesheet" href="style.css" />
 
     <!-- Schema.org: Person -->
@@ -62,8 +60,9 @@
         aria-label="Биография Полины Сергеевны Портновой"
       >
         <div class="container">
+          <div class="bio-hero-panel animate-up">
           <!-- Портрет + стихотворение (параллельно) -->
-          <div class="bio-hero-row animate-up">
+          <div class="bio-hero-row">
             <!-- Левая колонка: фото, имя, даты -->
             <div class="bio-portrait-col">
               <div class="bio-portrait-frame">
@@ -80,10 +79,15 @@
                 </div>
               </div>
               <h1 class="bio-name">Полина Сергеевна Портнова</h1>
+              <p class="bio-subtitle">Заведующая Домом ребёнка им. Самойловой</p>
               <p class="bio-dates">
                 <time datetime="1903-05-02">02.05.1903</time> —
                 <time datetime="1989-11-20">20.11.1989</time>
               </p>
+              <div class="bio-hero-stat">
+                <span class="bio-hero-stat__num">104</span>
+                <span class="bio-hero-stat__label">ребёнка спасено в годы войны</span>
+              </div>
             </div>
 
             <!-- Правая колонка: стихотворение -->
@@ -212,7 +216,6 @@
                   </p>
                 </div>
               </div>
-              <!-- /.about-modal-scroll -->
             </div>
           </div>
           <!-- Кнопки разделов -->
@@ -242,6 +245,7 @@
               </span>
             </a>
           </nav>
+          </div>
         </div>
       </section>
     </main>
